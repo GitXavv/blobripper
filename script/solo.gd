@@ -1,0 +1,1633 @@
+extends Node
+
+const unit = 60
+
+var settings_loaded: bool = false
+var beginning: bool = false
+
+var countdown: int
+
+var up1: String
+var left1: String
+
+#To tell the game where the player is on the grid precisely
+#The ex_variables are to avoid diagonal moves DURING a straight move animation
+#it basically cancels every diagonal moves now
+var topl: bool = true
+var ex_topl: bool =false
+var topr: bool = false
+var ex_topr: bool =false
+var botl: bool =false
+var ex_botl: bool =false
+var botr: bool =false
+var ex_botr: bool =false
+
+var moving: bool = false
+
+var left: bool = false
+var right: bool = false
+var up: bool = false
+var down: bool = false
+
+var trajectory = 1
+
+
+var trap_topl: bool = false
+var trap_topr: bool = false
+var trap_botl: bool = false
+var trap_botr: bool = false
+
+var bomb_topl: bool = false
+var bomb_topr: bool = false
+var bomb_botl: bool = false
+var bomb_botr: bool = false
+
+#tiles and textures
+var tile1 #topl
+var tile2 #topr
+var tile3 #botl
+var tile4 #botr
+
+var tile_normal = "res://assets/tile.png"
+var tile_target = "res://assets/tile-mined.png"
+var tile_hit = "res://assets/tile-bombed.png" # The
+var tile_hit2 = "res://assets/tile-bombed-2.png" # Tile
+var tile_hit3 = "res://assets/tile-bombed-3.png" # Hit
+var tile_hit4 = "res://assets/tile-bombed-4.png" # Textures
+var tile_hits = [tile_hit, tile_hit2, tile_hit3, tile_hit4] # Will be
+var th_texture # Randomized
+var tile_broken = "res://assets/tile-broken.png"
+
+#Blob states
+var blob
+var blob_normal = "res://assets/blob1.png"
+var blob_danger = "res://assets/blob1_danger.png"
+var blob_hit = "res://assets/blob1_dead.png" #When the blob is hit
+var blob_dizzy = "res://assets/blob1_dizzy.png" # For the swap modS. Yes, modS!
+var interblob: String # To sap between normal and dizzy for the swap mod.
+var dead: bool =false
+
+
+#Cooldowns. Determines if a specific cooldown timer is active or not. This is to avoid using a shared countdown
+#for many tiles, as the cooldown's timeout may reset them all at the same time, which is not intended
+var cd1: bool = false
+var cd2: bool = false
+var cd3: bool = false
+var cd4: bool = false
+
+#Multiplayer-only feature
+#Total ammo. The amount of times tiles can be mined.
+#var tot_ammo: int
+const nbtiles = 4 #Only helps with determining the ammo: ammo = nbtiles-2 (So that two tiles maximum remain untouched during a rafal for example)
+var ammo: int
+
+# Random chosen tile. Both variables go together.
+var rng= RandomNumberGenerator.new() #Represent each of the 4 tiles
+var rndtile: int #Represent the tile chosen by rng
+
+# The time the computer takes to perform one action
+var rng_wait = 0.9 # Will be an Auto-setting later
+var rng_wait_backup
+
+var startup= RandomNumberGenerator.new() # Like the rng wait but for the start. Is in [0.4 ; 1]
+
+#Timer
+var init_timer: int = 30 # Auto_setting
+var timer: int
+#When the time is over
+var over: bool =false
+
+# To prevent mashers.
+var prehalt: bool = false
+var move1: bool = false
+var move2: bool = false
+var move3: bool = false
+var move4: bool = false
+var move5: bool = false
+var move6: bool = false
+var move7: bool = false
+var move8: bool = false # A 10th movement (10 because 11-1) in only one 1 second (if rng_wait == rng_wait_base) will be considered mashing
+var moves = [move1, move2, move3, move4, move5, move6, move7, move8, prehalt]
+var move_nb: int
+# var ct The counter that will help in the 'for' loop when reviewing the array
+var halt_timer: bool = false # To avoid conflicts such as the Halter timer resetting after each move. 1 whole second (if rng_wait == rng_wait_base) - and not less - has to end before the timer restarts
+var halt: bool = false
+# Converter. Used to translate the rng_wait timer to the Halter timer.
+# halt_wt = rng_wait/rng_wait_base. rng_wait_base is a constant = 0.4
+const rng_wait_base = 0.4 # Don't touch this unless REALLY necessary
+var halt_wt: float
+
+# Messages generated when you die when halted
+var en_die1 = "Unfortunate..."
+var en_die2 = "You must dodge quickly but also efficiently."
+var en_die3 = "Free death..."
+var en_die = [en_die1, en_die2, en_die3]
+var en_die_pick= RandomNumberGenerator.new()
+
+var fr_die1 = "Dommage..."
+var fr_die2 = "Tu dois être rapide mais aussi efficace."
+var fr_die3 = "Mort gratuite..."
+var fr_die = [fr_die1, fr_die2, fr_die3]
+var fr_die_pick= RandomNumberGenerator.new()
+
+# The scoring system
+var score: int
+var timer_reducer
+var move_multiplicator
+const nbtiles_multiplicator = 4 # 4 because this game mode is a 2x2
+var prescore: int # For nerf mods
+
+var high_score: int # = old_high_score until record broken
+var old_high_score: int # Loadable data
+var beaten: bool # If high_score is beaten
+
+
+var init_lives: int = 2  # Auto setting
+var lives: int
+var init_turn: int = 1 # Auto setting
+var turn: int
+var trueover: bool =false # When all the lives are lost or all the turns done
+var victory: bool # If all the turns done
+var defeated: bool # If all lives lost
+var calculating: bool # Check if still calculating the stats in the result screen
+
+
+#Statistics
+var tot_moves: int
+var tot_moves_ct: int
+var tot_time: int
+# To respect the format 00min 00sec
+var tot_time_ct: int
+var tot_time_ctsec: int
+var tot_time_ctmin: int
+#
+var die_halt: int
+var die_halt_ct: int
+var survival_halt: int
+var survival_halt_ct: int
+var dodge_count: int
+var dodge_count_ct: int
+var lost_score: int
+var lost_score_ct: int
+var consecutives: int = 1 # Number of games played (first play included)
+var cons_ct: int		# "ct"s are counters for some cool effects when loading the statistics
+
+# Controls
+var left2
+var right2
+var up2
+var down2
+
+# Increasing frequency
+var progressive: bool = false # If true, rng_wait progressively decreases
+var progress_speed: float
+
+# Mods
+# (This is useless now )var mod_multiplier: float # The score multiplier resulting from mod combinations
+# The more the constants are small, the greater the better the score is buffed.
+# Hard mods
+
+var hidden: bool = false
+const hidden_mtp = 15 # "mtp" means multiplicator
+var hidden_catcher: int # if hidden true, catcher =1, if not, catcher =0. This will help for scoring buff
+
+var swap: bool = false
+var swap_timer: int # For the swap mod timer to switch between normal and swap
+const swap_mtp = 20 # Big scores kept being unavoidable, so the multiplications are being turned into an addition of the current score/constant
+var normal: bool # Normal controls
+var swapped: bool # Swapped controls. Don't confuse with "swap"!!!
+var swap_catcher: int # if hidden true, catcher =1, if not, catcher =0. This will help for scoring buff
+
+var stuck_swap: bool = true # If not want constant swaps
+
+var all_in_one: bool = false
+var rng_multiple = []
+const aio_mtp = 35
+var aio_catcher: int
+
+var delayed: bool = false
+var latency: float = 0.2 # Do not touch this
+
+var action_up: bool
+var action_down: bool
+var action_left: bool
+var action_right: bool
+
+const delay_mtp = 24
+var delay_catcher: int
+
+# Easy mods
+var nohalt: bool = false
+const nohalt_dvd = 1.55 # "dvs" means divider
+var nohalt_catcher: float
+var nohalt_canceller: int
+
+var only_one: bool = false # Can't be enabled with all_in_one on
+const only_dvd = 1.04
+var only_catcher: float
+var only_canceller: int
+
+var last_chance: bool = false
+
+# Survival mode (SV)
+var sv_mode: bool = true
+var high_score_sv: int # = old_high_score until record broken
+var old_high_score_sv: int # Loadable data
+var beaten_sv: bool # If high_score is beaten
+var pretimer: bool
+var timer_limit: int # To avoid conflicts with the normal game mode for the Timer function
+
+# Dodge
+var dodged: bool
+var dodge_frame_counter: int # = 1
+var boosting: bool
+var preboost: int # Score preboosted before mod multiplications
+
+var full_reset: bool = false # To fix animation collision while restarting a match
+var retry_shortcut: bool # Press Enter to retry a game
+var auto_hover: bool
+
+# Online leaderboard stuffs----
+var player_name: String
+# To test
+@onready var lb_scores = preload("res://addons/silent_wolf/Scores/Leaderboard.tscn")
+
+
+# Exiting the game
+var sure: bool
+var exiting: bool = false
+
+
+# ----------------------------------------------
+func is_progressive():
+	# If progressive mode on:
+	if progressive ==true:
+		rng_wait = 1.5 # Initial rng_wait is stored
+		$Progress.start()
+	elif progressive ==false && sv_mode ==true: # On survival mode, to make the game less boring if you manage to control the rythm and live long enough. Things will get spicier every 5 minutes
+		$Progress.wait_time = 30
+		$Progress.start()
+
+func multiplicators():
+	if settings_loaded ==false:
+		is_progressive()
+	@warning_ignore("narrowing_conversion")
+	move_multiplicator = 1.5*rng_wait + 10
+	@warning_ignore("integer_division")
+	timer_reducer = init_timer/100
+
+func global_mod_multiplier():
+	# Boosters
+	if hidden ==true:
+		hidden_catcher =1
+	else:
+		hidden_catcher =0
+	
+	swap_catcher = 0 # The game starts with no swap "multiplier"
+	
+	if all_in_one ==true:
+		aio_catcher =1
+	else:
+		aio_catcher =0
+	
+	if delayed ==true:
+		delay_catcher =1
+	else:
+		delay_catcher =0
+	
+	# Dividers ------ # See score_mod_nerf() for explanation
+	if nohalt ==true:
+		nohalt_catcher = 1
+		nohalt_canceller = 1
+	else:
+		nohalt_catcher = nohalt_dvd
+		nohalt_canceller = 0
+	
+	if only_one ==true:
+		only_catcher = 1
+		only_canceller = 1
+	else:
+		only_catcher = only_dvd
+		only_canceller = 0
+func score_mod_boost(): # Just to avoid repeating this everywhere case new mods are added
+	@warning_ignore("integer_division")
+	score += (hidden_catcher*(score/hidden_mtp))+(swap_catcher*(score/swap_mtp))+(aio_catcher*(score/aio_mtp))+(delay_catcher*(score/delay_mtp))
+func score_mod_nerf():
+	@warning_ignore("narrowing_conversion")
+	score = (nohalt_canceller*nohalt_catcher*(score/nohalt_dvd)) # If mod_catcher = mod_dvd, there will be cancelation, hence score = score
+	if score ==0:
+		score = prescore
+	if only_canceller !=0:
+		@warning_ignore("narrowing_conversion")
+		score /=only_dvd
+
+func load_settings():
+	var config = ConfigFile.new()
+	var file = config.load("user://settings.cfg")
+	if file == OK:
+		# Language
+		var lang = config.get_value("settings", "language", "fr")
+		if lang in ["en", "fr"]:  # Check if valid language
+			General.autolang = lang
+		else:
+			reset_datas()
+		# High score
+		var high = config.get_value("settings", "high_score", 5000)
+		if high <0:
+			reset_datas()
+		else:
+			high_score = high
+		var high_sv = config.get_value("settings", "high_score_sv", 7000)
+		if high_sv <0:
+			reset_datas()
+		else:
+			high_score_sv = high_sv
+	else:
+		reset_datas()
+	var keys = General.langkeys(up1, left1)
+	up1 = keys[0]
+	left1 = keys[1]
+	
+	move_nb = moves.size() # Number of elements in the "moves" array. Useful for the 'for' loop in the goto functions
+	
+
+func reset_datas(): # Only if language has an invalid value
+	General.autolang = "fr"
+	high_score = 5000
+	high_score_sv = 7000
+
+func Halter_wait_time():
+	halt_wt = (rng_wait/rng_wait_base)+0.55 # The lower the rng_wait is, the shorter the Halter time will be
+	$Halter.wait_time = halt_wt
+
+func Score_viz_update():
+	$Score.text = "Score: " + str(score)
+	if General.autolang == "en":
+		if sv_mode ==false:
+			$High.text = "High Score: " + str(high_score)
+		else:
+			$High.text = "High Score: " + str(high_score_sv)
+	elif General.autolang == "fr":
+		if sv_mode ==false:
+			$High.text = "Meilleur Score: " + str(high_score)
+		else:
+			$High.text = "Meilleur Score: " + str(high_score_sv)
+
+# Swap mod timer
+func swap_timer_init():
+	if sv_mode ==false:
+		@warning_ignore("integer_division")
+		swap_timer = init_timer/5
+	else:
+		swap_timer = 15
+	$Swap.wait_time = swap_timer
+
+func set_latency_timer():
+	$Upped.wait_time = latency
+	$Downed.wait_time = latency
+	$Lefted.wait_time = latency
+	$Righted.wait_time = latency
+
+
+func Stats_init():
+	tot_moves =0
+	tot_time =0
+	die_halt =0
+	survival_halt =0
+	dodge_count =0
+	lost_score =0
+	
+	tot_moves_ct =0
+	tot_time_ct =0
+	tot_time_ctsec =0
+	tot_time_ctmin =0
+	die_halt_ct =0
+	survival_halt_ct =0
+	dodge_count_ct =0
+	lost_score_ct =0
+	cons_ct =0
+	
+	if General.autolang == "en":
+		$Statistics/Victory.text = "VICTORY!"
+		$Statistics/Defeat.text = "DEFEATED"
+		$Statistics/GameOver.text = "GAME OVER"
+		
+		$Statistics/Moves.text = "Total moves:"
+		$Statistics/Time.text = "Total time elapsed:"
+		$Statistics/DeathHalt.text = "Death by halt:"
+		$Statistics/Rescapee.text = "Rescapee from halt:"
+		$Statistics/PfDodges.text = "Perfect Dodges:"
+		$Statistics/LostSc.text = "Lost score:"
+		$Statistics/Sessions.text = "Sessions played in a row:"
+		
+		$Statistics/Register.text = "Submit your score online!"
+		$Statistics/Register/user.placeholder_text = "Enter your player name!"
+		$Statistics/Register/submit.text = "SUBMIT"
+		
+		$Statistics/Sure.text = "Are you sure? Press again if yes."
+	elif General.autolang == "fr":
+		$Statistics/Victory.text = "VICTOIRE !"
+		$Statistics/Defeat.text = "PERDU"
+		$Statistics/GameOver.text = "PARTIE TERMINÉE"
+		
+		$Statistics/Moves.text = "Déplacement effectués:"
+		$Statistics/Time.text = "Temps écoulé:"
+		$Statistics/DeathHalt.text = "Morts par halte:"
+		$Statistics/Rescapee.text = "Survies après halte:"
+		$Statistics/PfDodges.text = "Esquives parfaites:"
+		$Statistics/LostSc.text = "Score perdu:"
+		$Statistics/Sessions.text = "Parties jouées d'affilée:"
+		
+		$Statistics/Register.text = "Envoie ton score en ligne !"
+		$Statistics/Register/user.placeholder_text = "Entre ton nom de joueur"
+		$Statistics/Register/submit.text = "Envoyer"
+	
+		$Statistics/Sure.text = "Tu es sûr(e) ? Clique encore si oui."
+
+# Swap mod (Not Stuck Swap. Swap!!!)
+func normal_mode():
+	left2 = "left2"
+	right2 = "right2"
+	up2 = "up2"
+	down2 = "down2"
+	blob_normal = interblob
+	if swap ==true:
+		$Status_dizzy.hide()
+		$Status_normal.show()
+
+func swapped_mode():
+	left2 = "right2"
+	right2 = "left2"
+	up2 = "down2"
+	down2 = "up2"
+	blob_normal = blob_dizzy
+
+func initialization():
+	if settings_loaded ==false:
+		interblob = blob_normal # For the swap mod
+		load_settings()
+		Halter_wait_time()
+		multiplicators()
+		set_latency_timer() # For the latency mod
+		score =0
+		prescore =0 # For nerf mods
+		old_high_score = high_score
+		old_high_score_sv = high_score_sv
+		Score_viz_update()
+		settings_loaded =true
+		if sv_mode ==false:
+			turn = init_turn
+			lives = init_lives
+		else:
+			turn =1
+			if last_chance ==false:
+				lives =1
+			else:
+				lives =2
+		
+		rng_wait_backup = rng_wait
+		
+		beaten =false
+		trueover =false
+		
+		Stats_init()
+		# Mods
+		if stuck_swap ==false:
+			normal_mode() # The use of these functions in this case
+		elif stuck_swap ==true:
+			swapped_mode() # Has nothing to do with the Stuck Swap mod.
+		
+		if swap ==true:
+			swap_timer_init()
+			if hidden ==false:
+				$Status_normal.show()
+		
+		pretimer =true # Survival mode
+		
+		preboost = 0
+		
+		countdown =3
+		$Countdown/Ctd_viz.text = str(countdown)
+		$Countdown/Ctd_viz.show()
+		if beginning ==false:
+			$Transition.show()
+			$Animation.play("GameStarts")
+			beginning =true
+		else:
+			$Animation.play("Countdown")
+			$Countdown.start()
+		victory = false
+		defeated = false
+		calculating = false
+		$Statistics/Victory.hide()
+		$Statistics/Defeat.hide()
+		$Statistics/GameOver.hide()
+		$Statistics/Retry.hide()
+		$Statistics/Exit.hide()
+		
+		retry_shortcut = false
+		auto_hover = false
+		
+		sure = false
+		$Statistics/Sure.hide()
+
+# ------- GAME STARTS HERE -------
+func _ready():
+	initialization()
+	global_mod_multiplier()
+	
+	#Tiles declaration
+	tile1 = $Tile1
+	tile2 = $Tile2
+	tile3 = $Tile3
+	tile4 = $Tile4
+	
+	blob = $Blob1
+	
+	dodged =false
+	dodge_frame_counter =1
+	
+	#Timer initialization (visualizer)
+	if sv_mode ==false:
+		timer = init_timer # Auto setting
+	else:
+		if countdown !=0: # In other words, if first turn in survival mode with last chance on:
+			init_timer =0
+		timer = init_timer
+	
+	# Multiplayer-only feature
+	#tot_ammo =10 #Initial value
+	ammo = nbtiles-1
+	#print("Base ammo: ", ammo)
+	$Rng2.stop()
+	startup = RandomNumberGenerator.new()
+	startup.randomize()
+	startup = startup.randf_range(0.4,1)
+	$Rng1.wait_time = startup
+	if countdown ==0:
+		$Rng1.start() # Game starts
+		$Timer.start()
+	$Timer/TimerViz.text = str(timer)
+	
+	#The game starts with the blob at top left
+	topl = true
+	$Blob1.position = Vector2(843,392)
+	if hidden ==false:
+		tile1.texture = load(tile_normal)
+		tile2.texture = load(tile_normal)
+		tile3.texture = load(tile_normal)
+		tile4.texture = load(tile_normal)
+	elif hidden ==true: # Mods
+		tile1.texture = load(tile_broken)
+		tile2.texture = load(tile_broken)
+		tile3.texture = load(tile_broken)
+		tile4.texture = load(tile_broken)
+	
+	$Slowdown.hide()
+	
+	# Lives viz update
+	if lives <10:
+		$Lives.text = "0" + str(lives)
+	else:
+		$Lives.text = str(lives)
+	if lives ==1 && sv_mode ==false && countdown ==0 && full_reset ==false:
+		$Animation.play("OneLife")
+	
+	
+	is_progressive()
+	
+	# "Swap" mod
+	if swap ==true:
+		normal =true
+		swapped =false
+		normal_mode()
+		$Swap.start()
+	if hidden ==true:
+		$Status_normal.hide()
+	
+	# Turns viz update + Status update (For the swap mod) + Perfect dodge
+	if General.autolang == "en":
+		$Turns.text = str(init_turn-turn) + "/" + str(init_turn) + " turns cleared"
+		$Status_dizzy.text = "Dizzy..."
+		$Perfect.text = "Perfect dodge!"
+	elif General.autolang == "fr":
+		$Turns.text = str(init_turn-turn) + "/" + str(init_turn) + " tours passés"
+		$Status_dizzy.text = "Étourdi..."
+		$Perfect.text = "Esquive parfaite!"
+	if sv_mode ==true:
+		$Turns.hide()
+		$Lives.hide()
+	
+	
+	$Perfect.hide()
+	boosting = false
+	
+	blob.texture = load(blob_normal)
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+@warning_ignore("unused_parameter")
+func _process(delta):
+	if Input.is_action_just_pressed(right2):
+		if delayed ==false:
+			goto_right()
+		else:
+			if action_right ==false:
+				$Righted.start()
+				action_right =true
+	
+	if Input.is_action_just_pressed(left2):
+		if delayed ==false:
+			goto_left()
+		else:
+			if action_left ==false:
+				$Lefted.start()
+				action_left =true
+	
+	if Input.is_action_just_pressed(down2):
+		if delayed ==false:
+			goto_down()
+		else:
+			if action_down ==false:
+				$Downed.start()
+				action_down =true
+	
+	if Input.is_action_just_pressed(up2):
+		if delayed ==false:
+			goto_up()
+		else:
+			if action_up ==false:
+				$Upped.start()
+				action_up =true
+	
+	
+	if Input.is_action_just_pressed("confirm"):
+		if retry_shortcut ==true && exiting ==false:
+			if auto_hover ==false:
+				_on_retry_mouse_entered()
+			else:
+				if full_reset ==false:
+					_on_retry_button_up()
+
+
+
+func goto_right():
+	if (topl ==true || botl ==true) && moving ==false && dead ==false && over ==false && halt ==false:
+		$Blob1.position += Vector2(unit,0)
+		trajectory +=60
+		$delay.start()
+		if topl ==true:
+			topl = false
+			ex_topl =true
+		elif botl ==true:
+			botl =false
+			ex_botl =true
+		moving =true
+		right =true
+		if prescore !=0:
+			score = prescore
+		if countdown ==0:
+			tot_moves +=1
+			score += move_multiplicator
+			score_mod_boost()
+			prescore = score
+			score_mod_nerf()
+			if sv_mode ==false:
+				if score > old_high_score:
+					high_score = score
+					if beaten ==false:
+						beaten = true
+			else:
+				if score > old_high_score_sv:
+					high_score_sv = score
+					if beaten_sv ==false:
+						beaten_sv = true
+		Score_viz_update()
+		
+		if nohalt ==false && countdown ==0:
+			# Mashing detector
+			if moves[0] ==false:
+				moves[0] =true
+			elif moves[0] ==true:
+				for ct in range (0,move_nb-1):
+					if moves[ct] ==true && moves[ct+1] ==false:
+						moves[ct+1] =true
+						break
+			if halt_timer ==false:
+				$Halter.start()
+				halt_timer =true
+			elif halt_timer ==true:
+				stop_moving()
+
+func goto_left():
+	if (topr ==true || botr ==true) && moving ==false && dead ==false && over ==false && halt ==false:
+		$Blob1.position -= Vector2(unit,0)
+		trajectory +=60
+		$delay.start()
+		if topr ==true:
+			topr = false
+			ex_topr =true
+		elif botr ==true:
+			botr =false
+			ex_botr =true
+		moving =true
+		left =true
+		if prescore !=0:
+			score = prescore
+		if countdown ==0:
+			tot_moves +=1
+			score += move_multiplicator
+			score_mod_boost()
+			prescore = score
+			score_mod_nerf()
+			if sv_mode ==false:
+				if score > old_high_score:
+					high_score = score
+					if beaten ==false:
+						beaten = true
+			else:
+				if score > old_high_score_sv:
+					high_score_sv = score
+					if beaten_sv ==false:
+						beaten_sv = true
+		Score_viz_update()
+		
+		if nohalt ==false && countdown ==0:
+			# Mashing detector
+			if moves[0] ==false:
+				moves[0] =true
+			elif moves[0] ==true:
+				for ct in range (0,move_nb-1):
+					if moves[ct] ==true && moves[ct+1] ==false:
+						moves[ct+1] =true
+						break
+			if halt_timer ==false:
+				$Halter.start()
+				halt_timer =true
+			elif halt_timer ==true:
+				stop_moving()
+
+func goto_down():
+	if (topl ==true || topr ==true) && moving ==false && dead ==false && over ==false && halt ==false:
+		$Blob1.position += Vector2(0,unit)
+		trajectory +=60
+		$delay.start()
+		if topl ==true:
+			topl =false
+			ex_topl =true
+		elif topr ==true:
+			topr =false
+			ex_topr =true
+		moving =true
+		down =true
+		if prescore !=0:
+			score = prescore
+		if countdown ==0:
+			tot_moves +=1
+			score += move_multiplicator
+			score_mod_boost()
+			prescore = score
+			score_mod_nerf()
+			if sv_mode ==false:
+				if score > old_high_score:
+					high_score = score
+					if beaten ==false:
+						beaten = true
+			else:
+				if score > old_high_score_sv:
+					high_score_sv = score
+					if beaten_sv ==false:
+						beaten_sv = true
+		Score_viz_update()
+		
+		if nohalt ==false && countdown ==0:
+			# Mashing detector
+			if moves[0] ==false:
+				moves[0] =true
+			elif moves[0] ==true:
+				for ct in range (0,move_nb-1):
+					if moves[ct] ==true && moves[ct+1] ==false:
+						moves[ct+1] =true
+						break
+			if halt_timer ==false:
+				$Halter.start()
+				halt_timer =true
+			if moves[move_nb-1] ==true:
+				stop_moving()
+
+func goto_up():
+	if (botl ==true || botr ==true) && moving ==false && dead ==false && over ==false && halt ==false:
+		$Blob1.position -= Vector2(0,unit)
+		trajectory +=60
+		$delay.start()
+		if botl ==true:
+			botl =false
+			ex_botl =true
+		elif botr ==true:
+			botr =false
+			ex_botr =true
+		moving =true
+		up =true
+		if prescore !=0:
+			score = prescore
+		if countdown ==0:
+			tot_moves +=1
+			score += move_multiplicator
+			score_mod_boost()
+			prescore = score
+			score_mod_nerf()
+			if sv_mode ==false:
+				if score > old_high_score:
+					high_score = score
+					if beaten ==false:
+						beaten = true
+			else:
+				if score > old_high_score_sv:
+					high_score_sv = score
+					if beaten_sv ==false:
+						beaten_sv = true
+		Score_viz_update()
+		
+		if nohalt ==false && countdown ==0:
+			# Mashing detector
+			if moves[0] ==false:
+				moves[0] =true
+			elif moves[0] ==true:
+				for ct in range (0,move_nb-1):
+					if moves[ct] ==true && moves[ct+1] ==false:
+						moves[ct+1] =true
+						break
+			if halt_timer ==false:
+				$Halter.start()
+				halt_timer =true
+			if moves[move_nb-1] ==true:
+				stop_moving()
+
+
+#For the mine placer (the computer itself in this game mode)
+func target(tile, mark: bool, hit: bool, loc_blob, blobposition: bool): #(tile1, trap_topl, bomb_topl, blob, topl) for example
+	if hit ==false:
+		if mark ==false && ammo >0:
+			$Target.play()
+			mark =true
+			ammo -=1 # Losing an ammo by "targetting" a tile. 
+			if hidden ==false:
+				tile.texture = load(tile_target)
+			if blobposition ==true:
+				loc_blob.texture = load(blob_danger)
+		elif mark ==true:
+			hit =true
+			if hidden ==false:
+				th_texture = RandomNumberGenerator.new()
+				th_texture.randomize()
+				th_texture = randi_range(1,4)
+				tile.texture = load(tile_hits[th_texture-1])
+			if blobposition ==true:
+				dead =true
+				$Dead.play()
+				lives -=1 # One life lost
+				$Timer.stop()
+				if swap ==true:
+					$Swap.stop()
+				loc_blob.texture = load(blob_hit)
+				if progressive ==true:
+					$Progress.stop()
+				if last_chance ==false:
+					@warning_ignore("integer_division")
+					score -= (score/10)*(init_timer/5) # Score diminishes
+					@warning_ignore("integer_division")
+					lost_score += (score/10)*(init_timer/5)
+				else:
+					if lives ==1 && timer !=0:
+						lost_score += score-(score/(timer*10))
+						score /= timer*10 # Score diminishes
+					elif lives ==0:
+						score -= timer*2
+						lost_score += timer*2
+				lost_score_ct = lost_score-100
+				if lost_score_ct <0:
+					lost_score_ct =0
+				if score <0:
+					score =0
+				prescore = score
+				if sv_mode ==false:
+					if score > old_high_score:
+						high_score = score
+						if beaten ==false:
+							beaten = true
+					else:
+						high_score = old_high_score
+						if beaten ==true:
+							beaten = false
+				else:
+					if score > old_high_score_sv:
+						high_score_sv = score
+						if beaten ==false:
+							beaten = true
+					else:
+						high_score_sv = old_high_score_sv
+						if beaten ==true:
+							beaten = false
+				Score_viz_update()
+				$Over.start() # "Loading" animation for final score.
+				if halt ==true:
+					die_halt +=1
+					if General.autolang == "en":
+						en_die_pick = RandomNumberGenerator.new()
+						en_die_pick.randomize()
+						en_die_pick = en_die_pick.randi_range(1,3)
+						$Slowdown.text = en_die[en_die_pick-1]
+					elif General.autolang == "fr":
+						fr_die_pick = RandomNumberGenerator.new()
+						fr_die_pick.randomize()
+						fr_die_pick = fr_die_pick.randi_range(1,3)
+						$Slowdown.text = fr_die[fr_die_pick-1]
+			else:
+				if cd1 ==false:
+					$Cooldown1.start()
+					cd1 =true
+				elif cd2 ==false:
+					$Cooldown2.start()
+					cd2 =true
+				elif cd3 ==false:
+					$Cooldown3.start()
+					cd3 =true
+				elif cd4 ==false:
+					$Cooldown4.start()
+					cd4 =true
+	
+	return [mark, hit]
+
+func blob_state(loc_blob, mark: bool): #(blob1, trap_topl) for example
+	if mark ==false:
+		loc_blob.texture = load(blob_normal)
+	elif mark ==true:
+		loc_blob.texture = load(blob_danger)
+
+
+func _on_cooldown_1_timeout():
+	reset_tile(blob)
+	cd1 =false
+func _on_cooldown_2_timeout():
+	reset_tile(blob)
+	cd2 =false
+func _on_cooldown_3_timeout():
+	reset_tile(blob)
+	cd3 =false
+func _on_cooldown_4_timeout():
+	reset_tile(blob)
+	cd4 =false
+
+
+func reset_tile(loc_blob):
+	if bomb_topl ==true:
+		bomb_topl =false
+		trap_topl =false
+		if dead ==false:
+			if hidden ==false:
+				tile1.texture = load(tile_normal)
+			elif hidden ==true:
+				tile1.texture = load(tile_broken)
+			if topl ==true:
+				loc_blob.texture = load(blob_normal)
+	elif bomb_topr ==true:
+		bomb_topr =false
+		trap_topr =false
+		if dead ==false:
+			if hidden ==false:
+				tile2.texture = load(tile_normal)
+			elif hidden ==true:
+				tile2.texture = load(tile_broken)
+			if topr ==true:
+				loc_blob.texture = load(blob_normal)
+	elif bomb_botl ==true:
+		bomb_botl =false
+		trap_botl =false
+		if dead ==false:
+			if hidden ==false:
+				tile3.texture = load(tile_normal)
+			elif hidden ==true:
+				tile3.texture = load(tile_broken)
+			if botl ==true:
+				loc_blob.texture = load(blob_normal)
+	elif bomb_botr ==true:
+		bomb_botr =false
+		trap_botr =false
+		if dead ==false:
+			if hidden ==false:
+				tile4.texture = load(tile_normal)
+			elif hidden ==true:
+				tile4.texture = load(tile_broken)
+			if botr ==true:
+				loc_blob.texture = load(blob_normal)
+	ammo +=1 #Delete this for multiplayer game mode.
+	#Multiplayer-only feature
+	#if tot_ammo >0:
+		#ammo +=1
+		#tot_ammo -=1
+		#print("Ammo reloaded: ", ammo, " but total ammo is: ", tot_ammo)
+	if all_in_one ==true || only_one ==true:
+		$Rng1.wait_time = rng_wait/1.25
+		$Rng1.start()
+	dodge_frame_counter =1
+
+
+# The "teste" functions are the one triggered when the Rng timers are on_timeout. Currently too lazy to rename them to something more sensical.
+func teste():
+	rng_allinone() # For the all in one mod
+	if dead ==false && over ==false:
+		rng = RandomNumberGenerator.new()
+		rng.randomize()
+		if all_in_one ==false:
+			rndtile = rng.randi_range(1, 4)
+			rng_action()
+		elif all_in_one ==true:
+			for ct in range (0,3): # Doesn't work as intended with 0-2. I don't understand why it works with 3 sooo...
+				rndtile = rng_multiple[ct]
+				rng_action()
+		$Rng2.wait_time = rng_wait
+		$Rng2.start()
+		# Multiplayer-only feature
+		#if test2 ==false:
+			#test2 =true
+			#$Timer2.start()
+func teste2():
+	if dead ==false && over ==false:
+		rng = RandomNumberGenerator.new()
+		rng.randomize()
+		if all_in_one ==false && only_one ==false:
+			rndtile = rng.randi_range(1, 4)
+			rng_action()
+			$Rng1.wait_time = rng_wait
+			$Rng1.start()
+		elif all_in_one ==true:
+			for ct in range (0,3):
+				rndtile = rng_multiple[ct]
+				rng_action()
+		elif only_one ==true:
+			rng_action()
+		# Multiplayer-only feature
+		#if test2 ==false:
+			#test2 =true
+			#$Timer2.start()
+func rng_action():
+	var result
+	if rndtile ==1:
+		result = target(tile1, trap_topl, bomb_topl, blob, topl)
+		trap_topl = result[0]
+		bomb_topl = result[1]
+	elif rndtile ==2:
+		result = target(tile2, trap_topr, bomb_topr, blob, topr)
+		trap_topr = result[0]
+		bomb_topr = result[1]
+	elif rndtile ==3:
+		result = target(tile3, trap_botl, bomb_botl, blob, botl)
+		trap_botl = result[0]
+		bomb_botl = result[1]
+	elif rndtile ==4:
+		result = target(tile4, trap_botr, bomb_botr, blob, botr)
+		trap_botr = result[0]
+		bomb_botr = result[1]
+# For the all_in_one mod
+func rng_allinone():
+	rng_multiple.clear()  # Vider le tableau
+	var available_tiles = [1, 2, 3, 4]  # Tiles (pour cette fonction)
+
+	for i in range(3):  # Changer pour 3 itérations
+		var random_index = randi_range(0, available_tiles.size() - 1)
+		rng_multiple.append(available_tiles[random_index])
+		available_tiles.erase(available_tiles[random_index])  # Supprimer l'élément sélectionné
+
+
+
+func _on_delay_timeout():
+	if right ==true:
+		if trajectory <=228:
+			$Blob1.position += Vector2(unit,0)
+			trajectory +=60
+			if ((ex_topl ==true && bomb_topl ==true) || (ex_botl ==true && bomb_botl ==true)) && (dodged ==false && dodge_frame_counter !=0):
+				dodged =true
+				dodge_success()
+			else:
+				if dodge_frame_counter ==1:
+					dodge_frame_counter -=1
+			$delay.start()
+		else:
+			if ex_topl ==true:
+				topr =true
+				ex_topl =false
+				blob_state(blob, trap_topr)
+			elif ex_botl ==true:
+				botr =true
+				ex_botl =false
+				blob_state(blob, trap_botr)
+			moving =false
+			right =false
+			trajectory =1
+
+	elif left ==true:
+		if trajectory <=228:
+			$Blob1.position -= Vector2(unit,0)
+			trajectory +=60
+			if ((ex_topr ==true && bomb_topr ==true) || (ex_botr ==true && bomb_botr ==true)) && (dodged ==false && dodge_frame_counter !=0):
+				dodged =true
+				dodge_success()
+			else:
+				if dodge_frame_counter ==1:
+					dodge_frame_counter -=1
+			$delay.start()
+		else:
+			if ex_topr ==true:
+				topl =true
+				ex_topr =false
+				blob_state(blob, trap_topl)
+			elif ex_botr ==true:
+				botl =true
+				ex_botr =false
+				blob_state(blob, trap_botl)
+			moving =false
+			left =false
+			trajectory =1
+	
+	elif down ==true:
+		if trajectory <=200:
+			$Blob1.position += Vector2(0,unit)
+			trajectory +=60
+			if ((ex_topl ==true && bomb_topl ==true) || (ex_topr ==true && bomb_topr ==true)) && (dodged ==false && dodge_frame_counter !=0):
+				dodged =true
+				dodge_success()
+			else:
+				if dodge_frame_counter ==1:
+					dodge_frame_counter -=1
+			$delay.start()
+		else:
+			if ex_topl ==true:
+				botl =true
+				ex_topl =false
+				blob_state(blob, trap_botl)
+			elif ex_topr ==true:
+				botr =true
+				ex_topr =false
+				blob_state(blob, trap_botr)
+			moving =false
+			down =false
+			trajectory =1
+			dodged =false
+	
+	elif up ==true:
+		if trajectory <=200:
+			$Blob1.position -= Vector2(0,unit)
+			trajectory +=60
+			if ((ex_botl ==true && bomb_botl ==true) || (ex_botr ==true && bomb_botr ==true)) && (dodged ==false && dodge_frame_counter !=0):
+				dodged =true
+				dodge_success()
+			else:
+				if dodge_frame_counter ==1:
+					dodge_frame_counter -=1
+			$delay.start()
+		else:
+			if ex_botl ==true:
+				topl =true
+				ex_botl =false
+				blob_state(blob, trap_topl)
+			elif ex_botr ==true:
+				topr =true
+				ex_botr =false
+				blob_state(blob, trap_topr)
+			moving =false
+			up =false
+			trajectory =1
+			dodged =false
+
+func dodge_success():
+	if boosting ==false:
+		dodge_count +=1 # Stats
+		$Dodge.play()
+		preboost = score
+		if prescore !=0:
+			score = prescore
+		@warning_ignore("narrowing_conversion")
+		if all_in_one ==true || only_one ==true:
+			score += (1/rng_wait)*1000
+		else:
+			score += (1/rng_wait)*4000
+		score_mod_boost()
+		prescore = score
+		score_mod_nerf()
+		boosting =true
+		$Incrementing.start() # "Incrementing" was my other idea for the current "boosting"
+	$Perfect/Bonus.text = "+"+str(score-preboost)
+	if sv_mode ==false:
+		if score > old_high_score:
+			high_score = score
+			if beaten ==false:
+				beaten = true
+	else:
+		if score > old_high_score_sv:
+			high_score_sv = score
+			if beaten_sv ==false:
+				beaten_sv = true
+	Score_viz_update()
+	$Perfect.position = Vector2(96,704)
+	$Perfect.show()
+	$Animation.play("Dodged")
+	$Perfect/Disappear.start()
+	
+
+func _on_disappear_timeout():
+	$Perfect.hide()
+
+
+func _on_timer_timeout():
+	if sv_mode ==false:
+		timer_limit =1
+	else:
+		timer_limit =0
+		if pretimer ==true:
+			timer =1 # For survival mode to actually work
+	if timer >timer_limit:
+		if sv_mode ==false:
+			timer -=1
+		else:
+			if timer ==1 && pretimer ==true:
+				timer =0
+				pretimer =false
+			timer +=1
+		$Timer/TimerViz.text = str(timer)
+		$Timer.start()
+		if prescore !=0:
+			score = prescore
+		if sv_mode ==true:
+			score += timer
+		score += int((1.0/rng_wait + 25)*nbtiles_multiplicator)
+		# the "int" forces the division being a float before converting the final result to an int. That is because the variables were declared as int, so all the operations between those ints are basically int's as well, which is unwanted in this case.
+
+		score_mod_boost()
+		prescore = score
+		score_mod_nerf()
+		if sv_mode ==false:
+			if score > old_high_score:
+				high_score = score
+				if beaten ==false:
+					beaten = true
+		else:
+			if score > old_high_score_sv:
+				high_score_sv = score
+				if beaten_sv ==false:
+					beaten_sv = true
+	elif timer ==1 && sv_mode ==false:
+		over =true
+		@warning_ignore("narrowing_conversion")
+		if prescore !=0:
+			score = prescore
+		score += int(((1.0/lives)/rng_wait)*500 + 10) # Lower remaining lives -> greater bonus
+		score_mod_boost()
+		prescore = score
+		score_mod_nerf()
+		if score > old_high_score:
+			high_score = score
+			if beaten ==false:
+				beaten = true
+		if progressive ==true:
+			$Progress.stop()
+		if turn >0:
+			turn -=1
+		if General.autolang == "en":
+			$Timer/TimerViz.text = "GREAT!"
+			$Turns.text = str(init_turn-turn) + "/" + str(init_turn) + " turns cleared"
+		elif General.autolang == "fr":
+			$Timer/TimerViz.text = "BIEN!"
+			$Turns.text = str(init_turn-turn) + "/" + str(init_turn) + " tours passés"
+		if swap ==true:
+			$Swap.stop()
+		$Over.start()
+	Score_viz_update()
+	tot_time +=1
+
+func save_high(hi: int):
+	var config = ConfigFile.new()
+	# Charger les paramètres existants dans le fichier
+	var file = config.load("user://settings.cfg")
+	
+	if file != OK:
+		config = ConfigFile.new()  # Create new save file if corrupted
+	# Saving the new high score
+	config.set_value("settings", "high_score", hi)
+	config.save("user://settings.cfg")
+
+func save_high_sv(hi: int): # Survival mode
+	var config = ConfigFile.new()
+	# Charger les paramètres existants dans le fichier
+	var file = config.load("user://settings.cfg")
+	
+	if file != OK:
+		config = ConfigFile.new()  # Create new save file if corrupted
+	# Saving the new high score
+	config.set_value("settings", "high_score_sv", hi)
+	config.save("user://settings.cfg")
+
+
+func _on_halter_timeout():
+	if halt ==true:
+		halt =false
+		if dead ==false && over ==false:
+			$Slowdown.hide()
+			survival_halt +=1
+			if prescore !=0:
+				score = prescore
+			@warning_ignore("integer_division")
+			score += int((score/5)*(1.0/rng_wait))
+			score_mod_boost()
+			prescore = score
+			score_mod_nerf()
+			if sv_mode ==false:
+				if score > old_high_score:
+					high_score = score
+					if beaten ==false:
+						beaten = true
+			else:
+				if score > old_high_score_sv:
+					high_score_sv = score
+					if beaten_sv ==false:
+						beaten_sv = true
+			Score_viz_update()
+	for ct in range (0, move_nb):
+		moves[ct] =false
+	moves[move_nb-1] =false
+	halt_timer =false
+
+func stop_moving():
+	if moves[move_nb-1] ==true && halt ==false:
+		halt =true
+		$Halter.stop()
+		$Halter.start()
+		if General.autolang == "en":
+			$Slowdown.text = "Hey! Slow down!"
+		elif General.autolang == "fr":
+			$Slowdown.text = "Hey! Doucement!"
+		$Slowdown.show()
+	else:
+		tot_moves +=1
+
+
+func _on_over_timeout():
+	if trueover ==true || lives ==0:
+		if beaten ==true:
+			$Animation.play("HighScoreBeaten")
+			if sv_mode ==false:
+				save_high(high_score)
+			else:
+				save_high_sv(high_score_sv)
+		else:
+			$Animation.play("FinalScore")
+		$Lives.text = "0" + str(lives)
+		if lives ==0:
+			defeated =true
+		else:
+			victory =true
+		$PreResults.start()
+	else:
+		if turn >0:
+			Reset()
+		else:
+			trueover =true
+			_on_over_timeout()
+
+func Reset():
+	_on_halter_timeout()
+	_on_cooldown_1_timeout()
+	_on_cooldown_2_timeout()
+	_on_cooldown_3_timeout()
+	_on_cooldown_4_timeout()
+	$Rng1.stop()
+	$Rng2.stop()
+	dead = false
+	over = false
+	trap_botl =false
+	trap_botr =false
+	trap_topl =false
+	trap_topr =false
+	topr =false
+	botl =false
+	botr =false
+	if sv_mode ==true && last_chance ==true:
+		init_timer = timer
+	is_progressive()
+	multiplicators()
+	_ready()
+
+# Swap mod
+func _on_swap_timeout():
+	if normal ==true:
+		normal =false
+		swapped =true
+		swapped_mode()
+		swap_catcher =1
+		$Status_normal.hide()
+		$Status_dizzy.show()
+		$Animation.play("DizzyMode")
+	elif swapped ==true:
+		swapped =false
+		normal =true
+		normal_mode()
+		swap_catcher =0
+		$Status_normal.show()
+		$Status_dizzy.hide()
+		$Animation.play("NormalMode")
+	if blob.texture != load(blob_danger):
+		blob.texture = load(blob_normal)
+	if dead ==false && over ==false:
+		$Swap.start()
+
+func _on_progress_timeout():
+	if rng_wait >=0.1:
+		if progressive ==true:
+			if rng_wait >0.1:
+				rng_wait -= 0.02
+		else:
+			if rng_wait >0.1:
+				rng_wait -= 0.1
+			else:
+				rng_wait = 0.01
+		$Rng1.wait_time = rng_wait
+		$Rng2.wait_time = rng_wait
+		$Progress.start()
+		multiplicators()
+		Halter_wait_time()
+
+func _on_lefted_timeout():
+	goto_left()
+	action_left =false
+
+func _on_righted_timeout():
+	goto_right()
+	action_right =false
+
+func _on_upped_timeout():
+	goto_up()
+	action_up =false
+
+func _on_downed_timeout():
+	goto_down()
+	action_down =false
+
+
+@warning_ignore("unused_parameter")
+func hide_after_anim(anim_name):
+	if anim_name == "NormalMode" || anim_name == "DizzyMode":
+		if hidden ==true:
+			$Status_dizzy.hide()
+			$Status_normal.hide()
+	elif anim_name == "GameOver":
+		$Statistics/Retry.show()
+		$Statistics/Exit.show()
+		retry_shortcut =true
+	elif anim_name == "Retry":
+		full_reset =false
+		$Animation.play("RESET")
+	elif anim_name == "GameStarts":
+		$Transition.hide()
+		$Animation.play("Countdown")
+		$Countdown.start()
+	
+	elif anim_name == "RESET":
+		settings_loaded =false
+		rng_wait = rng_wait_backup
+		initialization()
+		if lives <10:
+			$Lives.text = "0" + str(lives)
+		else:
+			$Lives.text = str(lives)
+		if General.autolang == "en":
+			$Turns.text = str(init_turn-turn) + "/" + str(init_turn) + " turns cleared"
+			$Status_dizzy.text = "Dizzy..."
+			$Perfect.text = "Perfect dodge!"
+		elif General.autolang == "fr":
+			$Turns.text = str(init_turn-turn) + "/" + str(init_turn) + " tours passés"
+			$Status_dizzy.text = "Étourdi..."
+			$Perfect.text = "Esquive parfaite!"
+		$Animation.play("Countdown")
+
+
+func _on_countdown_timeout():
+	if countdown >1:
+		countdown -=1
+		$Countdown/Ctd_viz.text = str(countdown)
+		$Countdown.start()
+	else:
+		countdown =0
+		$Timer.start()
+		$Countdown/Ctd_viz.hide()
+		$Rng1.start()
+
+
+func _on_incrementing_timeout():
+	boosting = false
+
+func result_screen():
+	$Animation.play("GameOver")
+	$Calcul.start()
+
+func stats_calculation():
+	calculating =false
+	if victory ==true:
+		$Statistics/Victory.show()
+	elif defeated ==true && sv_mode ==false:
+		$Statistics/Defeat.show()
+	elif sv_mode ==true:
+		$Statistics/GameOver.show()
+	
+	if tot_moves_ct < tot_moves:
+		tot_moves_ct +=1
+		calculating =true
+	$Statistics/Moves/Value.text = str(tot_moves_ct)
+	if tot_time_ct < tot_time && tot_time_ctsec <60: # To respect the format 00min 00sec
+		tot_time_ct +=1
+		tot_time_ctsec +=1
+		calculating =true
+	elif tot_time_ct < tot_time && tot_time_ctsec ==60:
+		tot_time_ct +=1
+		tot_time_ctsec =0
+		tot_time_ctmin +=1
+		calculating =true
+	if tot_time_ctsec <10:
+		$Statistics/Time/Value.text = str(tot_time_ctmin)+"min 0"+str(tot_time_ctsec)+"s"
+	else:
+		$Statistics/Time/Value.text = str(tot_time_ctmin)+"min "+str(tot_time_ctsec)+"s"
+	if die_halt_ct < die_halt:
+		die_halt_ct +=1
+		calculating =true
+	$Statistics/DeathHalt/Value.text = str(die_halt_ct)
+	if survival_halt_ct < survival_halt:
+		survival_halt_ct +=1
+		calculating =true
+	$Statistics/Rescapee/Value.text = str(survival_halt_ct)
+	if dodge_count_ct < dodge_count:
+		dodge_count_ct +=1
+		calculating =true
+	$Statistics/PfDodges/Value.text = str(dodge_count_ct)
+	if lost_score_ct < lost_score:
+		lost_score_ct +=1
+		calculating =true
+	$Statistics/LostSc/Value.text = str(lost_score_ct)
+	if cons_ct < consecutives:
+		cons_ct +=1
+		calculating =true
+	$Statistics/Sessions/Value.text = str(cons_ct)
+	
+	if nohalt ==true:
+		if General.autolang == "en":
+			$Statistics/DeathHalt/Value.text += " (NoHalt was on)"
+			$Statistics/Rescapee/Value.text += " (NoHalt was on)"
+		elif General.autolang == "fr":
+			$Statistics/DeathHalt/Value.text += " (NoHalt était actif)"
+			$Statistics/Rescapee/Value.text += " (NoHalt était actif)"
+	
+	if calculating ==true:
+		$Calcul.start()
+
+
+func _on_retry_mouse_entered():
+	$Animation.play("RetryHover")
+	auto_hover =true
+	sure = false
+	$Statistics/Sure.hide()
+
+func _on_retry_mouse_exited():
+	$Animation.play("RetryLeft")
+	auto_hover =false
+
+func _on_retry_button_up():
+	sure =false
+	$Statistics/Sure.hide()
+	$Animation.stop()
+	$Statistics/Retry.hide()
+	$Statistics/Exit.hide()
+	consecutives +=1
+	countdown =3
+	Reset()
+	full_reset =true
+	$Animation.play("Retry")
+
+
+
+func score_submit():
+	var input_name = $Statistics/Register/user.text
+	player_name = input_name
+	#Saving the score online!
+	SilentWolf.Scores.save_score(player_name, score)
+	get_tree().change_scene_to_packed(lb_scores)
+
+
+func _on_exit_button_up():
+	_on_retry_mouse_exited()
+	if sure ==false:
+		sure =true
+		$Statistics/Sure.show()
+	else:
+		exiting =true
+		if General.autolang == "en":
+			$Statistics/Sure.text = "Alright. See you soon!"
+		elif General.autolang == "fr":
+			$Statistics/Sure.text = "D'accord. À plus tard !"
+		$Fade.show()
+		$Animation.play("Exit")

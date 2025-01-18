@@ -1,0 +1,341 @@
+[gd_scene load_steps=8 format=3 uid="uid://cuoo11nvxrnvh"]
+
+[ext_resource type="FontFile" uid="uid://dkfn0w3gwssod" path="res://fonts/ARLRDBD.TTF" id="1_dal4w"]
+[ext_resource type="FontFile" uid="uid://ca0io57pxr6v3" path="res://fonts/FingerPaint-Regular.ttf" id="1_dbm3q"]
+[ext_resource type="Texture2D" uid="uid://bvq41nnb2mu80" path="res://assets/retry.png" id="3_14pvo"]
+[ext_resource type="Texture2D" uid="uid://b08athrrx4p20" path="res://assets/retry_hover.png" id="4_jwyi5"]
+[ext_resource type="FontFile" uid="uid://nrdaaf5jw0up" path="res://fonts/MadimiOne-Regular.ttf" id="5_wpyu8"]
+[ext_resource type="Texture2D" uid="uid://dcvt6mma6ocmq" path="res://assets/exit.png" id="6_nwbdx"]
+[ext_resource type="Texture2D" uid="uid://420ec3wcdbj5" path="res://assets/exit_hover.png" id="7_bif3k"]
+
+[node name="Statistics" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_top = -272.0
+offset_right = 1920.0
+offset_bottom = 832.0
+color = Color(0, 0, 0, 0.752941)
+metadata/_edit_lock_ = true
+
+[node name="Victory" type="Label" parent="."]
+editor_description = "Timer visualizer."
+visible = false
+layout_mode = 0
+offset_left = 80.0
+offset_top = 48.0
+offset_right = 1808.0
+offset_bottom = 255.0
+theme_override_colors/font_color = Color(0.890744, 0.593903, 0.855572, 1)
+theme_override_fonts/font = ExtResource("1_dbm3q")
+theme_override_font_sizes/font_size = 140
+text = "VICTORY!"
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="Defeat" type="Label" parent="."]
+editor_description = "Timer visualizer."
+visible = false
+layout_mode = 0
+offset_left = 80.0
+offset_top = 48.0
+offset_right = 1808.0
+offset_bottom = 255.0
+rotation = 0.0312679
+theme_override_colors/font_color = Color(0.560585, 0.214036, 0.399287, 1)
+theme_override_fonts/font = ExtResource("1_dbm3q")
+theme_override_font_sizes/font_size = 140
+text = "DEFEATED"
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="GameOver" type="Label" parent="."]
+editor_description = "Timer visualizer."
+visible = false
+layout_mode = 0
+offset_left = 80.0
+offset_top = 48.0
+offset_right = 1808.0
+offset_bottom = 255.0
+theme_override_colors/font_color = Color(0.948986, 0.818315, 0.929515, 1)
+theme_override_fonts/font = ExtResource("1_dbm3q")
+theme_override_font_sizes/font_size = 140
+text = "GAME OVER"
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="Moves" type="Label" parent="."]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 256.0
+offset_right = 992.0
+offset_bottom = 315.0
+theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
+theme_override_fonts/font = ExtResource("1_dal4w")
+theme_override_font_sizes/font_size = 47
+text = "Total moves:"
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="Value" type="Label" parent="Moves"]
+layout_mode = 0
+offset_left = 864.0
+offset_right = 1792.0
+offset_bottom = 59.0
+theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
+theme_override_fonts/font = ExtResource("1_dal4w")
+theme_override_font_sizes/font_size = 47
+text = "000000"
+horizontal_alignment = 2
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="Time" type="Label" parent="."]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 320.0
+offset_right = 992.0
+offset_bottom = 379.0
+theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
+theme_override_fonts/font = ExtResource("1_dal4w")
+theme_override_font_sizes/font_size = 47
+text = "Total time elapsed:"
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="Value" type="Label" parent="Time"]
+layout_mode = 0
+offset_left = 856.0
+offset_right = 1784.0
+offset_bottom = 59.0
+theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
+theme_override_fonts/font = ExtResource("1_dal4w")
+theme_override_font_sizes/font_size = 47
+text = "00min 00s"
+horizontal_alignment = 2
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="DeathHalt" type="Label" parent="."]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 384.0
+offset_right = 992.0
+offset_bottom = 443.0
+theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
+theme_override_fonts/font = ExtResource("1_dal4w")
+theme_override_font_sizes/font_size = 47
+text = "Death by halt:"
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="Value" type="Label" parent="DeathHalt"]
+layout_mode = 0
+offset_left = 864.0
+offset_right = 1792.0
+offset_bottom = 59.0
+theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
+theme_override_fonts/font = ExtResource("1_dal4w")
+theme_override_font_sizes/font_size = 47
+text = "00"
+horizontal_alignment = 2
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="Rescapee" type="Label" parent="."]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 448.0
+offset_right = 992.0
+offset_bottom = 507.0
+theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
+theme_override_fonts/font = ExtResource("1_dal4w")
+theme_override_font_sizes/font_size = 47
+text = "Rescapee from halt:"
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="Value" type="Label" parent="Rescapee"]
+layout_mode = 0
+offset_left = 864.0
+offset_right = 1792.0
+offset_bottom = 59.0
+theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
+theme_override_fonts/font = ExtResource("1_dal4w")
+theme_override_font_sizes/font_size = 47
+text = "00"
+horizontal_alignment = 2
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="PfDodges" type="Label" parent="."]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 512.0
+offset_right = 992.0
+offset_bottom = 571.0
+theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
+theme_override_fonts/font = ExtResource("1_dal4w")
+theme_override_font_sizes/font_size = 47
+text = "Perfect dodges:"
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="Value" type="Label" parent="PfDodges"]
+layout_mode = 0
+offset_left = 864.0
+offset_right = 1792.0
+offset_bottom = 59.0
+theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
+theme_override_fonts/font = ExtResource("1_dal4w")
+theme_override_font_sizes/font_size = 47
+text = "00"
+horizontal_alignment = 2
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="LostSc" type="Label" parent="."]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 576.0
+offset_right = 992.0
+offset_bottom = 635.0
+theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
+theme_override_fonts/font = ExtResource("1_dal4w")
+theme_override_font_sizes/font_size = 47
+text = "Lost score:"
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="Value" type="Label" parent="LostSc"]
+layout_mode = 0
+offset_left = 864.0
+offset_right = 1792.0
+offset_bottom = 59.0
+theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
+theme_override_fonts/font = ExtResource("1_dal4w")
+theme_override_font_sizes/font_size = 47
+text = "000000"
+horizontal_alignment = 2
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="Sessions" type="Label" parent="."]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 640.0
+offset_right = 992.0
+offset_bottom = 699.0
+theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
+theme_override_fonts/font = ExtResource("1_dal4w")
+theme_override_font_sizes/font_size = 47
+text = "Sessions played in a row:"
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="Value" type="Label" parent="Sessions"]
+layout_mode = 0
+offset_left = 864.0
+offset_right = 1792.0
+offset_bottom = 59.0
+theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
+theme_override_fonts/font = ExtResource("1_dal4w")
+theme_override_font_sizes/font_size = 47
+text = "00"
+horizontal_alignment = 2
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="Register" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 64.0
+offset_top = 728.0
+offset_right = 992.0
+offset_bottom = 787.0
+theme_override_colors/font_color = Color(1, 0.756863, 0.929412, 1)
+theme_override_fonts/font = ExtResource("1_dal4w")
+theme_override_font_sizes/font_size = 47
+text = "Submit your score online!"
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="user" type="LineEdit" parent="Register"]
+layout_mode = 0
+offset_left = 624.0
+offset_top = -16.0
+offset_right = 1432.0
+offset_bottom = 74.0
+theme_override_fonts/font = ExtResource("1_dbm3q")
+theme_override_font_sizes/font_size = 49
+placeholder_text = "Enter your player name!"
+max_length = 25
+
+[node name="submit" type="Button" parent="Register"]
+layout_mode = 0
+offset_left = 1456.0
+offset_top = -8.0
+offset_right = 1792.0
+offset_bottom = 72.0
+theme_override_colors/font_color = Color(0.866667, 0.92549, 1, 1)
+theme_override_fonts/font = ExtResource("5_wpyu8")
+theme_override_font_sizes/font_size = 45
+button_mask = 3
+text = "SUBMIT"
+
+[node name="Sure" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 272.0
+offset_top = 896.0
+offset_right = 1424.0
+offset_bottom = 955.0
+theme_override_colors/font_color = Color(1, 0.319045, 0.506007, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_fonts/font = ExtResource("1_dal4w")
+theme_override_font_sizes/font_size = 55
+text = "Are you sure? Press again if yes."
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="ColorRect2" type="ColorRect" parent="Sure"]
+layout_mode = 0
+offset_left = -272.0
+offset_top = -64.0
+offset_right = 1648.0
+offset_bottom = 200.0
+color = Color(0, 0, 0, 0.368627)
+
+[node name="Retry" type="TextureButton" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 1672.0
+offset_top = 840.0
+offset_right = 2184.0
+offset_bottom = 1352.0
+scale = Vector2(0.32, 0.32)
+button_mask = 3
+texture_normal = ExtResource("3_14pvo")
+texture_hover = ExtResource("4_jwyi5")
+
+[node name="Exit" type="TextureButton" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 80.0
+offset_top = 840.0
+offset_right = 592.0
+offset_bottom = 1352.0
+scale = Vector2(0.32, 0.32)
+button_mask = 3
+texture_normal = ExtResource("6_nwbdx")
+texture_hover = ExtResource("7_bif3k")
