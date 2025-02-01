@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://ta027up6hjgn"]
+[gd_scene load_steps=34 format=3 uid="uid://ta027up6hjgn"]
 
 [ext_resource type="Texture2D" uid="uid://bb8pidjncjamm" path="res://assets/tile.png" id="1_nlygq"]
 [ext_resource type="Script" path="res://script/solo.gd" id="1_wt4wd"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bdih0obxmi4sd" path="res://assets/timer.png" id="7_x1s14"]
 [ext_resource type="FontFile" uid="uid://qbp0148n0046" path="res://fonts/AtomicAge-Regular.ttf" id="8_xlhqf"]
 [ext_resource type="FontFile" uid="uid://ca0io57pxr6v3" path="res://fonts/FingerPaint-Regular.ttf" id="10_8tc02"]
+[ext_resource type="PackedScene" uid="uid://caspixro6ro15" path="res://scenes/ingane-control_nodes/pause.tscn" id="11_lole5"]
 [ext_resource type="PackedScene" uid="uid://cuoo11nvxrnvh" path="res://scenes/ingane-control_nodes/statistics.tscn" id="11_untfs"]
 [ext_resource type="AudioStream" uid="uid://jo501ef0gem0" path="res://sfx/pf_dodge.wav" id="12_2abs4"]
 [ext_resource type="AudioStream" uid="uid://n3yckbpywhmx" path="res://sfx/targeted.wav" id="13_cr53g"]
@@ -234,6 +235,60 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 1), Color(0.873859, 0.0459882, 0.175932, 1), Color(1, 1, 1, 1), Color(0.87451, 0.0470588, 0.176471, 1), Color(1, 1, 1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_hmrbf"]
+resource_name = "PauseIn"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Pause/PauseLayoutBlue:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 1080), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Pause/bg:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -1080), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_p04ar"]
+resource_name = "PauseOut"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Pause/PauseLayoutBlue:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 1080)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Pause/bg:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -1080)]
+}
+
 [sub_resource type="Animation" id="Animation_cunku"]
 length = 0.001
 tracks/0/type = "value"
@@ -392,6 +447,30 @@ tracks/12/keys = {
 "update": 0,
 "values": [Vector2(0, 0)]
 }
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("../Pause/PauseLayoutBlue:position")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 1080)]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("../Pause/bg:position")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -1080)]
+}
 
 [sub_resource type="Animation" id="Animation_3lx3j"]
 resource_name = "Retry"
@@ -451,6 +530,8 @@ _data = {
 "HighScoreBeaten": SubResource("Animation_b2hxp"),
 "NormalMode": SubResource("Animation_t37ce"),
 "OneLife": SubResource("Animation_uw53w"),
+"PauseIn": SubResource("Animation_hmrbf"),
+"PauseOut": SubResource("Animation_p04ar"),
 "RESET": SubResource("Animation_cunku"),
 "Retry": SubResource("Animation_3lx3j"),
 "RetryHover": SubResource("Animation_nx52p"),
@@ -555,9 +636,9 @@ justification_flags = 162
 [node name="Score" type="Label" parent="."]
 editor_description = "Timer visualizer."
 offset_left = 64.0
-offset_top = 816.0
+offset_top = 808.0
 offset_right = 1856.0
-offset_bottom = 921.0
+offset_bottom = 913.0
 theme_override_fonts/font = ExtResource("6_cknej")
 theme_override_font_sizes/font_size = 53
 text = "Score: 000000
@@ -569,9 +650,9 @@ justification_flags = 162
 [node name="High" type="Label" parent="."]
 editor_description = "Timer visualizer."
 offset_left = 64.0
-offset_top = 904.0
+offset_top = 896.0
 offset_right = 1848.0
-offset_bottom = 1009.0
+offset_bottom = 1001.0
 theme_override_colors/font_color = Color(0.687215, 0.687215, 0.687215, 1)
 theme_override_fonts/font = ExtResource("6_cknej")
 theme_override_font_sizes/font_size = 37
@@ -728,7 +809,9 @@ one_shot = true
 
 [node name="Statistics" parent="." instance=ExtResource("11_untfs")]
 offset_top = -1080.0
-offset_bottom = -1330.0
+offset_right = 3840.0
+offset_bottom = 830.0
+metadata/_edit_lock_ = true
 
 [node name="Victory" parent="Statistics" index="1"]
 offset_left = 78.4714
@@ -803,6 +886,23 @@ offset_right = 600.0
 focus_mode = 0
 keep_pressed_outside = true
 
+[node name="Pause" parent="." instance=ExtResource("11_lole5")]
+metadata/_edit_lock_ = true
+
+[node name="bg" parent="Pause" index="0"]
+offset_top = -1080.0
+offset_bottom = 1.0
+
+[node name="Compare_HS" parent="Pause/bg" index="5"]
+offset_top = 944.0
+
+[node name="PauseLayoutBlue" parent="Pause" index="1"]
+offset_top = 1080.0
+offset_bottom = 2161.0
+
+[node name="PAUSE" parent="Pause/PauseLayoutBlue" index="0"]
+metadata/_edit_lock_ = true
+
 [node name="Transition" type="ColorRect" parent="."]
 visible = false
 offset_right = 1920.0
@@ -852,5 +952,15 @@ volume_db = 4.0
 [connection signal="mouse_entered" from="Statistics/Retry" to="." method="_on_retry_mouse_entered"]
 [connection signal="mouse_exited" from="Statistics/Retry" to="." method="_on_retry_mouse_exited"]
 [connection signal="button_up" from="Statistics/Exit" to="." method="_on_exit_button_up"]
+[connection signal="button_up" from="Pause/bg/Resume" to="." method="_on_resume_button_up"]
+[connection signal="focus_entered" from="Pause/bg/Resume" to="." method="_on_resume_mouse_entered"]
+[connection signal="focus_exited" from="Pause/bg/Resume" to="." method="_on_resume_mouse_exited"]
+[connection signal="mouse_entered" from="Pause/bg/Resume" to="." method="_on_resume_mouse_entered"]
+[connection signal="mouse_exited" from="Pause/bg/Resume" to="." method="_on_resume_mouse_exited"]
+[connection signal="focus_entered" from="Pause/bg/Forfeit" to="." method="_on_forfeit_mouse_entered"]
+[connection signal="focus_exited" from="Pause/bg/Forfeit" to="." method="_on_forfeit_mouse_exited"]
+[connection signal="mouse_entered" from="Pause/bg/Forfeit" to="." method="_on_forfeit_mouse_entered"]
+[connection signal="mouse_exited" from="Pause/bg/Forfeit" to="." method="_on_forfeit_mouse_exited"]
 
 [editable path="Statistics"]
+[editable path="Pause"]

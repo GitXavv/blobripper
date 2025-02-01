@@ -86,7 +86,7 @@ var rng= RandomNumberGenerator.new() #Represent each of the 4 tiles
 var rndtile: int #Represent the tile chosen by rng
 
 # The time the computer takes to perform one action
-var rng_wait = 0.9 # Will be an Auto-setting later
+var rng_wait = 0.4 # Will be an Auto-setting later
 var rng_wait_backup
 
 var startup= RandomNumberGenerator.new() # Like the rng wait but for the start. Is in [0.4 ; 1]
@@ -198,7 +198,7 @@ var normal: bool # Normal controls
 var swapped: bool # Swapped controls. Don't confuse with "swap"!!!
 var swap_catcher: int # if hidden true, catcher =1, if not, catcher =0. This will help for scoring buff
 
-var stuck_swap: bool = true # If not want constant swaps
+var stuck_swap: bool = false # If not want constant swaps
 
 var all_in_one: bool = false
 var rng_multiple = []
@@ -218,7 +218,7 @@ var delay_catcher: int
 
 # Easy mods
 var nohalt: bool = false
-const nohalt_dvd = 1.55 # "dvs" means divider
+const nohalt_dvd = 1.55 # "dvd" means divider
 var nohalt_catcher: float
 var nohalt_canceller: int
 
@@ -227,10 +227,10 @@ const only_dvd = 1.04
 var only_catcher: float
 var only_canceller: int
 
-var last_chance: bool = false
+var last_chance: bool = false # For survival
 
 # Survival mode (SV)
-var sv_mode: bool = true
+var sv_mode: bool = false
 var high_score_sv: int # = old_high_score until record broken
 var old_high_score_sv: int # Loadable data
 var beaten_sv: bool # If high_score is beaten
@@ -251,6 +251,19 @@ var auto_hover: bool
 var player_name: String
 # To test
 @onready var lb_scores = preload("res://addons/silent_wolf/Scores/Leaderboard.tscn")
+
+
+# Pausing the game
+var pause: bool
+# These are to catch the Rng Timer objects' remaining time when pausing since there is not any way to actually pause a timer in this Godot Engine
+# 'paused' will catch the remaining time when paused.
+var rng_wait1_paused: float
+
+var rng_wait2_paused: float
+
+var rng2_started: bool # This is to prevent Rng2 Timer object to start when resuming the game after pausing the game at the very beginning when Rng2 is not even supposed to start yet.
+
+var timer_paused: float # To pause the timer on time mode
 
 
 # Exiting the game
@@ -326,7 +339,7 @@ func load_settings():
 	var file = config.load("user://settings.cfg")
 	if file == OK:
 		# Language
-		var lang = config.get_value("settings", "language", "fr")
+		var lang = config.get_value("settings", "language", "en")
 		if lang in ["en", "fr"]:  # Check if valid language
 			General.autolang = lang
 		else:
@@ -444,6 +457,110 @@ func Stats_init():
 	
 		$Statistics/Sure.text = "Tu es sûr(e) ? Clique encore si oui."
 
+func Pause_init():
+	if General.autolang == "en":
+		$Pause/bg/Resume.text = "RESUME"
+		$Pause/bg/Resume/expl.text = "Continue where you paused. Get on your
+		marks well before clicking this button!"
+		
+		$Pause/bg/Forfeit.text = "FORFEIT"
+		$Pause/bg/Forfeit/expl.text = "Give up this game. You can decide to give it
+		another try or leave the game afterwards."
+		
+		if sv_mode == false:
+			$Pause/bg/GameMode.text = "- Time mode"
+		else:
+			$Pause/bg/GameMode.text = "- Survival mode"
+		
+		# Frequency
+		if progressive == true:
+			$Pause/bg/Freq.text = "- Progressive rhythm"
+		else:
+			if rng_wait == 1.5:
+				$Pause/bg/Freq.text = "- Slow rhythm"
+			elif rng_wait == 0.9:
+				$Pause/bg/Freq.text = "- Average rhythm"
+			elif rng_wait == 0.4:
+				$Pause/bg/Freq.text = "- Fast rhythm"
+			elif rng_wait == 0.1:
+				$Pause/bg/Freq.text = "- Very fast rhythm"
+			elif rng_wait == 0.01:
+				$Pause/bg/Freq.text = "- Crazy rhythm"
+			else:
+				$Pause/bg/Freq.text = "- Uncommon rhythm"
+		
+		# Game in a row
+		if consecutives ==1:
+			$Pause/bg/InARow.text = "- 1st game in a row"
+		elif consecutives ==2:
+			$Pause/bg/InARow.text = "- 2nd game in a row"
+		elif consecutives ==3:
+			$Pause/bg/InARow.text = "- 3rd game in a row"
+		else:
+			$Pause/bg/InARow.text = "- " + str(consecutives) + "th game in a row"
+			
+		# Your current score VS Your high score
+		# List of messages said when current score < high score /2 (Was about to be /4 but I realized it would give me an unnecessary amount of work if I splitted it that much. This whole thing is already not relevant
+		var score_under4th_1= "Looks like today is not your lucky day... or was the day you got that high score an exceptional one?"
+		var score_under4th_2= "What if you tried beating that high score?"
+		var score_under4th_3= "People want to see that high score beaten! Come on!"
+		var score_under4th_4= "You don't grind score today?"
+		var score_under4th = [score_under4th_1, score_under4th_2, score_under4th_3, score_under4th_4]
+		var sc_un4th_pick
+		
+		# List of messages said when current score < high score /1.25
+		var score_middle_1= "Interesting performance! You are getting there!"
+		var score_middle_2= "Yes! Chase that high score!"
+		var score_middle_3= "You have good reflexes. The hard work is going to pay."
+		var score_middle_4= "Is the high score going to be beaten ? We will know in a few minutes!"
+		var score_middle = [score_middle_1, score_middle_2, score_middle_3, score_middle_4]
+		var sc_mid_pick
+		
+		# List of messages said when current score < high score while being almost = high_score
+		var score_almost_1= "Only a few amount of efforts and risks to take and high score is yours!"
+		var score_almost_2= "You are so close to that high score!"
+		var score_almost_3= "Now is a bad time to give up! A terrible time even!"
+		var score_almost_4= "Congratulations in advance for beating the high score!"
+		var score_almost = [score_almost_1, score_almost_2, score_almost_3, score_almost_4]
+		var sc_alm_pick
+		
+		# List of messages said when current score < high score while being almost = high_score
+		var score_beat_1= "You got there! Now you are not allowed to fall back!"
+		var score_beat_2= "High score beaten! But watch out! Things can still be reversed."
+		var score_beat_3= "Beating that high score was surely not an easy task. Keeping it until the end will surely not be any easier."
+		var score_beat_4= "Imagine losing that new high score. Couldn't be you, right?"
+		var score_beat = [score_beat_1, score_beat_2, score_beat_3, score_beat_4]
+		var sc_beat_pick
+		
+		
+		sc_un4th_pick = RandomNumberGenerator.new()
+		sc_un4th_pick.randomize()
+		sc_un4th_pick = sc_un4th_pick.randi_range(0,3)
+		
+		sc_mid_pick = RandomNumberGenerator.new()
+		sc_mid_pick.randomize()
+		sc_mid_pick = sc_mid_pick.randi_range(0,3)
+		
+		sc_alm_pick = RandomNumberGenerator.new()
+		sc_alm_pick.randomize()
+		sc_alm_pick = sc_alm_pick.randi_range(0,3)
+		
+		sc_beat_pick = RandomNumberGenerator.new()
+		sc_beat_pick.randomize()
+		sc_beat_pick = sc_beat_pick.randi_range(0,3)
+		
+		
+		if score < old_high_score/2 || (score < old_high_score_sv/2 && sv_mode ==true):
+			$Pause/bg/Compare_HS.text = score_under4th[sc_un4th_pick]
+		elif (score >= old_high_score/2 && score < old_high_score/1.25) || (score >= old_high_score_sv/2 && score < old_high_score_sv/1.25 && sv_mode ==true):
+			$Pause/bg/Compare_HS.text = score_middle[sc_mid_pick]
+		elif (score >= old_high_score/1.25 && score < old_high_score) || (score >= old_high_score_sv/1.25 && score < old_high_score_sv && sv_mode ==true):
+			$Pause/bg/Compare_HS.text = score_almost[sc_alm_pick]
+		elif (score == old_high_score) || (score == old_high_score_sv && sv_mode ==true):
+			$Pause/bg/Compare_HS.text = "YOU GOT THAT HIGH SCORE! Now try to beat this! Should be easy."
+		else:
+			$Pause/bg/Compare_HS.text = score_beat[sc_beat_pick]
+
 # Swap mod (Not Stuck Swap. Swap!!!)
 func normal_mode():
 	left2 = "left2"
@@ -464,6 +581,8 @@ func swapped_mode():
 
 func initialization():
 	if settings_loaded ==false:
+		pause = false
+		rng2_started =false
 		interblob = blob_normal # For the swap mod
 		load_settings()
 		Halter_wait_time()
@@ -667,11 +786,31 @@ func _process(delta):
 			else:
 				if full_reset ==false:
 					_on_retry_button_up()
+	
+	if Input.is_action_just_pressed("Esc"):
+		Pause_Resume()
 
+
+func Pause_Resume():
+	if pause ==false && countdown ==0 && moving ==false && dead ==false && trueover ==false:
+		Pause_init()
+		pause =true
+		$Animation.play("PauseIn")
+		
+		rng_wait1_paused = $Rng1.time_left
+		$Rng1.stop()
+		rng_wait2_paused = $Rng2.time_left
+		$Rng2.stop()
+		
+		timer_paused = $Timer.time_left
+		$Timer.stop()
+	
+	elif pause ==true:
+		$Animation.play("PauseOut")
 
 
 func goto_right():
-	if (topl ==true || botl ==true) && moving ==false && dead ==false && over ==false && halt ==false:
+	if (topl ==true || botl ==true) && moving ==false && dead ==false && over ==false && halt ==false && pause ==false:
 		$Blob1.position += Vector2(unit,0)
 		trajectory +=60
 		$delay.start()
@@ -719,7 +858,7 @@ func goto_right():
 				stop_moving()
 
 func goto_left():
-	if (topr ==true || botr ==true) && moving ==false && dead ==false && over ==false && halt ==false:
+	if (topr ==true || botr ==true) && moving ==false && dead ==false && over ==false && halt ==false && pause ==false:
 		$Blob1.position -= Vector2(unit,0)
 		trajectory +=60
 		$delay.start()
@@ -767,7 +906,7 @@ func goto_left():
 				stop_moving()
 
 func goto_down():
-	if (topl ==true || topr ==true) && moving ==false && dead ==false && over ==false && halt ==false:
+	if (topl ==true || topr ==true) && moving ==false && dead ==false && over ==false && halt ==false && pause ==false:
 		$Blob1.position += Vector2(0,unit)
 		trajectory +=60
 		$delay.start()
@@ -815,7 +954,7 @@ func goto_down():
 				stop_moving()
 
 func goto_up():
-	if (botl ==true || botr ==true) && moving ==false && dead ==false && over ==false && halt ==false:
+	if (botl ==true || botr ==true) && moving ==false && dead ==false && over ==false && halt ==false && pause ==false:
 		$Blob1.position -= Vector2(0,unit)
 		trajectory +=60
 		$delay.start()
@@ -1031,7 +1170,7 @@ func reset_tile(loc_blob):
 	dodge_frame_counter =1
 
 
-# The "teste" functions are the one triggered when the Rng timers are on_timeout. Currently too lazy to rename them to something more sensical.
+# The "teste" functions are the one triggered when the Rng timers are on_timeout. Currently too lazy to rename them to something more normal.
 func teste():
 	rng_allinone() # For the all in one mod
 	if dead ==false && over ==false:
@@ -1046,6 +1185,7 @@ func teste():
 				rng_action()
 		$Rng2.wait_time = rng_wait
 		$Rng2.start()
+		rng2_started =true
 		# Multiplayer-only feature
 		#if test2 ==false:
 			#test2 =true
@@ -1253,6 +1393,7 @@ func _on_timer_timeout():
 				pretimer =false
 			timer +=1
 		$Timer/TimerViz.text = str(timer)
+		$Timer.wait_time = 1
 		$Timer.start()
 		if prescore !=0:
 			score = prescore
@@ -1279,7 +1420,7 @@ func _on_timer_timeout():
 		@warning_ignore("narrowing_conversion")
 		if prescore !=0:
 			score = prescore
-		score += int(((1.0/lives)/rng_wait)*500 + 10) # Lower remaining lives -> greater bonus
+		score += int(((1.0/lives)/rng_wait)*(500/init_turn) + 10) # Lower remaining lives -> greater bonus
 		score_mod_boost()
 		prescore = score
 		score_mod_nerf()
@@ -1488,6 +1629,12 @@ func hide_after_anim(anim_name):
 		$Transition.hide()
 		$Animation.play("Countdown")
 		$Countdown.start()
+	elif anim_name == "PauseOut": # So that the game does not immediately resume when exiting the pause menu
+		pause =false
+		$Rng1.start(rng_wait1_paused)
+		if rng2_started ==true:
+			$Rng2.start(rng_wait2_paused)
+		$Timer.start(timer_paused)
 	
 	elif anim_name == "RESET":
 		settings_loaded =false
@@ -1631,3 +1778,23 @@ func _on_exit_button_up():
 			$Statistics/Sure.text = "D'accord. À plus tard !"
 		$Fade.show()
 		$Animation.play("Exit")
+
+
+func _on_resume_mouse_entered():
+	$Pause/bg/Resume/expl.show()
+	$Pause/bg/Forfeit/expl.hide()
+func _on_resume_mouse_exited():
+	$Pause/bg/Resume/expl.hide()
+	$Pause/bg/Forfeit/expl.hide()
+
+func _on_forfeit_mouse_entered():
+	$Pause/bg/Forfeit/expl.show()
+	$Pause/bg/Resume/expl.hide()
+func _on_forfeit_mouse_exited():
+	$Pause/bg/Forfeit/expl.hide()
+	$Pause/bg/Resume/expl.hide()
+
+
+# Paus menu buttons
+func _on_resume_button_up():
+	Pause_Resume()

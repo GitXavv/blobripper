@@ -1,0 +1,141 @@
+[gd_scene load_steps=4 format=3 uid="uid://caspixro6ro15"]
+
+[ext_resource type="FontFile" uid="uid://ca0io57pxr6v3" path="res://fonts/FingerPaint-Regular.ttf" id="1_mmybc"]
+[ext_resource type="FontFile" uid="uid://nrdaaf5jw0up" path="res://fonts/MadimiOne-Regular.ttf" id="2_8fxpk"]
+[ext_resource type="FontFile" uid="uid://dkfn0w3gwssod" path="res://fonts/ARLRDBD.TTF" id="3_stxln"]
+
+[node name="Pause" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="bg" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1081.0
+color = Color(0, 0, 0, 0.396078)
+metadata/_edit_lock_ = true
+
+[node name="Resume" type="Button" parent="bg"]
+layout_mode = 0
+offset_left = 312.0
+offset_top = 384.0
+offset_right = 824.0
+offset_bottom = 512.0
+theme_override_fonts/font = ExtResource("2_8fxpk")
+theme_override_font_sizes/font_size = 60
+text = "RESUME"
+
+[node name="expl" type="Label" parent="bg/Resume"]
+visible = false
+layout_mode = 0
+offset_left = 528.0
+offset_top = 8.0
+offset_right = 1528.0
+offset_bottom = 128.0
+theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
+theme_override_fonts/font = ExtResource("3_stxln")
+theme_override_font_sizes/font_size = 47
+text = "Continue where you paused. Get on your marks well before clicking this button!"
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Forfeit" type="Button" parent="bg"]
+layout_mode = 0
+offset_left = 312.0
+offset_top = 576.0
+offset_right = 832.0
+offset_bottom = 704.0
+theme_override_fonts/font = ExtResource("2_8fxpk")
+theme_override_font_sizes/font_size = 60
+text = "FORFEIT"
+
+[node name="expl" type="Label" parent="bg/Forfeit"]
+visible = false
+layout_mode = 0
+offset_left = 528.0
+offset_top = 8.0
+offset_right = 1528.0
+offset_bottom = 128.0
+theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
+theme_override_fonts/font = ExtResource("3_stxln")
+theme_override_font_sizes/font_size = 47
+text = "Give up this game. You can decide to give it another try or leave the game afterwards."
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="GameMode" type="Label" parent="bg"]
+layout_mode = 0
+offset_left = 328.0
+offset_top = 64.0
+offset_right = 1328.0
+offset_bottom = 128.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("3_stxln")
+theme_override_font_sizes/font_size = 47
+text = "- Time mode"
+justification_flags = 162
+
+[node name="Freq" type="Label" parent="bg"]
+layout_mode = 0
+offset_left = 328.0
+offset_top = 128.0
+offset_right = 1328.0
+offset_bottom = 192.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("3_stxln")
+theme_override_font_sizes/font_size = 47
+text = "- Frequency: frequency"
+justification_flags = 162
+
+[node name="InARow" type="Label" parent="bg"]
+layout_mode = 0
+offset_left = 328.0
+offset_top = 192.0
+offset_right = 1328.0
+offset_bottom = 256.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("3_stxln")
+theme_override_font_sizes/font_size = 47
+text = "- xth game in a row"
+justification_flags = 162
+
+[node name="Compare_HS" type="Label" parent="bg"]
+layout_mode = 0
+offset_left = 328.0
+offset_top = 904.0
+offset_right = 1784.0
+offset_bottom = 1056.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("3_stxln")
+theme_override_font_sizes/font_size = 47
+text = "Comparison current score - high score"
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="PauseLayoutBlue" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 248.0
+offset_bottom = 1081.0
+color = Color(0.00392157, 0.172549, 0.498039, 0.701961)
+
+[node name="PAUSE" type="Label" parent="PauseLayoutBlue"]
+editor_description = "Timer visualizer."
+layout_mode = 0
+offset_left = 72.0
+offset_right = 181.0
+offset_bottom = 1079.0
+theme_override_colors/font_color = Color(0.803922, 0.890196, 0.976471, 1)
+theme_override_fonts/font = ExtResource("1_mmybc")
+theme_override_font_sizes/font_size = 140
+text = "P
+A
+U
+S
+E"
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
