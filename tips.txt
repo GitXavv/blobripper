@@ -1,0 +1,53 @@
+Astuces
+Tips
+
+These re just the tips that are going to be added somewhere in the game, grouped in a single .txt file
+
+
+Ce jeu marche tout aussi bien avec une manette. Tu peux ainsi te servir soit du stick analogique gauche, soit des touches directionnelles pour te déplacer. Cependant, l'interface utilisateur ne peut pas être contrôlée avec.
+This game works fine with a controller as well. That way, you can use either the left analog stick or the D-Pad to move around. However the controller cannot interact with the user interface.
+
+La façon dont tu ajustes les options de partie du mode solo influence plus ou moins la façon dont ton score évolue en jeu. Trouve la meilleure combinaison pour obtenir le plus gros score.
+The way you adjust the settings for the solo has a more or less noticeable impact on the way your score increases. Find the best game settings to get the biggest score.
+
+
+Les modifiers, abrégés mods, sont des options spéciales qui modifient plus ou moins le comportement du jeu soit en pimentant tes parties, soit en les rendant plus simples. Et biensûr, ces mods ont aussi une influence sur votre score.
+Modifiers, also known as mods, are special options that changes the behaviour of the game, either by spicing it up or by making it simpler for you. And of course those mods have an influence on your score.
+
+Essaie d'adapter le mieux possible le rythme de tes déplacements à celui des amorçages/explosions. Si tu te déplaces trop vite par rapport à ce dernier, tu seras puni et freiné pendant quelques instants, ce qui augmente tes risques de te faire exploser. Il existe cependant un mod pour éviter cette punition.
+Try to adapt the rhythm of your moves with the one of the primings/explosions. If you move around too fast regarding the latter, you will be punished and halted for some time, which puts you at more risks to be exploded.
+
+Ton score augmente à chacun de tes mouvements donc essaie d'en faire le plus possible (tout en restant efficace biensûr).
+Your score increases at each one of your moves so try to perform the most moves possible (with efficiency of course).
+
+Si tu perds une vie, tu perds aussi du score en guise de punition (sauf dans le mode survie). Alors fais vraiment attention !
+If you lose a life, you lose some score as well. So you have to be very careful! This does not apply to the survival mode though.
+
+Moins il te reste de vie, plus ton score bonus est grand à chaque fin de tour. Souviens-toi toujours de ça !
+The lesser you have lives left, the greater is your bonus score at the completion of each turn. Think about it!
+
+Il est impossible de se déplacer en diagonale. Tu dois être rapide et précis avec ton ou tes doigts pour aller où tu veux sans te faire avoir.
+You cannot move diagonally. You have to be fast and precise in order to go where you want without getting hit.
+
+Tu effectues ce qui s'appelle une esquive parfaite lorsque tu quittes une case piégé exactement au moment où elle explose. Ça demande énormément de précision et tu es magnifiquement récompensé quand tu réussis.
+
+Ne te réjouis pas trop vite quand tu bats ton meilleur score. N'oublie pas que tu perds du score en perdant une vie.
+Don't be in too much joy when you beat your high score. Remeber that you lose score at each life lost.
+
+Le rythme d'explosion que tu définis en mode survie augmente progressivement au cours de la partie. Ça marche ainsi pour ajouter un peu de difficulté en pleine partie mais aussi et surtout pour éviter de jouer une partie infinie au cas où tu maitrises le rythme que tu as défini.
+The explosion rhythm you set in survival mode slowly increases during the game more and more. It is so as to add some more difficulty to the game but also to avoid an infinite game in case you master the base rhythm you set yourself.
+
+Le mod "Dernière chance" du mode survie te donne droit à 2 vies au lieu d'une seule comme d'habitude. Ça peut être intéressant si tu veux tenir en compte le temps plus que le score mais la contrepartie est que en perdant une vie, tu perds énormement de score aussi. Même en perdant ta dernière vie, ton score diminue. Il est donc très rare, voire impossible de faire un score intéressant avec ce mod.
+The "Last chance" mod for the survival mode makes you start the game with 2 lives instead of 1 like usual. It can be interesting if you only care about the time elapsed. However that mod makes you lose a lot of score when you die, and that goes as well for your last life lost. It is very rare if not impossible to make an interesting score with that mod.
+
+Tu peux te déplacer comme tu veux au rythme que tu veux pendant le compte à rebours au début de chaque partie. Profite de cette capacité si tu préfères être placé(e) sur une certaine case avant le début des explosions mêmes.
+You can move around as much and as fast as you want during the countdown at the beginning of each game. Make an efficient use of that ability if you prefer to be on a particular tile before the beginning of the chaos.
+
+3 cases maximum peuvent être piégées à la fois. Quand ça arrive, reste toujours sur la seule case sauve pour augmenter tes chances de survie.
+3 tiles at most can be trapped at once. In that case, stay on the only safe tile to lower your risks of dying.
+
+Le succès d'une esquive parfaite joue un son joyeux qui peut malheureusement être facilement distrayant pour certains. Si c'est ton cas, tu peux désactiver ce son dans les paramètres généraux du jeu.
+Performing a successful perfect dodge play a joyful sound that can unfortunately distract some players. If it is your case, you can always disable that sound in the general game settings.
+
+Le mod Invisible transforme le jeu de réflexe en un pur jeu de hasard si tu l'associes avec le mod Étourdi Constant. Ne perd pas ton temps avec cette combinaison si tu n'aimes pas reposer tes espoirs sur de la pure chance.
+The Hidden mod turn the fast reaction game into a pur gambling game if you combine that mod with Stuck Swap. Don't waste your time with that combination if you don't like to rely on pure chance to win.

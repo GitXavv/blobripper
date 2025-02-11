@@ -1,5 +1,9 @@
 extends Node
 
+var bgs = General.bgs
+var set_bg = General.ingame_background
+var background = bgs[set_bg]
+
 const unit = 60
 
 var settings_loaded: bool = false
@@ -86,13 +90,13 @@ var rng= RandomNumberGenerator.new() #Represent each of the 4 tiles
 var rndtile: int #Represent the tile chosen by rng
 
 # The time the computer takes to perform one action
-var rng_wait = 0.4 # Will be an Auto-setting later
+var rng_wait = SoloSettings.rng_wait
 var rng_wait_backup
 
 var startup= RandomNumberGenerator.new() # Like the rng wait but for the start. Is in [0.4 ; 1]
 
 #Timer
-var init_timer: int = 30 # Auto_setting
+var init_timer= SoloSettings.init_timer # Auto_setting
 var timer: int
 #When the time is over
 var over: bool =false
@@ -132,6 +136,7 @@ var fr_die_pick= RandomNumberGenerator.new()
 
 # The scoring system
 var score: int
+var final_score_turn: int # Score obtained at the end of each turn. It is so that the score does not get too reduced (if not going back to 0) when losing at a turn other than the first. This variable is handled in on_timer_timeout()
 var timer_reducer
 var move_multiplicator
 const nbtiles_multiplicator = 4 # 4 because this game mode is a 2x2
@@ -142,9 +147,9 @@ var old_high_score: int # Loadable data
 var beaten: bool # If high_score is beaten
 
 
-var init_lives: int = 2  # Auto setting
+var init_lives = SoloSettings.init_lives  # Auto setting
 var lives: int
-var init_turn: int = 1 # Auto setting
+var init_turn = SoloSettings.init_lives # Auto setting
 var turn: int
 var trueover: bool =false # When all the lives are lost or all the turns done
 var victory: bool # If all the turns done
@@ -179,58 +184,58 @@ var up2
 var down2
 
 # Increasing frequency
-var progressive: bool = false # If true, rng_wait progressively decreases
-var progress_speed: float
+var progressive = SoloSettings.progressive # If true, rng_wait progressively decreases
+var rng_wait_reducer: float # rng_wait is progressively reduced by this value calculated in is_progressive(). It is so that the progress speed is basically the same no matter the init_timer. Don't apply in survival mode
 
 # Mods
 # (This is useless now )var mod_multiplier: float # The score multiplier resulting from mod combinations
 # The more the constants are small, the greater the better the score is buffed.
 # Hard mods
 
-var hidden: bool = false
+var hidden: bool = SoloSettings.hidden
 const hidden_mtp = 15 # "mtp" means multiplicator
 var hidden_catcher: int # if hidden true, catcher =1, if not, catcher =0. This will help for scoring buff
 
-var swap: bool = false
+var swap: bool = SoloSettings.swap
 var swap_timer: int # For the swap mod timer to switch between normal and swap
 const swap_mtp = 20 # Big scores kept being unavoidable, so the multiplications are being turned into an addition of the current score/constant
 var normal: bool # Normal controls
 var swapped: bool # Swapped controls. Don't confuse with "swap"!!!
 var swap_catcher: int # if hidden true, catcher =1, if not, catcher =0. This will help for scoring buff
 
-var stuck_swap: bool = false # If not want constant swaps
+var stuck_swap: bool = SoloSettings.stuck_swap # If not want constant swaps
 
-var all_in_one: bool = false
+var all_in_one: bool = SoloSettings.all_in_one
 var rng_multiple = []
 const aio_mtp = 35
 var aio_catcher: int
 
-var delayed: bool = false
-var latency: float = 0.2 # Do not touch this
+var delayed: bool = SoloSettings.delayed
+var latency: float = SoloSettings.latency
 
 var action_up: bool
 var action_down: bool
 var action_left: bool
 var action_right: bool
 
-const delay_mtp = 24
+var delay_mtp: float # This would usually play the role of a constant, but since the one for this mod depends on the latency variable, it becomes a variable that is calculated in global_mod_multiplier()
 var delay_catcher: int
 
 # Easy mods
-var nohalt: bool = false
+var nohalt: bool = SoloSettings.nohalt
 const nohalt_dvd = 1.55 # "dvd" means divider
 var nohalt_catcher: float
 var nohalt_canceller: int
 
-var only_one: bool = false # Can't be enabled with all_in_one on
+var only_one: bool = SoloSettings.only_one # Can't be enabled with all_in_one on
 const only_dvd = 1.04
 var only_catcher: float
 var only_canceller: int
 
-var last_chance: bool = false # For survival
+var last_chance: bool = SoloSettings.last_chance # For survival
 
 # Survival mode (SV)
-var sv_mode: bool = false
+var sv_mode: bool = SoloSettings.sv_mode
 var high_score_sv: int # = old_high_score until record broken
 var old_high_score_sv: int # Loadable data
 var beaten_sv: bool # If high_score is beaten
@@ -242,6 +247,8 @@ var dodged: bool
 var dodge_frame_counter: int # = 1
 var boosting: bool
 var preboost: int # Score preboosted before mod multiplications
+var dodge_score_booster: float # score is increased by this when perfect dodge
+var nododge_sound: bool = General.nododge_sound # If the players does not want the perfect dodge sound to play and distract them.
 
 var full_reset: bool = false # To fix animation collision while restarting a match
 var retry_shortcut: bool # Press Enter to retry a game
@@ -258,28 +265,41 @@ var pause: bool
 # These are to catch the Rng Timer objects' remaining time when pausing since there is not any way to actually pause a timer in this Godot Engine
 # 'paused' will catch the remaining time when paused.
 var rng_wait1_paused: float
-
 var rng_wait2_paused: float
+
+var halt_timer_paused: float
+
+var progr_timer_paused: float
+
+var upped_paused: float
+var downed_paused: float
+var lefted_paused: float
+var righted_paused: float
 
 var rng2_started: bool # This is to prevent Rng2 Timer object to start when resuming the game after pausing the game at the very beginning when Rng2 is not even supposed to start yet.
 
 var timer_paused: float # To pause the timer on time mode
 
+var appreciations: bool = General.appreciations # If true, compares your current score with the current high score at the bottom of the screen. Loadable option
+
 
 # Exiting the game
 var sure: bool
 var exiting: bool = false
+var forfeiting: bool = false # When at the forfeit menu screen
+var forfeited: bool = false # If game forfeited
 
 
 # ----------------------------------------------
 func is_progressive():
 	# If progressive mode on:
 	if progressive ==true:
+		$Progress.wait_time = 1
 		rng_wait = 1.5 # Initial rng_wait is stored
-		$Progress.start()
-	elif progressive ==false && sv_mode ==true: # On survival mode, to make the game less boring if you manage to control the rythm and live long enough. Things will get spicier every 5 minutes
+		rng_wait_reducer = (-0.1+rng_wait)/(init_timer-1) # This is the solution of an equation so that the rng_wait always hits 0.1 at the last second.
+	elif progressive ==false && sv_mode ==true: # On survival mode, to make the game less boring if you manage to control the rhythm and live long enough. Things will get spicier every 5 minutes
 		$Progress.wait_time = 30
-		$Progress.start()
+		rng_wait = SoloSettings.rng_wait # This is mostly for the last_chance mod so that the rng_wait goes back to the base value when you respawn
 
 func multiplicators():
 	if settings_loaded ==false:
@@ -303,6 +323,7 @@ func global_mod_multiplier():
 	else:
 		aio_catcher =0
 	
+	delay_mtp = 4.8/latency # 4.8/0.2 gives 24 for example, the default delay_mtp value
 	if delayed ==true:
 		delay_catcher =1
 	else:
@@ -335,6 +356,7 @@ func score_mod_nerf():
 		score /=only_dvd
 
 func load_settings():
+	$bg.texture = load(background)
 	var config = ConfigFile.new()
 	var file = config.load("user://settings.cfg")
 	if file == OK:
@@ -350,7 +372,7 @@ func load_settings():
 			reset_datas()
 		else:
 			high_score = high
-		var high_sv = config.get_value("settings", "high_score_sv", 7000)
+		var high_sv = config.get_value("settings", "high_score_sv", 5000)
 		if high_sv <0:
 			reset_datas()
 		else:
@@ -432,6 +454,7 @@ func Stats_init():
 		$Statistics/PfDodges.text = "Perfect Dodges:"
 		$Statistics/LostSc.text = "Lost score:"
 		$Statistics/Sessions.text = "Sessions played in a row:"
+		$Statistics/Titles.text = "Titles earned:"
 		
 		$Statistics/Register.text = "Submit your score online!"
 		$Statistics/Register/user.placeholder_text = "Enter your player name!"
@@ -450,6 +473,7 @@ func Stats_init():
 		$Statistics/PfDodges.text = "Esquives parfaites:"
 		$Statistics/LostSc.text = "Score perdu:"
 		$Statistics/Sessions.text = "Parties jouées d'affilée:"
+		$Statistics/Titles.text = "Titres obtenus:"
 		
 		$Statistics/Register.text = "Envoie ton score en ligne !"
 		$Statistics/Register/user.placeholder_text = "Entre ton nom de joueur"
@@ -468,7 +492,7 @@ func Pause_init():
 		another try or leave the game afterwards."
 		
 		if sv_mode == false:
-			$Pause/bg/GameMode.text = "- Time mode"
+			$Pause/bg/GameMode.text = "- Time mode: " + str(init_timer) + "s"
 		else:
 			$Pause/bg/GameMode.text = "- Survival mode"
 		
@@ -482,7 +506,7 @@ func Pause_init():
 				$Pause/bg/Freq.text = "- Average rhythm"
 			elif rng_wait == 0.4:
 				$Pause/bg/Freq.text = "- Fast rhythm"
-			elif rng_wait == 0.1:
+			elif rng_wait == 0.2:
 				$Pause/bg/Freq.text = "- Very fast rhythm"
 			elif rng_wait == 0.01:
 				$Pause/bg/Freq.text = "- Crazy rhythm"
@@ -501,7 +525,7 @@ func Pause_init():
 			
 		# Your current score VS Your high score
 		# List of messages said when current score < high score /2 (Was about to be /4 but I realized it would give me an unnecessary amount of work if I splitted it that much. This whole thing is already not relevant
-		var score_under4th_1= "Looks like today is not your lucky day... or was the day you got that high score an exceptional one?"
+		var score_under4th_1= "It may be hard to get that high score back but it is too early to give up now."
 		var score_under4th_2= "What if you tried beating that high score?"
 		var score_under4th_3= "People want to see that high score beaten! Come on!"
 		var score_under4th_4= "You don't grind score today?"
@@ -560,6 +584,129 @@ func Pause_init():
 			$Pause/bg/Compare_HS.text = "YOU GOT THAT HIGH SCORE! Now try to beat this! Should be easy."
 		else:
 			$Pause/bg/Compare_HS.text = score_beat[sc_beat_pick]
+		
+		# Forfeit menu screen
+		if score > old_high_score || (score > old_high_score_sv && sv_mode ==true):
+			$Pause/sure/sureMsg.text = "Are you sure you want to forfeit ? Fair warning that your current high score will not be saved if you give up. Last chance to make the right decision."
+		else:
+			$Pause/sure/sureMsg.text = "Are you sure you want to forfeit ? Last chance to make the right decision."
+		$Pause/sure/Yes.text = "YES"
+		$Pause/sure/No.text = "NO"
+	
+	elif General.autolang == "fr":
+		$Pause/bg/Resume.text = "REPRENDRE"
+		$Pause/bg/Resume/expl.text = "Continue où tu t'es arrêté. Prépare-toi bien avant d'appuyer sur ce bouton."
+		
+		$Pause/bg/Forfeit.text = "ABANDONNER"
+		$Pause/bg/Forfeit/expl.text = "Met un terme à cette partie ci. Tu peux décider d'en jouer une nouvelle ou de quitter."
+		
+		if sv_mode == false:
+			$Pause/bg/GameMode.text = "- Mode temps: " + str(init_timer) + "s"
+		else:
+			$Pause/bg/GameMode.text = "- Mode survie"
+		
+		# Frequency
+		if progressive == true:
+			$Pause/bg/Freq.text = "- Rythme progressif"
+		else:
+			if rng_wait == 1.5:
+				$Pause/bg/Freq.text = "- Rythme lent"
+			elif rng_wait == 0.9:
+				$Pause/bg/Freq.text = "- Rythme moyen"
+			elif rng_wait == 0.4:
+				$Pause/bg/Freq.text = "- Rythme rapide"
+			elif rng_wait == 0.2:
+				$Pause/bg/Freq.text = "- Rythme très rapide"
+			elif rng_wait == 0.01:
+				$Pause/bg/Freq.text = "- Rythme fou"
+			else:
+				$Pause/bg/Freq.text = "- Rythme inhabituel"
+		
+		# Game in a row
+		if consecutives ==1:
+			$Pause/bg/InARow.text = "- 1ère partie d'affilée"
+		elif consecutives ==2:
+			$Pause/bg/InARow.text = "- 2ème partie d'affilée"
+		elif consecutives ==3:
+			$Pause/bg/InARow.text = "- 3ème partie d'affilée"
+		else:
+			$Pause/bg/InARow.text = "- " + str(consecutives) + "ème partie d'affilée"
+			
+		# Your current score VS Your high score
+		# List of messages said when current score < high score /2 (Was about to be /4 but I realized it would give me an unnecessary amount of work if I splitted it that much. This whole thing is already not relevant
+		var score_under4th_1= "Ça doit sûrement être dur de remonter à ce meilleur score mais ce n'est pas impossible."
+		var score_under4th_2= "Et si tu essayais de battre ton meilleur score ?"
+		var score_under4th_3= "Les gens veulent voir ce meilleur score changer. Vas-y !"
+		var score_under4th_4= "Tu te fiches du score aujourd'hui ?"
+		var score_under4th = [score_under4th_1, score_under4th_2, score_under4th_3, score_under4th_4]
+		var sc_un4th_pick
+		
+		# List of messages said when current score < high score /1.25
+		var score_middle_1= "Belle progression ! Tu y arrives !"
+		var score_middle_2= "Oui ! Rattrape ce meilleur score !"
+		var score_middle_3= "Tu as de bons réflexes et bientôt ton dur travail va payer."
+		var score_middle_4= "Est-ce qu'on va voir un nouveau meilleur score ? La réponse dans quelques minutes."
+		var score_middle = [score_middle_1, score_middle_2, score_middle_3, score_middle_4]
+		var sc_mid_pick
+		
+		# List of messages said when current score < high score while being almost = high_score
+		var score_almost_1= "Encore un tout petit peu d'effort à faire et de risque à prendre et ce meilleur score sera de toi !"
+		var score_almost_2= "Tu es si près du but, si près du meilleur score !"
+		var score_almost_3= "Là c'est le pire moment pour abandonner. Tu y est vraiment presque !"
+		var score_almost_4= "Félicitations en avance pour ton nouveau meilleur score !"
+		var score_almost = [score_almost_1, score_almost_2, score_almost_3, score_almost_4]
+		var sc_alm_pick
+		
+		# List of messages said when current score < high score while being almost = high_score
+		var score_beat_1= "Oui, tu l'as fait ! Maintenant tu n'as pas le droit de tout gâcher."
+		var score_beat_2= "Nouveau meilleur score ! Mais ne jubile pas trop pour le moment. Les choses peuvent viter changer si tu es maladroit."
+		var score_beat_3= "Battre ce meilleur score n'était sûrement pas facile. Le conserver jusqu'à la fin le sera sûrement encore moins."
+		var score_beat_4= "Tu as ta récompense. Maintenant tu dois la sécuriser."
+		var score_beat = [score_beat_1, score_beat_2, score_beat_3, score_beat_4]
+		var sc_beat_pick
+		
+		
+		sc_un4th_pick = RandomNumberGenerator.new()
+		sc_un4th_pick.randomize()
+		sc_un4th_pick = sc_un4th_pick.randi_range(0,3)
+		
+		sc_mid_pick = RandomNumberGenerator.new()
+		sc_mid_pick.randomize()
+		sc_mid_pick = sc_mid_pick.randi_range(0,3)
+		
+		sc_alm_pick = RandomNumberGenerator.new()
+		sc_alm_pick.randomize()
+		sc_alm_pick = sc_alm_pick.randi_range(0,3)
+		
+		sc_beat_pick = RandomNumberGenerator.new()
+		sc_beat_pick.randomize()
+		sc_beat_pick = sc_beat_pick.randi_range(0,3)
+		
+		
+		if score < old_high_score/2 || (score < old_high_score_sv/2 && sv_mode ==true):
+			$Pause/bg/Compare_HS.text = score_under4th[sc_un4th_pick]
+		elif (score >= old_high_score/2 && score < old_high_score/1.25) || (score >= old_high_score_sv/2 && score < old_high_score_sv/1.25 && sv_mode ==true):
+			$Pause/bg/Compare_HS.text = score_middle[sc_mid_pick]
+		elif (score >= old_high_score/1.25 && score < old_high_score) || (score >= old_high_score_sv/1.25 && score < old_high_score_sv && sv_mode ==true):
+			$Pause/bg/Compare_HS.text = score_almost[sc_alm_pick]
+		elif (score == old_high_score) || (score == old_high_score_sv && sv_mode ==true):
+			$Pause/bg/Compare_HS.text = "Tu as atteint le meilleur score ! Maintenant fais mieux que ça."
+		else:
+			$Pause/bg/Compare_HS.text = score_beat[sc_beat_pick]
+			
+		# Forfeit menu screen
+		if score > old_high_score || (score > old_high_score_sv && sv_mode ==true):
+			$Pause/sure/sureMsg.text = "Tu es sûr(e) de vouloir abandonner ? Ton meilleur score actuel ne sera pas sauvegardé si tu abandonnes comme ça. Dernière chance de faire le bon choix."
+		else:
+			$Pause/sure/sureMsg.text = "Tu es sûr(e) de vouloir abandonner ? Dernière chance de faire le bon choix."
+		$Pause/sure/Yes.text = "OUI"
+		$Pause/sure/No.text = "NON"
+	
+	# Check if appreciations are disabled (false) or not (true)
+	if appreciations ==false:
+		$Pause/bg/Compare_HS.hide()
+	else:
+		$Pause/bg/Compare_HS.show()
 
 # Swap mod (Not Stuck Swap. Swap!!!)
 func normal_mode():
@@ -584,6 +731,7 @@ func initialization():
 		pause = false
 		rng2_started =false
 		interblob = blob_normal # For the swap mod
+		halt_timer = false
 		load_settings()
 		Halter_wait_time()
 		multiplicators()
@@ -612,18 +760,28 @@ func initialization():
 		Stats_init()
 		# Mods
 		if stuck_swap ==false:
-			normal_mode() # The use of these functions in this case
+			normal_mode()
 		elif stuck_swap ==true:
-			swapped_mode() # Has nothing to do with the Stuck Swap mod.
+			swapped_mode()
 		
 		if swap ==true:
 			swap_timer_init()
 			if hidden ==false:
 				$Status_normal.show()
 		
+		# Score booster by perfect dodge
+		if (all_in_one ==true || only_one ==true) && progressive ==false:
+			dodge_score_booster = (1/rng_wait)*1000
+		elif progressive ==true:
+			dodge_score_booster = (1/rng_wait)*2500
+		else:
+			dodge_score_booster = (1/rng_wait)*4000
+		
 		pretimer =true # Survival mode
 		
 		preboost = 0
+		
+		final_score_turn = 0
 		
 		countdown =3
 		$Countdown/Ctd_viz.text = str(countdown)
@@ -686,6 +844,8 @@ func _ready():
 	if countdown ==0:
 		$Rng1.start() # Game starts
 		$Timer.start()
+		if progressive ==true || sv_mode ==true:
+			$Progress.start()
 	$Timer/TimerViz.text = str(timer)
 	
 	#The game starts with the blob at top left
@@ -788,7 +948,10 @@ func _process(delta):
 					_on_retry_button_up()
 	
 	if Input.is_action_just_pressed("Esc"):
-		Pause_Resume()
+		if forfeiting ==false:
+			Pause_Resume()
+		else:
+			_on_nosure_button_up()
 
 
 func Pause_Resume():
@@ -804,13 +967,36 @@ func Pause_Resume():
 		
 		timer_paused = $Timer.time_left
 		$Timer.stop()
+		
+		if halt_timer ==true:
+			halt_timer_paused = $Halter.time_left
+			$Halter.stop()
+		
+		if progressive ==true || sv_mode ==true:
+			progr_timer_paused = $Progress.time_left
+			print("progr pauesd")
+			$Progress.stop()
+		
+		if delayed ==true:
+			if action_up ==true:
+				upped_paused = $Upped.time_left
+				$Upped.stop()
+			if action_down ==true:
+				downed_paused = $Downed.time_left
+				$Downed.stop()
+			if action_left ==true:
+				lefted_paused = $Lefted.time_left
+				$Lefted.stop()
+			if action_right ==true:
+				righted_paused = $Righted.time_left
+				$Righted.stop()
 	
 	elif pause ==true:
 		$Animation.play("PauseOut")
 
 
 func goto_right():
-	if (topl ==true || botl ==true) && moving ==false && dead ==false && over ==false && halt ==false && pause ==false:
+	if (topl ==true || botl ==true) && moving ==false && dead ==false && over ==false && halt ==false && pause ==false && forfeited ==false:
 		$Blob1.position += Vector2(unit,0)
 		trajectory +=60
 		$delay.start()
@@ -858,7 +1044,7 @@ func goto_right():
 				stop_moving()
 
 func goto_left():
-	if (topr ==true || botr ==true) && moving ==false && dead ==false && over ==false && halt ==false && pause ==false:
+	if (topr ==true || botr ==true) && moving ==false && dead ==false && over ==false && halt ==false && pause ==false && forfeited ==false:
 		$Blob1.position -= Vector2(unit,0)
 		trajectory +=60
 		$delay.start()
@@ -906,7 +1092,7 @@ func goto_left():
 				stop_moving()
 
 func goto_down():
-	if (topl ==true || topr ==true) && moving ==false && dead ==false && over ==false && halt ==false && pause ==false:
+	if (topl ==true || topr ==true) && moving ==false && dead ==false && over ==false && halt ==false && pause ==false && forfeited ==false:
 		$Blob1.position += Vector2(0,unit)
 		trajectory +=60
 		$delay.start()
@@ -954,7 +1140,7 @@ func goto_down():
 				stop_moving()
 
 func goto_up():
-	if (botl ==true || botr ==true) && moving ==false && dead ==false && over ==false && halt ==false && pause ==false:
+	if (botl ==true || botr ==true) && moving ==false && dead ==false && over ==false && halt ==false && pause ==false && forfeited ==false:
 		$Blob1.position -= Vector2(0,unit)
 		trajectory +=60
 		$delay.start()
@@ -1032,21 +1218,22 @@ func target(tile, mark: bool, hit: bool, loc_blob, blobposition: bool): #(tile1,
 					$Progress.stop()
 				if last_chance ==false:
 					@warning_ignore("integer_division")
-					score -= (score/10)*(init_timer/5) # Score diminishes
-					@warning_ignore("integer_division")
 					lost_score += (score/10)*(init_timer/5)
+					@warning_ignore("integer_division")
+					score -= (score/10)*(init_timer/5) # Score diminishes
 				else:
 					if lives ==1 && timer !=0:
 						lost_score += score-(score/(timer*10))
 						score /= timer*10 # Score diminishes
 					elif lives ==0:
-						score -= timer*2
 						lost_score += timer*2
+						score -= timer*2
 				lost_score_ct = lost_score-100
 				if lost_score_ct <0:
 					lost_score_ct =0
-				if score <0:
-					score =0
+				if score < final_score_turn:
+					final_score_turn -= final_score_turn*0.05
+					score = final_score_turn
 				prescore = score
 				if sv_mode ==false:
 					if score > old_high_score:
@@ -1341,15 +1528,12 @@ func _on_delay_timeout():
 func dodge_success():
 	if boosting ==false:
 		dodge_count +=1 # Stats
-		$Dodge.play()
+		if nododge_sound ==false:
+			$Dodge.play()
 		preboost = score
 		if prescore !=0:
 			score = prescore
-		@warning_ignore("narrowing_conversion")
-		if all_in_one ==true || only_one ==true:
-			score += (1/rng_wait)*1000
-		else:
-			score += (1/rng_wait)*4000
+		score += dodge_score_booster
 		score_mod_boost()
 		prescore = score
 		score_mod_nerf()
@@ -1420,7 +1604,8 @@ func _on_timer_timeout():
 		@warning_ignore("narrowing_conversion")
 		if prescore !=0:
 			score = prescore
-		score += int(((1.0/lives)/rng_wait)*(500/init_turn) + 10) # Lower remaining lives -> greater bonus
+		score += int(((1.0/lives)/rng_wait)*(500/init_turn) + (7200/init_timer)) # Lower remaining lives -> greater bonus, Higher initial timer -> greater bonus
+		final_score_turn = score
 		score_mod_boost()
 		prescore = score
 		score_mod_nerf()
@@ -1445,26 +1630,28 @@ func _on_timer_timeout():
 	tot_time +=1
 
 func save_high(hi: int):
-	var config = ConfigFile.new()
-	# Charger les paramètres existants dans le fichier
-	var file = config.load("user://settings.cfg")
-	
-	if file != OK:
-		config = ConfigFile.new()  # Create new save file if corrupted
-	# Saving the new high score
-	config.set_value("settings", "high_score", hi)
-	config.save("user://settings.cfg")
+	if forfeited ==false:
+		var config = ConfigFile.new()
+		# Charger les paramètres existants dans le fichier
+		var file = config.load("user://settings.cfg")
+		
+		if file != OK:
+			config = ConfigFile.new()  # Create new save file if corrupted
+		# Saving the new high score
+		config.set_value("settings", "high_score", hi)
+		config.save("user://settings.cfg")
 
 func save_high_sv(hi: int): # Survival mode
-	var config = ConfigFile.new()
-	# Charger les paramètres existants dans le fichier
-	var file = config.load("user://settings.cfg")
-	
-	if file != OK:
-		config = ConfigFile.new()  # Create new save file if corrupted
-	# Saving the new high score
-	config.set_value("settings", "high_score_sv", hi)
-	config.save("user://settings.cfg")
+	if forfeited ==false:
+		var config = ConfigFile.new()
+		# Charger les paramètres existants dans le fichier
+		var file = config.load("user://settings.cfg")
+		
+		if file != OK:
+			config = ConfigFile.new()  # Create new save file if corrupted
+		# Saving the new high score
+		config.set_value("settings", "high_score_sv", hi)
+		config.save("user://settings.cfg")
 
 
 func _on_halter_timeout():
@@ -1512,7 +1699,7 @@ func stop_moving():
 
 func _on_over_timeout():
 	if trueover ==true || lives ==0:
-		if beaten ==true:
+		if beaten ==true && forfeited ==false:
 			$Animation.play("HighScoreBeaten")
 			if sv_mode ==false:
 				save_high(high_score)
@@ -1520,8 +1707,19 @@ func _on_over_timeout():
 				save_high_sv(high_score_sv)
 		else:
 			$Animation.play("FinalScore")
+			if forfeited ==true:
+				if General.autolang == "en":
+					if sv_mode ==false:
+						$High.text = "High Score: " + str(old_high_score)
+					else:
+						$High.text = "High Score: " + str(old_high_score_sv)
+				elif General.autolang == "fr":
+					if sv_mode ==false:
+						$High.text = "Meilleur Score: " + str(old_high_score)
+					else:
+						$High.text = "Meilleur Score: " + str(old_high_score_sv)
 		$Lives.text = "0" + str(lives)
-		if lives ==0:
+		if lives ==0 && forfeited ==false:
 			defeated =true
 		else:
 			victory =true
@@ -1541,6 +1739,7 @@ func Reset():
 	_on_cooldown_4_timeout()
 	$Rng1.stop()
 	$Rng2.stop()
+	$Progress.stop()
 	dead = false
 	over = false
 	trap_botl =false
@@ -1550,6 +1749,8 @@ func Reset():
 	topr =false
 	botl =false
 	botr =false
+	forfeited = false
+	halt = false
 	if sv_mode ==true && last_chance ==true:
 		init_timer = timer
 	is_progressive()
@@ -1581,9 +1782,9 @@ func _on_swap_timeout():
 
 func _on_progress_timeout():
 	if rng_wait >=0.1:
-		if progressive ==true:
+		if progressive ==true && sv_mode ==false:
 			if rng_wait >0.1:
-				rng_wait -= 0.02
+				rng_wait -= rng_wait_reducer
 		else:
 			if rng_wait >0.1:
 				rng_wait -= 0.1
@@ -1591,6 +1792,8 @@ func _on_progress_timeout():
 				rng_wait = 0.01
 		$Rng1.wait_time = rng_wait
 		$Rng2.wait_time = rng_wait
+		# Score booster by perfect dodge
+		dodge_score_booster = (1/rng_wait)*2500
 		$Progress.start()
 		multiplicators()
 		Halter_wait_time()
@@ -1631,10 +1834,31 @@ func hide_after_anim(anim_name):
 		$Countdown.start()
 	elif anim_name == "PauseOut": # So that the game does not immediately resume when exiting the pause menu
 		pause =false
-		$Rng1.start(rng_wait1_paused)
-		if rng2_started ==true:
-			$Rng2.start(rng_wait2_paused)
-		$Timer.start(timer_paused)
+		if forfeited ==false:
+			$Rng1.start(rng_wait1_paused)
+			
+			if rng2_started ==true:
+				$Rng2.start(rng_wait2_paused)
+			
+			$Timer.start(timer_paused)
+			
+			if halt_timer ==true:
+				$Halter.start(halt_timer_paused)
+			
+			if progressive ==true || sv_mode ==true:
+				$Progress.start(progr_timer_paused)
+			
+			if delayed ==true:
+				if action_up ==true:
+					$Upped.start(upped_paused)
+				if action_down ==true:
+					$Downed.start(downed_paused)
+				if action_left ==true:
+					$Lefted.start(lefted_paused)
+				if action_right ==true:
+					$Righted.start(righted_paused)
+		else:
+			_on_over_timeout()
 	
 	elif anim_name == "RESET":
 		settings_loaded =false
@@ -1665,6 +1889,8 @@ func _on_countdown_timeout():
 		$Timer.start()
 		$Countdown/Ctd_viz.hide()
 		$Rng1.start()
+		if progressive ==true || sv_mode ==true:
+			$Progress.start()
 
 
 func _on_incrementing_timeout():
@@ -1676,11 +1902,11 @@ func result_screen():
 
 func stats_calculation():
 	calculating =false
-	if victory ==true:
+	if victory ==true && forfeited ==false:
 		$Statistics/Victory.show()
 	elif defeated ==true && sv_mode ==false:
 		$Statistics/Defeat.show()
-	elif sv_mode ==true:
+	elif sv_mode ==true || forfeited ==true:
 		$Statistics/GameOver.show()
 	
 	if tot_moves_ct < tot_moves:
@@ -1711,7 +1937,10 @@ func stats_calculation():
 	if dodge_count_ct < dodge_count:
 		dodge_count_ct +=1
 		calculating =true
-	$Statistics/PfDodges/Value.text = str(dodge_count_ct)
+	if progressive ==false:
+		$Statistics/PfDodges/Value.text = str(dodge_count_ct) + " (x" + str(int(dodge_score_booster)) + ")"
+	elif progressive == true || sv_mode ==true:
+		$Statistics/PfDodges/Value.text = str(dodge_count_ct) # In progressive mode, there is not a fixed score boost since the rng_wait constantly changes
 	if lost_score_ct < lost_score:
 		lost_score_ct +=1
 		calculating =true
@@ -1797,4 +2026,19 @@ func _on_forfeit_mouse_exited():
 
 # Paus menu buttons
 func _on_resume_button_up():
+	Pause_Resume()
+func _on_forfeit_button_up():
+	forfeiting = true
+	$Pause/sure.show()
+
+func _on_nosure_button_up():
+	$Pause/sure.hide()
+	forfeiting =false
+func _on_yessure_button_up():
+	forfeited =true
+	_on_nosure_button_up()
+	_on_resume_button_up()
+	lives =0
+
+func _on_pause_button():
 	Pause_Resume()

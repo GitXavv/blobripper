@@ -1,12 +1,14 @@
-[gd_scene load_steps=34 format=3 uid="uid://ta027up6hjgn"]
+[gd_scene load_steps=36 format=3 uid="uid://ta027up6hjgn"]
 
 [ext_resource type="Texture2D" uid="uid://bb8pidjncjamm" path="res://assets/tile.png" id="1_nlygq"]
 [ext_resource type="Script" path="res://script/solo.gd" id="1_wt4wd"]
 [ext_resource type="Texture2D" uid="uid://cxhwg4agx6ugx" path="res://backgrounds/0.png" id="2_ecicl"]
 [ext_resource type="Texture2D" uid="uid://d3gjq4kdkro5j" path="res://assets/blob1.png" id="2_wlfnv"]
 [ext_resource type="FontFile" uid="uid://nrdaaf5jw0up" path="res://fonts/MadimiOne-Regular.ttf" id="4_miqwu"]
+[ext_resource type="Texture2D" uid="uid://m6c6i6es8k35" path="res://assets/pause.png" id="5_2aws4"]
 [ext_resource type="FontFile" uid="uid://dkfn0w3gwssod" path="res://fonts/ARLRDBD.TTF" id="5_grqpo"]
 [ext_resource type="FontFile" uid="uid://b4qs8py41ksss" path="res://fonts/RubikBrokenFax-Regular.ttf" id="6_cknej"]
+[ext_resource type="Texture2D" uid="uid://ckx61mrvm4bfl" path="res://assets/pause_hover.png" id="6_te1as"]
 [ext_resource type="Texture2D" uid="uid://bdih0obxmi4sd" path="res://assets/timer.png" id="7_x1s14"]
 [ext_resource type="FontFile" uid="uid://qbp0148n0046" path="res://fonts/AtomicAge-Regular.ttf" id="8_xlhqf"]
 [ext_resource type="FontFile" uid="uid://ca0io57pxr6v3" path="res://fonts/FingerPaint-Regular.ttf" id="10_8tc02"]
@@ -247,7 +249,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0, 1080), Vector2(0, 0)]
+"values": [Vector2(-1920, 1080), Vector2(-1920, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -259,7 +261,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0, -1080), Vector2(0, 0)]
+"values": [Vector2(-1920, -1080), Vector2(-1920, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_p04ar"]
@@ -274,7 +276,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(0, 1080)]
+"values": [Vector2(-1920, 0), Vector2(-1920, 1080)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -286,7 +288,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(0, -1080)]
+"values": [Vector2(-1920, 0), Vector2(-1920, -1080)]
 }
 
 [sub_resource type="Animation" id="Animation_cunku"]
@@ -541,9 +543,10 @@ _data = {
 [node name="Solo" type="Node"]
 script = ExtResource("1_wt4wd")
 
-[node name="0" type="Sprite2D" parent="."]
+[node name="bg" type="Sprite2D" parent="."]
 position = Vector2(960, 536)
 texture = ExtResource("2_ecicl")
+metadata/_edit_lock_ = true
 
 [node name="Tile1" type="Sprite2D" parent="."]
 position = Vector2(843, 396)
@@ -625,7 +628,7 @@ offset_left = 96.0
 offset_top = 184.0
 offset_right = 1824.0
 offset_bottom = 287.0
-theme_override_colors/font_color = Color(0.82881, 2.71939e-06, 5.77569e-07, 1)
+theme_override_colors/font_color = Color(0.376471, 0, 0, 1)
 theme_override_fonts/font = ExtResource("5_grqpo")
 theme_override_font_sizes/font_size = 80
 text = "Hey! Slow down!"
@@ -699,6 +702,7 @@ justification_flags = 162
 [node name="Timer2" type="Sprite2D" parent="Lives"]
 position = Vector2(-75, 87)
 texture = ExtResource("2_wlfnv")
+metadata/_edit_lock_ = true
 
 [node name="Swap" type="Timer" parent="."]
 one_shot = true
@@ -807,17 +811,25 @@ one_shot = true
 wait_time = 0.02
 one_shot = true
 
+[node name="TextureButton" type="TextureButton" parent="."]
+visible = false
+offset_left = 96.0
+offset_top = 40.0
+offset_right = 608.0
+offset_bottom = 552.0
+scale = Vector2(0.3, 0.3)
+texture_normal = ExtResource("5_2aws4")
+texture_hover = ExtResource("6_te1as")
+
 [node name="Statistics" parent="." instance=ExtResource("11_untfs")]
 offset_top = -1080.0
-offset_right = 3840.0
-offset_bottom = 830.0
+offset_right = 9600.0
+offset_bottom = 4070.0
 metadata/_edit_lock_ = true
 
 [node name="Victory" parent="Statistics" index="1"]
 offset_left = 78.4714
-offset_top = 0.0
 offset_right = 1806.47
-offset_bottom = 207.0
 
 [node name="Defeat" parent="Statistics" index="2"]
 offset_left = 78.4714
@@ -832,40 +844,48 @@ offset_right = 1806.47
 offset_bottom = 207.0
 
 [node name="Moves" parent="Statistics" index="4"]
+offset_top = 184.0
+offset_bottom = 243.0
+
+[node name="Time" parent="Statistics" index="5"]
 offset_top = 248.0
 offset_bottom = 307.0
 
-[node name="Time" parent="Statistics" index="5"]
+[node name="DeathHalt" parent="Statistics" index="6"]
 offset_top = 312.0
 offset_bottom = 371.0
 
-[node name="DeathHalt" parent="Statistics" index="6"]
+[node name="Rescapee" parent="Statistics" index="7"]
 offset_top = 376.0
 offset_bottom = 435.0
 
-[node name="Rescapee" parent="Statistics" index="7"]
+[node name="PfDodges" parent="Statistics" index="8"]
 offset_top = 440.0
 offset_bottom = 499.0
 
-[node name="PfDodges" parent="Statistics" index="8"]
+[node name="LostSc" parent="Statistics" index="9"]
 offset_top = 504.0
 offset_bottom = 563.0
 
-[node name="LostSc" parent="Statistics" index="9"]
+[node name="Sessions" parent="Statistics" index="10"]
 offset_top = 568.0
 offset_bottom = 627.0
 
-[node name="Sessions" parent="Statistics" index="10"]
+[node name="Titles" parent="Statistics" index="11"]
 offset_top = 632.0
 offset_bottom = 691.0
 
-[node name="Register" parent="Statistics" index="11"]
+[node name="BtnTitle" parent="Statistics/Titles" index="1"]
+offset_left = 0.0
+offset_right = 1792.0
+
+[node name="Register" parent="Statistics" index="12"]
 offset_left = 72.0
 offset_top = 736.0
 offset_right = 1000.0
 offset_bottom = 795.0
 
-[node name="Sure" parent="Statistics" index="12"]
+[node name="Sure" parent="Statistics" index="13"]
 offset_left = 288.0
 offset_top = 888.0
 offset_right = 1440.0
@@ -876,17 +896,19 @@ text_overrun_behavior = 4
 offset_left = -288.0
 offset_right = 1632.0
 
-[node name="Retry" parent="Statistics" index="13"]
+[node name="Retry" parent="Statistics" index="14"]
 focus_mode = 0
 keep_pressed_outside = true
 
-[node name="Exit" parent="Statistics" index="14"]
+[node name="Exit" parent="Statistics" index="15"]
 offset_left = 88.0
 offset_right = 600.0
 focus_mode = 0
 keep_pressed_outside = true
 
 [node name="Pause" parent="." instance=ExtResource("11_lole5")]
+offset_left = 1920.0
+offset_right = 1920.0
 metadata/_edit_lock_ = true
 
 [node name="bg" parent="Pause" index="0"]
@@ -902,6 +924,25 @@ offset_bottom = 2161.0
 
 [node name="PAUSE" parent="Pause/PauseLayoutBlue" index="0"]
 metadata/_edit_lock_ = true
+
+[node name="sure" parent="Pause" index="2"]
+visible = false
+offset_left = -1920.0
+offset_right = 0.0
+
+[node name="sureMsg" parent="Pause/sure" index="0"]
+offset_left = 320.0
+offset_top = 80.0
+offset_right = 1848.0
+offset_bottom = 193.0
+
+[node name="Yes" parent="Pause/sure" index="1"]
+offset_left = 624.0
+offset_right = 1136.0
+
+[node name="No" parent="Pause/sure" index="2"]
+offset_left = 944.0
+offset_right = 1464.0
 
 [node name="Transition" type="ColorRect" parent="."]
 visible = false
@@ -957,10 +998,13 @@ volume_db = 4.0
 [connection signal="focus_exited" from="Pause/bg/Resume" to="." method="_on_resume_mouse_exited"]
 [connection signal="mouse_entered" from="Pause/bg/Resume" to="." method="_on_resume_mouse_entered"]
 [connection signal="mouse_exited" from="Pause/bg/Resume" to="." method="_on_resume_mouse_exited"]
+[connection signal="button_up" from="Pause/bg/Forfeit" to="." method="_on_forfeit_button_up"]
 [connection signal="focus_entered" from="Pause/bg/Forfeit" to="." method="_on_forfeit_mouse_entered"]
 [connection signal="focus_exited" from="Pause/bg/Forfeit" to="." method="_on_forfeit_mouse_exited"]
 [connection signal="mouse_entered" from="Pause/bg/Forfeit" to="." method="_on_forfeit_mouse_entered"]
 [connection signal="mouse_exited" from="Pause/bg/Forfeit" to="." method="_on_forfeit_mouse_exited"]
+[connection signal="button_up" from="Pause/sure/Yes" to="." method="_on_yessure_button_up"]
+[connection signal="button_up" from="Pause/sure/No" to="." method="_on_nosure_button_up"]
 
 [editable path="Statistics"]
 [editable path="Pause"]

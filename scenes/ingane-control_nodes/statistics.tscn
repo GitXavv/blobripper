@@ -26,12 +26,10 @@ metadata/_edit_lock_ = true
 
 [node name="Victory" type="Label" parent="."]
 editor_description = "Timer visualizer."
-visible = false
 layout_mode = 0
 offset_left = 80.0
-offset_top = 48.0
 offset_right = 1808.0
-offset_bottom = 255.0
+offset_bottom = 207.0
 theme_override_colors/font_color = Color(0.890744, 0.593903, 0.855572, 1)
 theme_override_fonts/font = ExtResource("1_dbm3q")
 theme_override_font_sizes/font_size = 140
@@ -76,9 +74,9 @@ justification_flags = 162
 [node name="Moves" type="Label" parent="."]
 layout_mode = 0
 offset_left = 64.0
-offset_top = 256.0
+offset_top = 192.0
 offset_right = 992.0
-offset_bottom = 315.0
+offset_bottom = 251.0
 theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
 theme_override_fonts/font = ExtResource("1_dal4w")
 theme_override_font_sizes/font_size = 47
@@ -102,9 +100,9 @@ justification_flags = 162
 [node name="Time" type="Label" parent="."]
 layout_mode = 0
 offset_left = 64.0
-offset_top = 320.0
+offset_top = 256.0
 offset_right = 992.0
-offset_bottom = 379.0
+offset_bottom = 315.0
 theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
 theme_override_fonts/font = ExtResource("1_dal4w")
 theme_override_font_sizes/font_size = 47
@@ -128,9 +126,9 @@ justification_flags = 162
 [node name="DeathHalt" type="Label" parent="."]
 layout_mode = 0
 offset_left = 64.0
-offset_top = 384.0
+offset_top = 320.0
 offset_right = 992.0
-offset_bottom = 443.0
+offset_bottom = 379.0
 theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
 theme_override_fonts/font = ExtResource("1_dal4w")
 theme_override_font_sizes/font_size = 47
@@ -154,9 +152,9 @@ justification_flags = 162
 [node name="Rescapee" type="Label" parent="."]
 layout_mode = 0
 offset_left = 64.0
-offset_top = 448.0
+offset_top = 384.0
 offset_right = 992.0
-offset_bottom = 507.0
+offset_bottom = 443.0
 theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
 theme_override_fonts/font = ExtResource("1_dal4w")
 theme_override_font_sizes/font_size = 47
@@ -180,9 +178,9 @@ justification_flags = 162
 [node name="PfDodges" type="Label" parent="."]
 layout_mode = 0
 offset_left = 64.0
-offset_top = 512.0
+offset_top = 448.0
 offset_right = 992.0
-offset_bottom = 571.0
+offset_bottom = 507.0
 theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
 theme_override_fonts/font = ExtResource("1_dal4w")
 theme_override_font_sizes/font_size = 47
@@ -206,9 +204,9 @@ justification_flags = 162
 [node name="LostSc" type="Label" parent="."]
 layout_mode = 0
 offset_left = 64.0
-offset_top = 576.0
+offset_top = 512.0
 offset_right = 992.0
-offset_bottom = 635.0
+offset_bottom = 571.0
 theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
 theme_override_fonts/font = ExtResource("1_dal4w")
 theme_override_font_sizes/font_size = 47
@@ -232,9 +230,9 @@ justification_flags = 162
 [node name="Sessions" type="Label" parent="."]
 layout_mode = 0
 offset_left = 64.0
-offset_top = 640.0
+offset_top = 576.0
 offset_right = 992.0
-offset_bottom = 699.0
+offset_bottom = 635.0
 theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
 theme_override_fonts/font = ExtResource("1_dal4w")
 theme_override_font_sizes/font_size = 47
@@ -254,6 +252,46 @@ text = "00"
 horizontal_alignment = 2
 vertical_alignment = 1
 justification_flags = 162
+
+[node name="Titles" type="Label" parent="."]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 640.0
+offset_right = 992.0
+offset_bottom = 699.0
+theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
+theme_override_fonts/font = ExtResource("1_dal4w")
+theme_override_font_sizes/font_size = 47
+text = "Titles earned"
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="Value" type="Label" parent="Titles"]
+layout_mode = 0
+offset_left = 864.0
+offset_right = 1792.0
+offset_bottom = 59.0
+theme_override_colors/font_color = Color(0.758192, 0.758192, 0.758192, 1)
+theme_override_fonts/font = ExtResource("1_dal4w")
+theme_override_font_sizes/font_size = 47
+text = "00"
+horizontal_alignment = 2
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="BtnTitle" type="Button" parent="Titles"]
+editor_description = "Click here to reveal the titles earned
+"
+layout_mode = 0
+offset_left = 8.0
+offset_right = 1793.0
+offset_bottom = 58.0
+theme_override_colors/font_color = Color(0.866667, 0.92549, 1, 1)
+theme_override_fonts/font = ExtResource("5_wpyu8")
+theme_override_font_sizes/font_size = 45
+button_mask = 3
+flat = true
+metadata/_edit_lock_ = true
 
 [node name="Register" type="Label" parent="."]
 visible = false
