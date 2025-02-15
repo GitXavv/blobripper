@@ -1,7 +1,7 @@
 Astuces
 Tips
 
-These re just the tips that are going to be added somewhere in the game, grouped in a single .txt file
+These are just the tips that are going to be added somewhere in the game, grouped in a single .txt file
 
 
 Ce jeu marche tout aussi bien avec une manette. Tu peux ainsi te servir soit du stick analogique gauche, soit des touches directionnelles pour te déplacer. Cependant, l'interface utilisateur ne peut pas être contrôlée avec.
@@ -9,7 +9,6 @@ This game works fine with a controller as well. That way, you can use either the
 
 La façon dont tu ajustes les options de partie du mode solo influence plus ou moins la façon dont ton score évolue en jeu. Trouve la meilleure combinaison pour obtenir le plus gros score.
 The way you adjust the settings for the solo has a more or less noticeable impact on the way your score increases. Find the best game settings to get the biggest score.
-
 
 Les modifiers, abrégés mods, sont des options spéciales qui modifient plus ou moins le comportement du jeu soit en pimentant tes parties, soit en les rendant plus simples. Et biensûr, ces mods ont aussi une influence sur votre score.
 Modifiers, also known as mods, are special options that changes the behaviour of the game, either by spicing it up or by making it simpler for you. And of course those mods have an influence on your score.
@@ -49,5 +48,17 @@ You can move around as much and as fast as you want during the countdown at the 
 Le succès d'une esquive parfaite joue un son joyeux qui peut malheureusement être facilement distrayant pour certains. Si c'est ton cas, tu peux désactiver ce son dans les paramètres généraux du jeu.
 Performing a successful perfect dodge play a joyful sound that can unfortunately distract some players. If it is your case, you can always disable that sound in the general game settings.
 
-Le mod Invisible transforme le jeu de réflexe en un pur jeu de hasard si tu l'associes avec le mod Étourdi Constant. Ne perd pas ton temps avec cette combinaison si tu n'aimes pas reposer tes espoirs sur de la pure chance.
-The Hidden mod turn the fast reaction game into a pur gambling game if you combine that mod with Stuck Swap. Don't waste your time with that combination if you don't like to rely on pure chance to win.
+Tu peux configurer le mod Délai sur trois niveaux: Niv. 1, Niv. 2 et Niv. 3. Plus le niveau est élevé, plus la latence est grande, et logiquement, plus ton score est boosté facilement.
+You can set the Delay mod at three levels: Lvl 1, Lvl 2 and Lvl 3. The higher the level is, the higher the latency is, and obviously, the greater your score is boosted by the mod.
+
+Le mod Étourdi Constant est le seul à ne pas influencer sur le score. Utilise-le pour le fun.
+The Forever Dizzy mod is the only one that does not influence the way your score evolves. Use it for fun.
+
+Le mod Étourdi ne booste ton score que quand tes commandes sont inversés. Si tu gardes le contrôle, tu peux te régaler de score pendant ces petits instants.
+The Dizzy mod boosts your score only when your commands are inverted. If you keep your control, you can gain an insane amount of score in those brief moments.
+
+Si tu utilises le mod Étourdi dans le mode Survie, le blob va alterner entre le statut normal et le statut étourdi toutes les 15 secondes.
+If you use the Dizzy mod in Survival mode, the blob will alternate between the normal status and the dizzy status every 15 seconds.
+
+La plus grande durée d'un tour, le plus grand nombre de vies et le plus grand nombre de tours ne garantit pas toujours le plus gros score. Certains de ces paramètres influencent même négativement l'évolution de ton score quand ils sont maximisés !
+The biggest timer, the biggest amount of lives and the biggest amount of turns do not always mean the biggest score. Some of these settings can even have a bad influence on your score when maximized !

@@ -254,6 +254,7 @@ vertical_alignment = 1
 justification_flags = 162
 
 [node name="Titles" type="Label" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 64.0
 offset_top = 640.0

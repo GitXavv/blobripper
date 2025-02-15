@@ -68,7 +68,9 @@ var blob_normal = "res://assets/blob1.png"
 var blob_danger = "res://assets/blob1_danger.png"
 var blob_hit = "res://assets/blob1_dead.png" #When the blob is hit
 var blob_dizzy = "res://assets/blob1_dizzy.png" # For the swap modS. Yes, modS!
-var interblob: String # To sap between normal and dizzy for the swap mod.
+var blob_dizzy_danger = "res://assets/blob1_dizzy_danger.png"
+var interblob: String # To swap between normal and dizzy for the swap mod. Used in initialization().
+var interblob_danger: String
 var dead: bool =false
 
 
@@ -275,6 +277,8 @@ var upped_paused: float
 var downed_paused: float
 var lefted_paused: float
 var righted_paused: float
+
+var swap_paused: float
 
 var rng2_started: bool # This is to prevent Rng2 Timer object to start when resuming the game after pausing the game at the very beginning when Rng2 is not even supposed to start yet.
 
@@ -715,6 +719,7 @@ func normal_mode():
 	up2 = "up2"
 	down2 = "down2"
 	blob_normal = interblob
+	blob_danger = interblob_danger
 	if swap ==true:
 		$Status_dizzy.hide()
 		$Status_normal.show()
@@ -725,12 +730,14 @@ func swapped_mode():
 	up2 = "down2"
 	down2 = "up2"
 	blob_normal = blob_dizzy
+	blob_danger = blob_dizzy_danger
 
 func initialization():
 	if settings_loaded ==false:
 		pause = false
 		rng2_started =false
 		interblob = blob_normal # For the swap mod
+		interblob_danger = blob_danger # Also for the swap mod
 		halt_timer = false
 		load_settings()
 		Halter_wait_time()
@@ -746,6 +753,7 @@ func initialization():
 			turn = init_turn
 			lives = init_lives
 		else:
+			progressive = false #I now decided not to let sv_mode and progressive not to be on at the same time, so this line is to force it just in case. In the main menu, both are not activable at the same time.
 			turn =1
 			if last_chance ==false:
 				lives =1
@@ -846,6 +854,8 @@ func _ready():
 		$Timer.start()
 		if progressive ==true || sv_mode ==true:
 			$Progress.start()
+		if swap ==true:
+			$Swap.start()
 	$Timer/TimerViz.text = str(timer)
 	
 	#The game starts with the blob at top left
@@ -880,7 +890,6 @@ func _ready():
 		normal =true
 		swapped =false
 		normal_mode()
-		$Swap.start()
 	if hidden ==true:
 		$Status_normal.hide()
 	
@@ -990,6 +999,10 @@ func Pause_Resume():
 			if action_right ==true:
 				righted_paused = $Righted.time_left
 				$Righted.stop()
+		
+		if swap ==true:
+			swap_paused = $Swap.time_left
+			$Swap.stop()
 	
 	elif pause ==true:
 		$Animation.play("PauseOut")
@@ -1777,8 +1790,10 @@ func _on_swap_timeout():
 		$Animation.play("NormalMode")
 	if blob.texture != load(blob_danger):
 		blob.texture = load(blob_normal)
+	else:
+		blob.texture = load(blob_dizzy_danger)
 	if dead ==false && over ==false:
-		$Swap.start()
+		$Swap.start(swap_timer)
 
 func _on_progress_timeout():
 	if rng_wait >=0.1:
@@ -1794,7 +1809,10 @@ func _on_progress_timeout():
 		$Rng2.wait_time = rng_wait
 		# Score booster by perfect dodge
 		dodge_score_booster = (1/rng_wait)*2500
-		$Progress.start()
+		if progressive ==true:
+			$Progress.start(1)
+		elif sv_mode ==true:
+			$Progress.start(30)
 		multiplicators()
 		Halter_wait_time()
 
@@ -1857,6 +1875,9 @@ func hide_after_anim(anim_name):
 					$Lefted.start(lefted_paused)
 				if action_right ==true:
 					$Righted.start(righted_paused)
+			
+			if swap ==true:
+				$Swap.start(swap_paused)
 		else:
 			_on_over_timeout()
 	
@@ -1891,6 +1912,8 @@ func _on_countdown_timeout():
 		$Rng1.start()
 		if progressive ==true || sv_mode ==true:
 			$Progress.start()
+		if swap ==true:
+			$Swap.start()
 
 
 func _on_incrementing_timeout():
