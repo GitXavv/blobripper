@@ -1,0 +1,47 @@
+Hello ! Dis bonjour au blob !
+Hello! Say hi to the blob!
+
+Il ne peut pas parler, mais il est très content de te voir.
+He can't speak but he is very happy to see you.
+
+Il est piégé dans ce champ de mine à 4 cases (contrôlé par des personnes dont nous n'aurons sûrement jamais l'identité) et il n'y a que toi pour l'aider à survivre.
+He is trapped in this 4-tiles minefield (managed by people we may never get the identity of) and you are the only one who can help him survive.
+
+Pour le moment, le champ de mine a l'air sain et sauf donc je vais en profiter pour te montrer comment tu peux déplacer ton nouvel ami le blob.
+For now, the minefield seems safe so I am going to take that opportunity to show you how you can move along with your new friend the blob.
+
+C'est très simple. Que tu sois sur clavier ou manette, tu as seulement besoin des touches directionnelles pour déplacer le blob. Si tu es sur manette, tu peux même utiliser le joystick gauche. Allez, essaie de te déplacer.
+It is very easy. Whether you are on keyboard or on controller, you only need the directional pad to move the blob. If you are on controller, you can even use the left stick as well. Now try to move along.
+
+Au fait, tu ne peux pas aller en diagonale. Tu devras donc être très rapide et précis pour te déplacer exactement où tu veux sans trop de risques (ça c'est surtout pour quand le champ de mine sera plus mouvementé que la normale).
+By the way, you cannot move diagonally. So you will have to be very fast and accurate to go exactly where you want to be without too much risks (that is for when the minefield becomes more tenacious than usual).
+
+Voilà ! Maintenant que tu sais comment te déplacer, je peux à moitié te faire confiance pour être le protecteur idéal du blob. Maintenant il faut que tu saches QUAND te déplacer. Dès que tu y arrives, je pourrai totalement te faire confiance.
+There! Since you now know how to move along, I can half trust you to be the perfect hero of the blob. Now you must know WHEN to move. When you understand that, I will fully trust you.
+
+Aïe ! On dirait qu'ils ont repris les commandes ! Tu vois le cercle rouge sur la case ? Ça veut dire qu'ils ont "amorcé" ou bien "piégé" cette case. Ça signifie que cette case peut exploser à tout moment, et si le blob est sur cette case au moment de l'explosion, le blob explosera avec. Et nous ne voulons pas que cela arrive ! (Oui, toi non plus tu ne veux pas que ça arrive.)
+Ouch! It looks like they took the control of the field again! Do you see the red circle on the tile? That means they "primed" or "trapped" that tile. It means that that tile can explode at ANY time, and if the blob is on that tile at its explosion, the blob will blow up with it. And that's something we do not want! (Yes, you don't want it to happen either.)
+
+D'ailleurs le blob est sur ladite case dangereuse EN CE MOMENT MÊME !! Regarde comment il panique ! Dégageons-le de là !
+By the way, the blob is on said trapped case AT THE MOMENT! Look how scared he is! Let's get him out of there!
+
+Yes ! On a éloigné le blob du danger... Pour cette fois. Malheureusement, ces tueurs ne sont pas prêts à le laisser vivre. Ils sont prêts à piéger autant de cases autant de fois que nécessaire pour se débarasser du gentil blob jusuq'à ce qu'ils soient à cours de munitions. Ton but sera donc de survivre le plus longtemps possible. Ils ne doivent jamais gagner !
+Yeah! We kept the blob safe... for now. Unfortunately, they are not ready to let the blob alive. They are ready to trap as many tiles as much as needed to get rid of the kind blob until they run out of ammo. Your goal will then to survive as long as possible. They must not win!
+
+Oh, il semble que les cases du champ de mine soient faits d'une matière particulière qui les remet à leur état avant l'explosion quelques temps après l'explosion. C'est intéressant ça. Ça veut dire que le blob pourra toujours se déplacer entre les 4 cases, donc la survie est bel et bien possible.
+Oh, it looks like the minefield tiles are made with a strangely effective material that refresh them some time after the explosion. That's interesting. It means that the blob will always have somewhere to go among the 4 cases which means that the survival is indeed possible.
+
+Ils ont piégé une autre case ! Heureusement, tu n'es pas dessus. Donc tu n'as pas besoin de bouger.
+They trapped another tile. Fortunately you are not on it so you don't need to move.
+
+Ils ont piégé celle sur laquelle tu es. Vite, bouge !
+They trapped the tile you are on. Hurry up! Go away from there!
+
+Voilà ! Tu as compris le principe ! Je peux donc totalement te faire confiance et te laisser faire pour la suite. Grâce à toi, le blob peut encore espérer survivre quelques jours.
+That's it! You now know the basics. I can fully trust you now. Thanks to you, the blob has reasons to hope to be alive longer.
+
+...Cependant notre ami le blob aime bien quand on prend des risques et esquive de façon impressionante. D'où le système de "score" qui représente la valeur de tous les risques que tu as pris pendant une survie. Tu peux en savoir plus dans le menu "Astuces" du jeu.
+...However our friend the blob enjoys it when we take risk and dodge in a stylish way. Hence the "scoring" system that represents the value of every risk takes in a survival. You can learn more of it in the "Tips" menu.
+
+Okay, c'est tout pour moi. Tu seras envoyé ailleurs dans quelques secondes...
+Alright, that's all for me. You will be redirected somewhere else in a few seconds...
