@@ -1,22 +1,21 @@
-[gd_scene load_steps=36 format=3 uid="uid://ta027up6hjgn"]
+[gd_scene load_steps=35 format=3 uid="uid://bg3oi5lyayv5m"]
 
-[ext_resource type="Texture2D" uid="uid://bb8pidjncjamm" path="res://assets/tile.png" id="1_nlygq"]
-[ext_resource type="Script" path="res://script/solo.gd" id="1_wt4wd"]
-[ext_resource type="Texture2D" uid="uid://cxhwg4agx6ugx" path="res://backgrounds/0.png" id="2_ecicl"]
-[ext_resource type="Texture2D" uid="uid://d3gjq4kdkro5j" path="res://assets/blob1.png" id="2_wlfnv"]
-[ext_resource type="FontFile" uid="uid://nrdaaf5jw0up" path="res://fonts/MadimiOne-Regular.ttf" id="4_miqwu"]
-[ext_resource type="Texture2D" uid="uid://m6c6i6es8k35" path="res://assets/pause.png" id="5_2aws4"]
-[ext_resource type="FontFile" uid="uid://dkfn0w3gwssod" path="res://fonts/ARLRDBD.TTF" id="5_grqpo"]
-[ext_resource type="FontFile" uid="uid://b4qs8py41ksss" path="res://fonts/RubikBrokenFax-Regular.ttf" id="6_cknej"]
-[ext_resource type="Texture2D" uid="uid://ckx61mrvm4bfl" path="res://assets/pause_hover.png" id="6_te1as"]
-[ext_resource type="Texture2D" uid="uid://bdih0obxmi4sd" path="res://assets/timer.png" id="7_x1s14"]
-[ext_resource type="FontFile" uid="uid://qbp0148n0046" path="res://fonts/AtomicAge-Regular.ttf" id="8_xlhqf"]
-[ext_resource type="FontFile" uid="uid://ca0io57pxr6v3" path="res://fonts/FingerPaint-Regular.ttf" id="10_8tc02"]
-[ext_resource type="PackedScene" uid="uid://caspixro6ro15" path="res://scenes/ingane-control_nodes/pause.tscn" id="11_lole5"]
-[ext_resource type="PackedScene" uid="uid://cuoo11nvxrnvh" path="res://scenes/ingane-control_nodes/statistics.tscn" id="11_untfs"]
-[ext_resource type="AudioStream" uid="uid://jo501ef0gem0" path="res://sfx/pf_dodge.wav" id="12_2abs4"]
-[ext_resource type="AudioStream" uid="uid://n3yckbpywhmx" path="res://sfx/targeted.wav" id="13_cr53g"]
-[ext_resource type="AudioStream" uid="uid://jn28mdewr2g6" path="res://sfx/dead.wav" id="14_n7duj"]
+[ext_resource type="Script" path="res://script/tutorial.gd" id="1_eods2"]
+[ext_resource type="Texture2D" uid="uid://cxhwg4agx6ugx" path="res://backgrounds/0.png" id="2_j70c8"]
+[ext_resource type="Texture2D" uid="uid://bb8pidjncjamm" path="res://assets/tile.png" id="3_3n7pp"]
+[ext_resource type="Texture2D" uid="uid://d3gjq4kdkro5j" path="res://assets/blob1.png" id="4_4dlfh"]
+[ext_resource type="FontFile" uid="uid://nrdaaf5jw0up" path="res://fonts/MadimiOne-Regular.ttf" id="5_jeo1a"]
+[ext_resource type="Texture2D" uid="uid://bdih0obxmi4sd" path="res://assets/timer.png" id="6_nfd33"]
+[ext_resource type="FontFile" uid="uid://dkfn0w3gwssod" path="res://fonts/ARLRDBD.TTF" id="7_clwp1"]
+[ext_resource type="FontFile" uid="uid://b4qs8py41ksss" path="res://fonts/RubikBrokenFax-Regular.ttf" id="8_nyl3n"]
+[ext_resource type="FontFile" uid="uid://ca0io57pxr6v3" path="res://fonts/FingerPaint-Regular.ttf" id="10_ngux4"]
+[ext_resource type="Texture2D" uid="uid://m6c6i6es8k35" path="res://assets/pause.png" id="11_7uyvi"]
+[ext_resource type="Texture2D" uid="uid://ckx61mrvm4bfl" path="res://assets/pause_hover.png" id="12_uk1ea"]
+[ext_resource type="PackedScene" uid="uid://cuoo11nvxrnvh" path="res://scenes/ingane-control_nodes/statistics.tscn" id="13_xhekt"]
+[ext_resource type="PackedScene" uid="uid://caspixro6ro15" path="res://scenes/ingane-control_nodes/pause.tscn" id="14_ahaik"]
+[ext_resource type="AudioStream" uid="uid://jo501ef0gem0" path="res://sfx/pf_dodge.wav" id="15_21r2w"]
+[ext_resource type="AudioStream" uid="uid://n3yckbpywhmx" path="res://sfx/targeted.wav" id="16_w8wjn"]
+[ext_resource type="AudioStream" uid="uid://jn28mdewr2g6" path="res://sfx/dead.wav" id="17_tym3t"]
 
 [sub_resource type="Animation" id="Animation_i7gph"]
 resource_name = "Countdown"
@@ -224,18 +223,6 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_uw53w"]
 resource_name = "OneLife"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../Lives:theme_override_colors/font_color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(0.873859, 0.0459882, 0.175932, 1), Color(1, 1, 1, 1), Color(0.87451, 0.0470588, 0.176471, 1), Color(1, 1, 1, 1)]
-}
 
 [sub_resource type="Animation" id="Animation_hmrbf"]
 resource_name = "PauseIn"
@@ -392,82 +379,70 @@ tracks/7/keys = {
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("../Lives:theme_override_colors/font_color")
+tracks/8/path = NodePath("../Statistics:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 1)]
+"values": [Vector2(0, -1080)]
 }
 tracks/9/type = "value"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("../Statistics:position")
+tracks/9/path = NodePath("../Statistics/Retry:scale")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, -1080)]
+"values": [Vector2(0.32, 0.32)]
 }
 tracks/10/type = "value"
 tracks/10/imported = false
 tracks/10/enabled = true
-tracks/10/path = NodePath("../Statistics/Retry:scale")
+tracks/10/path = NodePath("../Fade:color")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0.32, 0.32)]
+"values": [Color(0, 0, 0, 0)]
 }
 tracks/11/type = "value"
 tracks/11/imported = false
 tracks/11/enabled = true
-tracks/11/path = NodePath("../Fade:color")
+tracks/11/path = NodePath("../Transition:position")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0, 0, 0, 0)]
+"values": [Vector2(0, 0)]
 }
 tracks/12/type = "value"
 tracks/12/imported = false
 tracks/12/enabled = true
-tracks/12/path = NodePath("../Transition:position")
+tracks/12/path = NodePath("../Pause/PauseLayoutBlue:position")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, 0)]
+"values": [Vector2(0, 1080)]
 }
 tracks/13/type = "value"
 tracks/13/imported = false
 tracks/13/enabled = true
-tracks/13/path = NodePath("../Pause/PauseLayoutBlue:position")
+tracks/13/path = NodePath("../Pause/bg:position")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 1080)]
-}
-tracks/14/type = "value"
-tracks/14/imported = false
-tracks/14/enabled = true
-tracks/14/path = NodePath("../Pause/bg:position")
-tracks/14/interp = 1
-tracks/14/loop_wrap = true
-tracks/14/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -540,37 +515,37 @@ _data = {
 "RetryLeft": SubResource("Animation_6sp58")
 }
 
-[node name="Solo" type="Node"]
-script = ExtResource("1_wt4wd")
+[node name="Tutorial" type="Node"]
+script = ExtResource("1_eods2")
 
 [node name="bg" type="Sprite2D" parent="."]
 position = Vector2(960, 536)
-texture = ExtResource("2_ecicl")
+texture = ExtResource("2_j70c8")
 metadata/_edit_lock_ = true
 
 [node name="Tile1" type="Sprite2D" parent="."]
 position = Vector2(843, 396)
-texture = ExtResource("1_nlygq")
+texture = ExtResource("3_3n7pp")
 metadata/_edit_lock_ = true
 
 [node name="Tile2" type="Sprite2D" parent="."]
 position = Vector2(1083, 396)
-texture = ExtResource("1_nlygq")
+texture = ExtResource("3_3n7pp")
 metadata/_edit_lock_ = true
 
 [node name="Tile3" type="Sprite2D" parent="."]
 position = Vector2(843, 630)
-texture = ExtResource("1_nlygq")
+texture = ExtResource("3_3n7pp")
 metadata/_edit_lock_ = true
 
 [node name="Tile4" type="Sprite2D" parent="."]
 position = Vector2(1083, 630)
-texture = ExtResource("1_nlygq")
+texture = ExtResource("3_3n7pp")
 metadata/_edit_lock_ = true
 
 [node name="Blob1" type="Sprite2D" parent="."]
 position = Vector2(843, 632)
-texture = ExtResource("2_wlfnv")
+texture = ExtResource("4_4dlfh")
 
 [node name="delay" type="Timer" parent="."]
 wait_time = 0.003
@@ -607,7 +582,7 @@ offset_left = 928.0
 offset_top = 32.0
 offset_right = 1350.0
 offset_bottom = 207.0
-theme_override_fonts/font = ExtResource("4_miqwu")
+theme_override_fonts/font = ExtResource("5_jeo1a")
 theme_override_font_sizes/font_size = 132
 text = "000"
 vertical_alignment = 1
@@ -616,7 +591,7 @@ justification_flags = 162
 [node name="Timer2" type="Sprite2D" parent="Timer/TimerViz"]
 position = Vector2(-80, 80)
 scale = Vector2(0.359375, 0.359375)
-texture = ExtResource("7_x1s14")
+texture = ExtResource("6_nfd33")
 
 [node name="Halter" type="Timer" parent="."]
 editor_description = "Mashers will get a penalty. The duration will depend on the wait_rng."
@@ -629,7 +604,7 @@ offset_top = 184.0
 offset_right = 1824.0
 offset_bottom = 287.0
 theme_override_colors/font_color = Color(0.376471, 0, 0, 1)
-theme_override_fonts/font = ExtResource("5_grqpo")
+theme_override_fonts/font = ExtResource("7_clwp1")
 theme_override_font_sizes/font_size = 80
 text = "Hey! Slow down!"
 horizontal_alignment = 1
@@ -638,11 +613,12 @@ justification_flags = 162
 
 [node name="Score" type="Label" parent="."]
 editor_description = "Timer visualizer."
+visible = false
 offset_left = 64.0
 offset_top = 808.0
 offset_right = 1856.0
 offset_bottom = 913.0
-theme_override_fonts/font = ExtResource("6_cknej")
+theme_override_fonts/font = ExtResource("8_nyl3n")
 theme_override_font_sizes/font_size = 53
 text = "Score: 000000
 "
@@ -652,12 +628,13 @@ justification_flags = 162
 
 [node name="High" type="Label" parent="."]
 editor_description = "Timer visualizer."
+visible = false
 offset_left = 64.0
 offset_top = 896.0
 offset_right = 1848.0
 offset_bottom = 1001.0
 theme_override_colors/font_color = Color(0.687215, 0.687215, 0.687215, 1)
-theme_override_fonts/font = ExtResource("6_cknej")
+theme_override_fonts/font = ExtResource("8_nyl3n")
 theme_override_font_sizes/font_size = 37
 text = "High Score: 000000
 "
@@ -680,29 +657,11 @@ offset_left = 1232.0
 offset_top = 96.0
 offset_right = 1896.0
 offset_bottom = 176.0
-theme_override_fonts/font = ExtResource("6_cknej")
+theme_override_fonts/font = ExtResource("8_nyl3n")
 theme_override_font_sizes/font_size = 58
 text = "00/00 Turns cleared"
 horizontal_alignment = 2
 justification_flags = 162
-
-[node name="Lives" type="Label" parent="."]
-editor_description = "Lives visualizer."
-offset_left = 184.0
-offset_top = 248.0
-offset_right = 606.0
-offset_bottom = 423.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("8_xlhqf")
-theme_override_font_sizes/font_size = 132
-text = "00"
-vertical_alignment = 1
-justification_flags = 162
-
-[node name="Timer2" type="Sprite2D" parent="Lives"]
-position = Vector2(-75, 87)
-texture = ExtResource("2_wlfnv")
-metadata/_edit_lock_ = true
 
 [node name="Swap" type="Timer" parent="."]
 one_shot = true
@@ -717,7 +676,7 @@ offset_top = 624.0
 offset_right = 1768.0
 offset_bottom = 743.0
 theme_override_colors/font_color = Color(0.662745, 0.717647, 1, 1)
-theme_override_fonts/font = ExtResource("10_8tc02")
+theme_override_fonts/font = ExtResource("10_ngux4")
 theme_override_font_sizes/font_size = 80
 text = "Normal"
 vertical_alignment = 1
@@ -730,7 +689,7 @@ offset_top = 624.0
 offset_right = 1768.0
 offset_bottom = 743.0
 theme_override_colors/font_color = Color(1, 0.518091, 0.45243, 1)
-theme_override_fonts/font = ExtResource("10_8tc02")
+theme_override_fonts/font = ExtResource("10_ngux4")
 theme_override_font_sizes/font_size = 80
 text = "Dizzy..."
 vertical_alignment = 1
@@ -758,7 +717,7 @@ offset_top = 240.0
 offset_right = 1082.0
 offset_bottom = 768.0
 theme_override_colors/font_color = Color(1, 0.831373, 1, 0.560784)
-theme_override_fonts/font = ExtResource("4_miqwu")
+theme_override_fonts/font = ExtResource("5_jeo1a")
 theme_override_font_sizes/font_size = 400
 text = "0"
 horizontal_alignment = 1
@@ -774,7 +733,7 @@ offset_top = 704.0
 offset_right = 1824.0
 offset_bottom = 823.0
 theme_override_colors/font_color = Color(0.827451, 0.745098, 0, 1)
-theme_override_fonts/font = ExtResource("10_8tc02")
+theme_override_fonts/font = ExtResource("10_ngux4")
 theme_override_font_sizes/font_size = 80
 text = "Perfect dodge!"
 horizontal_alignment = 1
@@ -793,7 +752,7 @@ offset_top = 112.0
 offset_right = 1792.0
 offset_bottom = 209.0
 theme_override_colors/font_color = Color(0.827451, 0.745098, 0, 1)
-theme_override_fonts/font = ExtResource("10_8tc02")
+theme_override_fonts/font = ExtResource("10_ngux4")
 theme_override_font_sizes/font_size = 65
 text = "+0000"
 justification_flags = 162
@@ -817,13 +776,35 @@ offset_top = 40.0
 offset_right = 608.0
 offset_bottom = 552.0
 scale = Vector2(0.3, 0.3)
-texture_normal = ExtResource("5_2aws4")
-texture_hover = ExtResource("6_te1as")
+texture_normal = ExtResource("11_7uyvi")
+texture_hover = ExtResource("12_uk1ea")
 
-[node name="Statistics" parent="." instance=ExtResource("11_untfs")]
+[node name="TutorBG" type="ColorRect" parent="."]
+offset_top = 800.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0, 0, 0, 0.388235)
+
+[node name="TutorText" type="Label" parent="TutorBG"]
+editor_description = "Timer visualizer."
+layout_mode = 0
+offset_left = 40.0
+offset_top = 16.0
+offset_right = 1880.0
+offset_bottom = 264.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("7_clwp1")
+theme_override_font_sizes/font_size = 48
+text = "Hello! Say hi to the blob!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+justification_flags = 162
+
+[node name="Statistics" parent="." instance=ExtResource("13_xhekt")]
 offset_top = -1080.0
-offset_right = 15360.0
-offset_bottom = 7552.0
+offset_right = 5760.0
+offset_bottom = 2152.0
 
 [node name="Victory" parent="Statistics" index="1"]
 offset_left = 78.4714
@@ -904,7 +885,7 @@ offset_right = 600.0
 focus_mode = 0
 keep_pressed_outside = true
 
-[node name="Pause" parent="." instance=ExtResource("11_lole5")]
+[node name="Pause" parent="." instance=ExtResource("14_ahaik")]
 offset_left = 1920.0
 offset_right = 1920.0
 metadata/_edit_lock_ = true
@@ -955,14 +936,14 @@ offset_bottom = 1080.0
 color = Color(0, 0, 0, 0)
 
 [node name="Dodge" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("12_2abs4")
+stream = ExtResource("15_21r2w")
 
 [node name="Target" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("13_cr53g")
+stream = ExtResource("16_w8wjn")
 volume_db = -13.5
 
 [node name="Dead" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("14_n7duj")
+stream = ExtResource("17_tym3t")
 volume_db = 4.0
 
 [connection signal="timeout" from="delay" to="." method="_on_delay_timeout"]

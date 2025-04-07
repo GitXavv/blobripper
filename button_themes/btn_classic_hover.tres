@@ -1,0 +1,14 @@
+[gd_resource type="StyleBoxFlat" format=3 uid="uid://ct240aeste7v1"]
+
+[resource]
+bg_color = Color(0.607843, 0.207843, 0.882353, 0.701961)
+skew = Vector2(0.55, 0)
+border_width_left = 10
+border_width_top = 2
+border_blend = true
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+corner_detail = 10
+shadow_size = 3
