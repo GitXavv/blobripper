@@ -5,7 +5,7 @@ var bg0 = "res://backgrounds/0.png"
 var bg1 = "res://backgrounds/1.png"
 var bgs = [bg0, bg1]
 
-var autolang: String	# Language
+var autolang: String = "fr"	# Language
 var highscore_solo: int	# High score
 var highscore_solo_sv: int	# High score in survival mode
 

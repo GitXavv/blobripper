@@ -257,8 +257,9 @@ var retry_shortcut: bool # Press Enter to retry a game
 var auto_hover: bool
 
 # Online leaderboard stuffs----
-var frequency: String
-var modifiers: String
+var player_name: String
+# To test
+@onready var lb_scores = preload("res://addons/silent_wolf/Scores/Leaderboard.tscn")
 
 
 # Pausing the game
@@ -294,50 +295,6 @@ var forfeited: bool = false # If game forfeited
 
 
 # ----------------------------------------------
-# Useful for leaderboard:
-
-func init_freq():
-	# Frequency
-		if progressive == true:
-			frequency = "Progressive"
-		else:
-			if rng_wait == 1.5:
-				frequency = "Slow"
-			elif rng_wait == 0.9:
-				frequency = "Average"
-			elif rng_wait == 0.4:
-				frequency = "Fast"
-			elif rng_wait == 0.2:
-				frequency = "Very fast"
-			elif rng_wait == 0.01:
-				frequency = "Crazy"
-			else:
-				frequency = "Unknown"
-
-func mod_list():
-	if hidden ==true:
-		modifiers += "hidden "
-	if swap ==true:
-		modifiers += "swap "
-	if stuck_swap ==true:
-		modifiers += "stuck_swap "
-	if all_in_one ==true:
-		modifiers += "tripleshoot "
-	if delayed ==true:
-		modifiers += "delayed "
-	if nohalt ==true:
-		modifiers += "nohalt "
-	if only_one ==true:
-		modifiers += "monoshoot "
-	if last_chance ==true:
-		modifiers += "last_chance"
-	
-	if modifiers == "":
-		modifiers = "None"
-
-
-
-
 func is_progressive():
 	# If progressive mode on:
 	if progressive ==true:
@@ -503,6 +460,10 @@ func Stats_init():
 		$Statistics/Sessions.text = "Sessions played in a row:"
 		$Statistics/Titles.text = "Titles earned:"
 		
+		$Statistics/Register.text = "Submit your score online!"
+		$Statistics/Register/user.placeholder_text = "Enter your player name!"
+		$Statistics/Register/submit.text = "SUBMIT"
+		
 		$Statistics/Sure.text = "Are you sure? Press again if yes."
 	elif General.autolang == "fr":
 		$Statistics/Victory.text = "VICTOIRE !"
@@ -517,10 +478,12 @@ func Stats_init():
 		$Statistics/LostSc.text = "Score perdu:"
 		$Statistics/Sessions.text = "Parties jouées d'affilée:"
 		$Statistics/Titles.text = "Titres obtenus:"
+		
+		$Statistics/Register.text = "Envoie ton score en ligne !"
+		$Statistics/Register/user.placeholder_text = "Entre ton nom de joueur"
+		$Statistics/Register/submit.text = "Envoyer"
 	
 		$Statistics/Sure.text = "Tu es sûr(e) ? Clique encore si oui."
-	
-	$Statistics/Register.text = ""
 
 func Pause_init():
 	if General.autolang == "en":
@@ -659,7 +622,7 @@ func Pause_init():
 			elif rng_wait == 0.2:
 				$Pause/bg/Freq.text = "- Rythme très rapide"
 			elif rng_wait == 0.01:
-				$Pause/bg/Freq.text = "- Rythme démentiel"
+				$Pause/bg/Freq.text = "- Rythme fou"
 			else:
 				$Pause/bg/Freq.text = "- Rythme inhabituel"
 		
@@ -780,8 +743,6 @@ func initialization():
 		Halter_wait_time()
 		multiplicators()
 		set_latency_timer() # For the latency mod
-		init_freq() # To load the value of the frequency for the leaderboard
-		mod_list() # To list the modifiers used. The list will be stored in the database when saving the score
 		score =0
 		prescore =0 # For nerf mods
 		old_high_score = high_score
@@ -928,7 +889,7 @@ func _ready():
 	if swap ==true:
 		normal =true
 		swapped =false
-		normal_mode()	
+		normal_mode()
 	if hidden ==true:
 		$Status_normal.hide()
 	
@@ -1299,12 +1260,12 @@ func target(tile, mark: bool, hit: bool, loc_blob, blobposition: bool): #(tile1,
 				else:
 					if score > old_high_score_sv:
 						high_score_sv = score
-						if beaten_sv ==false:
-							beaten_sv = true
+						if beaten ==false:
+							beaten = true
 					else:
 						high_score_sv = old_high_score_sv
-						if beaten_sv ==true:
-							beaten_sv = false
+						if beaten ==true:
+							beaten = false
 				Score_viz_update()
 				$Over.start() # "Loading" animation for final score.
 				if halt ==true:
@@ -1882,8 +1843,6 @@ func hide_after_anim(anim_name):
 		$Statistics/Retry.show()
 		$Statistics/Exit.show()
 		retry_shortcut =true
-		if beaten ==true:
-			submit_score()
 	elif anim_name == "Retry":
 		full_reset =false
 		$Animation.play("RESET")
@@ -2050,71 +2009,12 @@ func _on_retry_button_up():
 
 
 
-
-# ONLINE LEADERBOARD STUFFS
-func submit_score():
-	if Connection.username == "":
-		if General.autolang == "en":
-			$Statistics/Register.text = "Log in to your account next time in order to submit your score online."
-		elif General.autolang == "fr":
-			$Statistics/Register.text = "Connecte-toi à ton compte la prochaine fois pour pouvoir soumettre ton score en ligne."
-	else:
-		var http = HTTPRequest.new()
-		add_child(http)
-		http.request_completed.connect(_on_request_completed)
-
-		var url = "http://localhost/blobsweeper/submit_score.php"
-		var data = {
-		"user": Connection.username,
-		"score": score,
-		"frequency": frequency,
-		"turns": str(init_turn - turn) + "/" + str(init_turn),
-		"lives": lives,
-		"mods": modifiers,
-		"time_elapsed": tot_time,
-		"pf_dodges": dodge_count,
-		"tot_moves": tot_moves,
-		"die_halt": die_halt,
-		"survival_halt": survival_halt,
-		"lost_score": lost_score
-		}
-
-
-		var json_data = JSON.stringify(data)
-		var body_bytes = json_data.to_utf8_buffer()
-		
-		var error = http.request_raw(url, [], HTTPClient.METHOD_POST, body_bytes)
-
-		if error != OK:
-			print("Erreur lors de l'envoi de la requête : ", error)
-
-
-func _on_request_completed(result, response_code, headers, body):
-	var response_text = body.get_string_from_utf8()
-	if response_text != "":
-		var json = JSON.new()
-		var parse_result = json.parse(response_text)
-		if parse_result == OK:
-			var response = json.get_data()
-			if response.has("status"):
-				if response["status"] == "success":
-					if General.autolang == "en":
-						$Statistics/Register.text = "New high score succesfully submitted!"
-					elif General.autolang == "fr":
-						$Statistics/Register.text = "Nouveau meilleur score soumis avec succès !"
-				else:
-					print("Erreur serveur : ", response["message"])
-			else:
-				print("Réponse inattendue : ", response_text)
-		else:
-			print("Erreur de parsing JSON")
-	else:
-		print("Réponse vide")
-
-# -------------------------
-
-
-
+func score_submit():
+	var input_name = $Statistics/Register/user.text
+	player_name = input_name
+	#Saving the score online!
+	SilentWolf.Scores.save_score(player_name, score)
+	get_tree().change_scene_to_packed(lb_scores)
 
 
 func _on_exit_button_up():

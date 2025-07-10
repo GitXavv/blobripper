@@ -295,41 +295,18 @@ flat = true
 metadata/_edit_lock_ = true
 
 [node name="Register" type="Label" parent="."]
-visible = false
 layout_mode = 0
 offset_left = 64.0
-offset_top = 728.0
-offset_right = 992.0
-offset_bottom = 787.0
+offset_top = 705.0
+offset_right = 1848.0
+offset_bottom = 818.0
 theme_override_colors/font_color = Color(1, 0.756863, 0.929412, 1)
 theme_override_fonts/font = ExtResource("1_dal4w")
 theme_override_font_sizes/font_size = 47
-text = "Submit your score online!"
+horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 2
 justification_flags = 162
-
-[node name="user" type="LineEdit" parent="Register"]
-layout_mode = 0
-offset_left = 624.0
-offset_top = -16.0
-offset_right = 1432.0
-offset_bottom = 74.0
-theme_override_fonts/font = ExtResource("1_dbm3q")
-theme_override_font_sizes/font_size = 49
-placeholder_text = "Enter your player name!"
-max_length = 25
-
-[node name="submit" type="Button" parent="Register"]
-layout_mode = 0
-offset_left = 1456.0
-offset_top = -8.0
-offset_right = 1792.0
-offset_bottom = 72.0
-theme_override_colors/font_color = Color(0.866667, 0.92549, 1, 1)
-theme_override_fonts/font = ExtResource("5_wpyu8")
-theme_override_font_sizes/font_size = 45
-button_mask = 3
-text = "SUBMIT"
 
 [node name="Sure" type="Label" parent="."]
 visible = false

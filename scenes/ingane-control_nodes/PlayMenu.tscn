@@ -1,0 +1,215 @@
+[gd_scene load_steps=4 format=3 uid="uid://byenx5gjjdmub"]
+
+[ext_resource type="FontFile" uid="uid://ca0io57pxr6v3" path="res://fonts/FingerPaint-Regular.ttf" id="1_047kc"]
+[ext_resource type="FontFile" uid="uid://dkfn0w3gwssod" path="res://fonts/ARLRDBD.TTF" id="1_t6a02"]
+[ext_resource type="FontFile" uid="uid://nrdaaf5jw0up" path="res://fonts/MadimiOne-Regular.ttf" id="2_kfixx"]
+
+[node name="GameOptions" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 256.0
+offset_right = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Mode" type="Label" parent="."]
+layout_mode = 0
+offset_left = 56.0
+offset_top = -16.0
+offset_right = 1856.0
+offset_bottom = 85.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("1_047kc")
+theme_override_font_sizes/font_size = 68
+text = "Game mode"
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Value" type="Label" parent="Mode"]
+layout_mode = 0
+offset_left = 512.0
+offset_top = 8.0
+offset_right = 1688.0
+offset_bottom = 101.0
+theme_override_colors/font_color = Color(0.858824, 0.803922, 0.960784, 1)
+theme_override_fonts/font = ExtResource("2_kfixx")
+theme_override_font_sizes/font_size = 68
+text = "Time"
+horizontal_alignment = 2
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Expl" type="Label" parent="Mode"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 80.0
+offset_right = 1552.0
+offset_bottom = 116.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_t6a02")
+theme_override_font_sizes/font_size = 30
+text = "You have to survive until the time runs out."
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Time" type="Label" parent="."]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 112.0
+offset_right = 1856.0
+offset_bottom = 213.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("1_047kc")
+theme_override_font_sizes/font_size = 68
+text = "Time"
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Value" type="Label" parent="Time"]
+layout_mode = 0
+offset_left = 512.0
+offset_top = 8.0
+offset_right = 1688.0
+offset_bottom = 101.0
+theme_override_colors/font_color = Color(0.858824, 0.803922, 0.960784, 1)
+theme_override_fonts/font = ExtResource("2_kfixx")
+theme_override_font_sizes/font_size = 68
+text = "00"
+horizontal_alignment = 2
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Expl" type="Label" parent="Time"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 80.0
+offset_right = 1552.0
+offset_bottom = 116.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_t6a02")
+theme_override_font_sizes/font_size = 30
+text = "The time (in seconds) to beat to win a turn."
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Lives" type="Label" parent="."]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 240.0
+offset_right = 1864.0
+offset_bottom = 341.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("1_047kc")
+theme_override_font_sizes/font_size = 68
+text = "Lives
+"
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Value" type="Label" parent="Lives"]
+layout_mode = 0
+offset_left = 512.0
+offset_top = 8.0
+offset_right = 1688.0
+offset_bottom = 101.0
+theme_override_colors/font_color = Color(0.858824, 0.803922, 0.960784, 1)
+theme_override_fonts/font = ExtResource("2_kfixx")
+theme_override_font_sizes/font_size = 68
+text = "00"
+horizontal_alignment = 2
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Expl" type="Label" parent="Lives"]
+layout_mode = 0
+offset_top = 80.0
+offset_right = 1544.0
+offset_bottom = 116.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_t6a02")
+theme_override_font_sizes/font_size = 30
+text = "You lose 1 life when you die. You lose the game when all your lives are gone."
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Frequency" type="Label" parent="."]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 368.0
+offset_right = 1864.0
+offset_bottom = 469.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("1_047kc")
+theme_override_font_sizes/font_size = 68
+text = "Frequency"
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Value" type="Label" parent="Frequency"]
+layout_mode = 0
+offset_left = 512.0
+offset_top = 8.0
+offset_right = 1688.0
+offset_bottom = 101.0
+theme_override_colors/font_color = Color(0.858824, 0.803922, 0.960784, 1)
+theme_override_fonts/font = ExtResource("2_kfixx")
+theme_override_font_sizes/font_size = 68
+text = "Slow"
+horizontal_alignment = 2
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Expl" type="Label" parent="Frequency"]
+layout_mode = 0
+offset_top = 80.0
+offset_right = 1544.0
+offset_bottom = 116.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_t6a02")
+theme_override_font_sizes/font_size = 30
+text = "The speed at which things go on on the field."
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Turns" type="Label" parent="."]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 496.0
+offset_right = 1872.0
+offset_bottom = 597.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("1_047kc")
+theme_override_font_sizes/font_size = 68
+text = "Turns
+"
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Value" type="Label" parent="Turns"]
+layout_mode = 0
+offset_left = 512.0
+offset_top = 8.0
+offset_right = 1688.0
+offset_bottom = 101.0
+theme_override_colors/font_color = Color(0.858824, 0.803922, 0.960784, 1)
+theme_override_fonts/font = ExtResource("2_kfixx")
+theme_override_font_sizes/font_size = 68
+text = "00"
+horizontal_alignment = 2
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Expl" type="Label" parent="Turns"]
+layout_mode = 0
+offset_top = 80.0
+offset_right = 1544.0
+offset_bottom = 116.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_t6a02")
+theme_override_font_sizes/font_size = 30
+text = "You must beat the timer this amount of times to win the game."
+autowrap_mode = 2
+justification_flags = 162

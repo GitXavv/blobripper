@@ -822,8 +822,8 @@ texture_hover = ExtResource("6_te1as")
 
 [node name="Statistics" parent="." instance=ExtResource("11_untfs")]
 offset_top = -1080.0
-offset_right = 15360.0
-offset_bottom = 7552.0
+offset_right = 17280.0
+offset_bottom = 8392.0
 
 [node name="Victory" parent="Statistics" index="1"]
 offset_left = 78.4714
@@ -879,9 +879,9 @@ offset_right = 1792.0
 
 [node name="Register" parent="Statistics" index="12"]
 offset_left = 72.0
-offset_top = 736.0
-offset_right = 1000.0
-offset_bottom = 795.0
+offset_top = 696.0
+offset_right = 1856.0
+offset_bottom = 808.0
 
 [node name="Sure" parent="Statistics" index="13"]
 offset_left = 288.0
@@ -987,7 +987,6 @@ volume_db = 4.0
 [connection signal="timeout" from="PreResults" to="." method="result_screen"]
 [connection signal="timeout" from="Calcul" to="." method="stats_calculation"]
 [connection signal="button_up" from="PauseButton" to="." method="_on_pause_button"]
-[connection signal="button_up" from="Statistics/Register/submit" to="." method="score_submit"]
 [connection signal="button_up" from="Statistics/Retry" to="." method="_on_retry_button_up"]
 [connection signal="mouse_entered" from="Statistics/Retry" to="." method="_on_retry_mouse_entered"]
 [connection signal="mouse_exited" from="Statistics/Retry" to="." method="_on_retry_mouse_exited"]

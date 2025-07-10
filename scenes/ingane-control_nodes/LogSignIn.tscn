@@ -1,0 +1,1564 @@
+[gd_scene load_steps=19 format=3 uid="uid://d1r68sjc8rrv5"]
+
+[ext_resource type="FontFile" uid="uid://dkfn0w3gwssod" path="res://fonts/ARLRDBD.TTF" id="1_hjx13"]
+[ext_resource type="Script" path="res://scenes/ingane-control_nodes/LogSignIn.gd" id="1_idikn"]
+[ext_resource type="FontFile" uid="uid://ca0io57pxr6v3" path="res://fonts/FingerPaint-Regular.ttf" id="2_wqf0b"]
+[ext_resource type="Texture2D" uid="uid://ctcwr1kg8qt2y" path="res://assets/back.png" id="3_gepb8"]
+[ext_resource type="FontFile" uid="uid://nrdaaf5jw0up" path="res://fonts/MadimiOne-Regular.ttf" id="3_whexb"]
+[ext_resource type="StyleBox" uid="uid://baywkffa4hyc1" path="res://button_themes/btn_classic.tres" id="4_medpl"]
+[ext_resource type="Texture2D" uid="uid://cjl8i7c0to58h" path="res://assets/back_hover.png" id="4_qqu07"]
+[ext_resource type="StyleBox" uid="uid://ct240aeste7v1" path="res://button_themes/btn_classic_hover.tres" id="5_n358d"]
+[ext_resource type="StyleBox" uid="uid://bjcb4m5f5c3es" path="res://button_themes/btn_classic_pressed.tres" id="6_0bl0u"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_56t3o"]
+bg_color = Color(0.815686, 0, 0.505882, 0.815686)
+skew = Vector2(0.5, 0)
+border_width_left = 10
+border_width_top = 2
+border_blend = true
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+corner_detail = 10
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6htyw"]
+bg_color = Color(0.996078, 0.219608, 0.658824, 1)
+skew = Vector2(0.55, 0)
+border_width_left = 10
+border_width_top = 2
+border_blend = true
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+corner_detail = 10
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6jhnu"]
+bg_color = Color(0.458824, 0, 0.286275, 1)
+skew = Vector2(0.67, 0)
+border_width_left = 10
+border_width_top = 2
+border_color = Color(0.8, 0.509804, 0.8, 1)
+border_blend = true
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+corner_detail = 10
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yuds2"]
+bg_color = Color(0.815686, 0, 0.505882, 0.815686)
+skew = Vector2(-0.5, 0)
+border_width_left = 10
+border_width_top = 2
+border_blend = true
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+corner_detail = 10
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ca1w8"]
+bg_color = Color(0.996078, 0.219608, 0.658824, 1)
+skew = Vector2(-0.5, 0)
+border_width_left = 10
+border_width_top = 2
+border_blend = true
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+corner_detail = 10
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ma8fb"]
+bg_color = Color(0.458824, 0, 0.286275, 1)
+skew = Vector2(-0.67, 0)
+border_width_left = 10
+border_width_top = 2
+border_color = Color(0.8, 0.509804, 0.8, 1)
+border_blend = true
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+corner_detail = 10
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_17vkx"]
+bg_color = Color(0.572549, 0.0431373, 0.65098, 0.815686)
+skew = Vector2(0.5, 0)
+border_width_left = 10
+border_width_top = 2
+border_blend = true
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+corner_detail = 10
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2da8b"]
+bg_color = Color(0.878431, 0.372549, 0.964706, 0.815686)
+skew = Vector2(0.55, 0)
+border_width_left = 10
+border_width_top = 2
+border_blend = true
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+corner_detail = 10
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fxm1"]
+bg_color = Color(0.396078, 0.0235294, 0.45098, 1)
+skew = Vector2(0.67, 0)
+border_width_left = 10
+border_width_top = 2
+border_color = Color(0.8, 0.509804, 0.8, 1)
+border_blend = true
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+corner_detail = 10
+shadow_size = 3
+
+[node name="LogSignIn" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_idikn")
+metadata/_edit_lock_ = true
+
+[node name="MainPage" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+metadata/_edit_lock_ = true
+
+[node name="Top" type="ColorRect" parent="MainPage"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 152.0
+color = Color(0.133333, 0.0627451, 0.196078, 1)
+metadata/_edit_lock_ = true
+
+[node name="LoginText" type="Label" parent="MainPage/Top"]
+layout_mode = 0
+offset_left = 8.0
+offset_right = 968.0
+offset_bottom = 82.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 4
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 70
+text = "Log in"
+horizontal_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="LoginSubText" type="Label" parent="MainPage/Top/LoginText"]
+layout_mode = 0
+offset_top = 88.0
+offset_right = 960.0
+offset_bottom = 146.0
+theme_override_colors/font_color = Color(0.572549, 0.509804, 0.678431, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 49
+text = "if you already have an account"
+horizontal_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="SigninText" type="Label" parent="MainPage/Top"]
+layout_mode = 0
+offset_left = 960.0
+offset_right = 1920.0
+offset_bottom = 82.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 70
+text = "Sign in"
+horizontal_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="SigninSubText" type="Label" parent="MainPage/Top/SigninText"]
+layout_mode = 0
+offset_top = 88.0
+offset_right = 960.0
+offset_bottom = 146.0
+theme_override_colors/font_color = Color(0.572549, 0.509804, 0.678431, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 49
+text = "to join the Blobsweeper online scene"
+horizontal_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Back" type="TextureButton" parent="MainPage/Top"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 536.0
+offset_bottom = 528.0
+scale = Vector2(0.2, 0.2)
+focus_mode = 0
+button_mask = 3
+keep_pressed_outside = true
+texture_normal = ExtResource("3_gepb8")
+texture_hover = ExtResource("4_qqu07")
+
+[node name="LoginSpace" type="ColorRect" parent="MainPage"]
+layout_mode = 0
+offset_top = 152.0
+offset_right = 960.0
+offset_bottom = 1080.0
+color = Color(0.207843, 0.0627451, 0.196078, 1)
+metadata/_edit_lock_ = true
+
+[node name="Nickname" type="Label" parent="MainPage/LoginSpace"]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 264.0
+offset_right = 936.0
+offset_bottom = 343.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "Nickname"
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="desc" type="Label" parent="MainPage/LoginSpace/Nickname"]
+layout_mode = 0
+offset_top = 64.0
+offset_right = 864.0
+offset_bottom = 100.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 30
+text = "The name of your account"
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="input" type="LineEdit" parent="MainPage/LoginSpace/Nickname"]
+layout_mode = 0
+offset_left = 288.0
+offset_top = 16.0
+offset_right = 824.0
+offset_bottom = 64.0
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 28
+max_length = 25
+
+[node name="Password" type="Label" parent="MainPage/LoginSpace"]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 504.0
+offset_right = 936.0
+offset_bottom = 583.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "Password"
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="desc" type="Label" parent="MainPage/LoginSpace/Password"]
+layout_mode = 0
+offset_top = 64.0
+offset_right = 864.0
+offset_bottom = 100.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 30
+text = "Hold Ctrl to show what you are typing"
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="input" type="LineEdit" parent="MainPage/LoginSpace/Password"]
+layout_mode = 0
+offset_left = 288.0
+offset_top = 16.0
+offset_right = 824.0
+offset_bottom = 64.0
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 28
+max_length = 25
+clear_button_enabled = true
+secret = true
+
+[node name="NextStep" type="Button" parent="MainPage/LoginSpace"]
+layout_mode = 0
+offset_left = 280.0
+offset_top = 760.0
+offset_right = 744.0
+offset_bottom = 856.0
+focus_mode = 0
+theme_override_fonts/font = ExtResource("3_whexb")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxFlat_56t3o")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6htyw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_6jhnu")
+text = "Log in"
+
+[node name="SigninSpace" type="ColorRect" parent="MainPage"]
+layout_mode = 0
+offset_left = 960.0
+offset_top = 152.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.2, 0.0588235, 0.227451, 1)
+metadata/_edit_lock_ = true
+
+[node name="Nickname" type="Label" parent="MainPage/SigninSpace"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 264.0
+offset_right = 888.0
+offset_bottom = 343.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "Nickname"
+horizontal_alignment = 2
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="desc" type="Label" parent="MainPage/SigninSpace/Nickname"]
+layout_mode = 0
+offset_top = 64.0
+offset_right = 864.0
+offset_bottom = 100.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 30
+text = "Think of a memorable nickname unique to you"
+horizontal_alignment = 2
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="input" type="LineEdit" parent="MainPage/SigninSpace/Nickname"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 16.0
+offset_right = 592.0
+offset_bottom = 64.0
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 28
+placeholder_text = "25 characters maximum"
+alignment = 2
+max_length = 25
+
+[node name="Password" type="Label" parent="MainPage/SigninSpace"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 504.0
+offset_right = 888.0
+offset_bottom = 583.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "Password"
+horizontal_alignment = 2
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="desc" type="Label" parent="MainPage/SigninSpace/Password"]
+layout_mode = 0
+offset_top = 64.0
+offset_right = 864.0
+offset_bottom = 100.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 30
+text = "Remember very well this password if you plan to play often"
+horizontal_alignment = 2
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="input" type="LineEdit" parent="MainPage/SigninSpace/Password"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 16.0
+offset_right = 592.0
+offset_bottom = 64.0
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 28
+placeholder_text = "Put something strong, hard to guess"
+alignment = 2
+max_length = 25
+clear_button_enabled = true
+secret = true
+
+[node name="NextStep" type="Button" parent="MainPage/SigninSpace"]
+layout_mode = 0
+offset_left = 216.0
+offset_top = 760.0
+offset_right = 680.0
+offset_bottom = 856.0
+focus_mode = 0
+theme_override_fonts/font = ExtResource("3_whexb")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxFlat_yuds2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ca1w8")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ma8fb")
+text = "Sign in"
+
+[node name="or" type="Label" parent="MainPage"]
+layout_mode = 0
+offset_left = 832.0
+offset_top = 540.0
+offset_right = 1088.0
+offset_bottom = 622.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 70
+text = "or"
+horizontal_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+metadata/_edit_lock_ = true
+
+[node name="LoginStep2" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+metadata/_edit_lock_ = true
+
+[node name="Top" type="ColorRect" parent="LoginStep2"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 152.0
+color = Color(0.133333, 0.0627451, 0.196078, 1)
+metadata/_edit_lock_ = true
+
+[node name="LoginText" type="Label" parent="LoginStep2/Top"]
+layout_mode = 0
+offset_left = 8.0
+offset_right = 1920.0
+offset_bottom = 82.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 4
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 70
+text = "Log in"
+horizontal_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Almost" type="Label" parent="LoginStep2/Top/LoginText"]
+layout_mode = 0
+offset_top = 88.0
+offset_right = 1912.0
+offset_bottom = 146.0
+theme_override_colors/font_color = Color(0.572549, 0.509804, 0.678431, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 49
+text = "You are almost there!"
+horizontal_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Back" type="TextureButton" parent="LoginStep2/Top"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 536.0
+offset_bottom = 528.0
+scale = Vector2(0.2, 0.2)
+focus_mode = 0
+button_mask = 3
+keep_pressed_outside = true
+texture_normal = ExtResource("3_gepb8")
+texture_hover = ExtResource("4_qqu07")
+
+[node name="LoginSpace" type="ColorRect" parent="LoginStep2"]
+layout_mode = 0
+offset_top = 152.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.207843, 0.0627451, 0.196078, 1)
+metadata/_edit_lock_ = true
+
+[node name="GiveCorrAns" type="Label" parent="LoginStep2/LoginSpace"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 304.0
+offset_right = 768.0
+offset_bottom = 383.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "Give the correct answer"
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="desc" type="Label" parent="LoginStep2/LoginSpace/GiveCorrAns"]
+layout_mode = 0
+offset_top = 64.0
+offset_right = 704.0
+offset_bottom = 100.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 30
+text = "to this question to gain access to [account]"
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Question" type="TextEdit" parent="LoginStep2/LoginSpace/GiveCorrAns"]
+layout_mode = 0
+offset_left = 744.0
+offset_top = -200.0
+offset_right = 1792.0
+offset_bottom = 312.0
+theme_override_colors/background_color = Color(0.113725, 0.0313726, 0.160784, 1)
+theme_override_colors/font_color = Color(0.537255, 0.478431, 0.639216, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 32
+text = "Question"
+editable = false
+
+[node name="Answer" type="Label" parent="LoginStep2/LoginSpace"]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 632.0
+offset_right = 936.0
+offset_bottom = 711.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "Answer"
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="desc" type="Label" parent="LoginStep2/LoginSpace/Answer"]
+layout_mode = 0
+offset_top = 64.0
+offset_right = 1712.0
+offset_bottom = 100.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 30
+text = "Note that the answer is case sensitive"
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="input" type="LineEdit" parent="LoginStep2/LoginSpace/Answer"]
+layout_mode = 0
+offset_left = 472.0
+offset_top = 16.0
+offset_right = 1784.0
+offset_bottom = 64.0
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 28
+max_length = 80
+clear_button_enabled = true
+
+[node name="LoginButton" type="Button" parent="LoginStep2/LoginSpace"]
+layout_mode = 0
+offset_left = 720.0
+offset_top = 776.0
+offset_right = 1184.0
+offset_bottom = 872.0
+focus_mode = 0
+theme_override_fonts/font = ExtResource("3_whexb")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxFlat_56t3o")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6htyw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_6jhnu")
+text = "Log in"
+
+[node name="SigninStep2" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+metadata/_edit_lock_ = true
+
+[node name="Top" type="ColorRect" parent="SigninStep2"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 152.0
+color = Color(0.133333, 0.0627451, 0.196078, 1)
+metadata/_edit_lock_ = true
+
+[node name="SigninText" type="Label" parent="SigninStep2/Top"]
+layout_mode = 0
+offset_left = 8.0
+offset_right = 1920.0
+offset_bottom = 82.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 4
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 70
+text = "Sign in"
+horizontal_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Almost" type="Label" parent="SigninStep2/Top/SigninText"]
+layout_mode = 0
+offset_top = 88.0
+offset_right = 1912.0
+offset_bottom = 146.0
+theme_override_colors/font_color = Color(0.572549, 0.509804, 0.678431, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 49
+text = "You are almost there!"
+horizontal_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Back" type="TextureButton" parent="SigninStep2/Top"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 536.0
+offset_bottom = 528.0
+scale = Vector2(0.2, 0.2)
+focus_mode = 0
+button_mask = 3
+keep_pressed_outside = true
+texture_normal = ExtResource("3_gepb8")
+texture_hover = ExtResource("4_qqu07")
+
+[node name="LoginSpace" type="ColorRect" parent="SigninStep2"]
+layout_mode = 0
+offset_top = 152.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.2, 0.0588235, 0.227451, 1)
+metadata/_edit_lock_ = true
+
+[node name="SetQuestion" type="Label" parent="SigninStep2/LoginSpace"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 304.0
+offset_right = 768.0
+offset_bottom = 383.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "Set up the question"
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="desc" type="Label" parent="SigninStep2/LoginSpace/SetQuestion"]
+layout_mode = 0
+offset_top = 64.0
+offset_right = 712.0
+offset_bottom = 100.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 30
+text = "to answer when logging in to this account next time"
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Question" type="TextEdit" parent="SigninStep2/LoginSpace/SetQuestion"]
+layout_mode = 0
+offset_left = 744.0
+offset_top = -200.0
+offset_right = 1792.0
+offset_bottom = 312.0
+theme_override_colors/background_color = Color(0.113725, 0.0313726, 0.160784, 1)
+theme_override_colors/font_color = Color(0.815686, 0.784314, 0.87451, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 32
+placeholder_text = "Think about a unique question only you can answer.
+Example: \"What is my favourite food?\""
+wrap_mode = 1
+
+[node name="Answer" type="Label" parent="SigninStep2/LoginSpace"]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 632.0
+offset_right = 528.0
+offset_bottom = 711.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "The unique ans."
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="desc" type="Label" parent="SigninStep2/LoginSpace/Answer"]
+layout_mode = 0
+offset_top = 64.0
+offset_right = 1712.0
+offset_bottom = 100.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 30
+text = "to your unique question. The answer is case sensitive. Hold Ctrl to reveal it. 80 characters maximum."
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="input" type="LineEdit" parent="SigninStep2/LoginSpace/Answer"]
+layout_mode = 0
+offset_left = 472.0
+offset_top = 16.0
+offset_right = 1784.0
+offset_bottom = 64.0
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 28
+placeholder_text = "Example: \"Any kind of Bakery\" which is different from \"any kind of bakery\""
+max_length = 80
+clear_button_enabled = true
+secret = true
+
+[node name="FinalStep" type="Button" parent="SigninStep2/LoginSpace"]
+layout_mode = 0
+offset_left = 720.0
+offset_top = 776.0
+offset_right = 1184.0
+offset_bottom = 872.0
+focus_mode = 0
+theme_override_fonts/font = ExtResource("3_whexb")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxFlat_56t3o")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6htyw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_6jhnu")
+text = "Sign in"
+
+[node name="SigninFinalStep" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+metadata/_edit_lock_ = true
+
+[node name="Top" type="ColorRect" parent="SigninFinalStep"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 152.0
+color = Color(0.133333, 0.0627451, 0.196078, 1)
+metadata/_edit_lock_ = true
+
+[node name="SigninText" type="Label" parent="SigninFinalStep/Top"]
+layout_mode = 0
+offset_left = 8.0
+offset_right = 1920.0
+offset_bottom = 82.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 4
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 70
+text = "Sign in"
+horizontal_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Almost" type="Label" parent="SigninFinalStep/Top/SigninText"]
+layout_mode = 0
+offset_top = 88.0
+offset_right = 1912.0
+offset_bottom = 146.0
+theme_override_colors/font_color = Color(0.572549, 0.509804, 0.678431, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 49
+text = "It's the last step !"
+horizontal_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Back" type="TextureButton" parent="SigninFinalStep/Top"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 536.0
+offset_bottom = 528.0
+scale = Vector2(0.2, 0.2)
+focus_mode = 0
+button_mask = 3
+keep_pressed_outside = true
+texture_normal = ExtResource("3_gepb8")
+texture_hover = ExtResource("4_qqu07")
+
+[node name="SigninSpace" type="ColorRect" parent="SigninFinalStep"]
+layout_mode = 0
+offset_top = 152.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.2, 0.0588235, 0.227451, 1)
+metadata/_edit_lock_ = true
+
+[node name="Beware" type="Label" parent="SigninFinalStep/SigninSpace"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 16.0
+offset_right = 1856.0
+offset_bottom = 68.0
+theme_override_colors/font_color = Color(0.572549, 0.509804, 0.678431, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 33
+text = "Now you are going to configure your backup questions. If you ever forget your password or your Log in answer, the backup method to recover your account will be to answer correctly this series of 3 questions set by yourself. Be careful and focused at this part as there will be no other way to recover your account if you don't remember even 1 answer of your backup questions!"
+horizontal_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Q_A1" type="Control" parent="SigninFinalStep/SigninSpace"]
+anchors_preset = 0
+offset_left = 128.0
+offset_top = 224.0
+offset_right = 1792.0
+offset_bottom = 360.0
+
+[node name="Q1" type="Label" parent="SigninFinalStep/SigninSpace/Q_A1"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = -8.0
+offset_right = 328.0
+offset_bottom = 71.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "Question 1"
+autowrap_mode = 2
+justification_flags = 162
+metadata/_edit_lock_ = true
+
+[node name="input" type="LineEdit" parent="SigninFinalStep/SigninSpace/Q_A1/Q1"]
+layout_mode = 0
+offset_left = 336.0
+offset_top = 16.0
+offset_right = 1648.0
+offset_bottom = 64.0
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 28
+placeholder_text = "80 characters maximum"
+max_length = 80
+clear_button_enabled = true
+
+[node name="A1" type="Label" parent="SigninFinalStep/SigninSpace/Q_A1"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 64.0
+offset_right = 328.0
+offset_bottom = 143.0
+theme_override_colors/font_color = Color(0.972549, 0.862745, 0.964706, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "Answer 1"
+autowrap_mode = 2
+justification_flags = 162
+metadata/_edit_lock_ = true
+
+[node name="input" type="LineEdit" parent="SigninFinalStep/SigninSpace/Q_A1/A1"]
+layout_mode = 0
+offset_left = 336.0
+offset_top = 16.0
+offset_right = 1648.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.988235, 0.784314, 0.623529, 1)
+theme_override_colors/font_placeholder_color = Color(0.580392, 0.419608, 0.27451, 0.788235)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 28
+placeholder_text = "The answer is case sensitive!"
+max_length = 80
+clear_button_enabled = true
+secret = true
+
+[node name="Q_A2" type="Control" parent="SigninFinalStep/SigninSpace"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 128.0
+offset_top = 416.0
+offset_right = 1792.0
+offset_bottom = 552.0
+
+[node name="Q2" type="Label" parent="SigninFinalStep/SigninSpace/Q_A2"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = -8.0
+offset_right = 328.0
+offset_bottom = 71.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "Question 2"
+autowrap_mode = 2
+justification_flags = 162
+metadata/_edit_lock_ = true
+
+[node name="input" type="LineEdit" parent="SigninFinalStep/SigninSpace/Q_A2/Q2"]
+layout_mode = 0
+offset_left = 336.0
+offset_top = 16.0
+offset_right = 1648.0
+offset_bottom = 64.0
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 28
+placeholder_text = "80 characters maximum"
+max_length = 80
+clear_button_enabled = true
+
+[node name="A2" type="Label" parent="SigninFinalStep/SigninSpace/Q_A2"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 64.0
+offset_right = 328.0
+offset_bottom = 143.0
+theme_override_colors/font_color = Color(0.972549, 0.862745, 0.964706, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "Answer 2
+"
+autowrap_mode = 2
+justification_flags = 162
+metadata/_edit_lock_ = true
+
+[node name="input" type="LineEdit" parent="SigninFinalStep/SigninSpace/Q_A2/A2"]
+layout_mode = 0
+offset_left = 336.0
+offset_top = 16.0
+offset_right = 1648.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.988235, 0.784314, 0.623529, 1)
+theme_override_colors/font_placeholder_color = Color(0.580392, 0.419608, 0.27451, 0.788235)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 28
+placeholder_text = "80 characters maximum"
+max_length = 80
+clear_button_enabled = true
+secret = true
+
+[node name="Q_A3" type="Control" parent="SigninFinalStep/SigninSpace"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 128.0
+offset_top = 608.0
+offset_right = 1792.0
+offset_bottom = 744.0
+
+[node name="Q3" type="Label" parent="SigninFinalStep/SigninSpace/Q_A3"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = -8.0
+offset_right = 328.0
+offset_bottom = 71.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "Question 3"
+autowrap_mode = 2
+justification_flags = 162
+metadata/_edit_lock_ = true
+
+[node name="input" type="LineEdit" parent="SigninFinalStep/SigninSpace/Q_A3/Q3"]
+layout_mode = 0
+offset_left = 336.0
+offset_top = 16.0
+offset_right = 1648.0
+offset_bottom = 64.0
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 28
+placeholder_text = "80 characters maximum"
+max_length = 80
+clear_button_enabled = true
+
+[node name="A3" type="Label" parent="SigninFinalStep/SigninSpace/Q_A3"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 64.0
+offset_right = 328.0
+offset_bottom = 143.0
+theme_override_colors/font_color = Color(0.972549, 0.862745, 0.964706, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "Answer 3"
+autowrap_mode = 2
+justification_flags = 162
+metadata/_edit_lock_ = true
+
+[node name="input" type="LineEdit" parent="SigninFinalStep/SigninSpace/Q_A3/A3"]
+layout_mode = 0
+offset_left = 336.0
+offset_top = 16.0
+offset_right = 1648.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.988235, 0.784314, 0.623529, 1)
+theme_override_colors/font_placeholder_color = Color(0.580392, 0.419608, 0.27451, 0.788235)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 28
+placeholder_text = "80 characters maximum"
+max_length = 80
+clear_button_enabled = true
+secret = true
+
+[node name="SignIn" type="Button" parent="SigninFinalStep/SigninSpace"]
+layout_mode = 0
+offset_left = 464.0
+offset_top = 776.0
+offset_right = 1456.0
+offset_bottom = 872.0
+focus_mode = 0
+theme_override_fonts/font = ExtResource("3_whexb")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxFlat_56t3o")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6htyw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_6jhnu")
+text = "Sign in (for real this time)"
+
+[node name="Hold" type="Label" parent="SigninFinalStep/SigninSpace"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 880.0
+offset_right = 1784.0
+offset_bottom = 916.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 30
+text = "Hold Ctrl to reveal all the answers"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="ForgotPassword" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+metadata/_edit_lock_ = true
+
+[node name="Top" type="ColorRect" parent="ForgotPassword"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 152.0
+color = Color(0.133333, 0.0627451, 0.196078, 1)
+metadata/_edit_lock_ = true
+
+[node name="SigninText" type="Label" parent="ForgotPassword/Top"]
+layout_mode = 0
+offset_left = 8.0
+offset_right = 1920.0
+offset_bottom = 82.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 4
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 70
+text = "Account backup"
+horizontal_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Almost" type="Label" parent="ForgotPassword/Top/SigninText"]
+layout_mode = 0
+offset_top = 88.0
+offset_right = 1912.0
+offset_bottom = 146.0
+theme_override_colors/font_color = Color(0.572549, 0.509804, 0.678431, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 49
+text = "Your last resort to get access to your account!"
+horizontal_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Back" type="TextureButton" parent="ForgotPassword/Top"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 536.0
+offset_bottom = 528.0
+scale = Vector2(0.2, 0.2)
+focus_mode = 0
+button_mask = 3
+keep_pressed_outside = true
+texture_normal = ExtResource("3_gepb8")
+texture_hover = ExtResource("4_qqu07")
+
+[node name="LoginSpace" type="ColorRect" parent="ForgotPassword"]
+layout_mode = 0
+offset_top = 152.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.207843, 0.0627451, 0.196078, 1)
+metadata/_edit_lock_ = true
+
+[node name="Beware" type="Label" parent="ForgotPassword/LoginSpace"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 16.0
+offset_right = 1856.0
+offset_bottom = 68.0
+theme_override_colors/font_color = Color(0.572549, 0.509804, 0.678431, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 33
+text = "If you are here, it surely means you forgot your password or your Log in answer. How unfortunate. But do not worry. There is still a way for you to log in to your beloved account. Remember these questions you set yourself? You just have to answer them correctly and you will be able to reset your password, your Log in question and answer, and also your backup question if you want."
+horizontal_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Q_A1" type="Control" parent="ForgotPassword/LoginSpace"]
+anchors_preset = 0
+offset_left = 128.0
+offset_top = 224.0
+offset_right = 1792.0
+offset_bottom = 360.0
+
+[node name="Q1" type="Label" parent="ForgotPassword/LoginSpace/Q_A1"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = -8.0
+offset_right = 328.0
+offset_bottom = 71.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "Question 1"
+autowrap_mode = 2
+justification_flags = 162
+metadata/_edit_lock_ = true
+
+[node name="input" type="LineEdit" parent="ForgotPassword/LoginSpace/Q_A1/Q1"]
+layout_mode = 0
+offset_left = 336.0
+offset_top = 16.0
+offset_right = 1648.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.745098, 0.380392, 0.666667, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 28
+text = "Question 1"
+placeholder_text = "80 characters maximum"
+max_length = 80
+editable = false
+clear_button_enabled = true
+
+[node name="A1" type="Label" parent="ForgotPassword/LoginSpace/Q_A1"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 64.0
+offset_right = 328.0
+offset_bottom = 143.0
+theme_override_colors/font_color = Color(0.972549, 0.862745, 0.964706, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "Answer 1"
+autowrap_mode = 2
+justification_flags = 162
+metadata/_edit_lock_ = true
+
+[node name="input" type="LineEdit" parent="ForgotPassword/LoginSpace/Q_A1/A1"]
+layout_mode = 0
+offset_left = 336.0
+offset_top = 16.0
+offset_right = 1648.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.988235, 0.784314, 0.623529, 1)
+theme_override_colors/font_placeholder_color = Color(0.580392, 0.419608, 0.27451, 0.788235)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 28
+placeholder_text = "The answer is case sensitive!"
+max_length = 80
+clear_button_enabled = true
+secret = true
+
+[node name="Q_A2" type="Control" parent="ForgotPassword/LoginSpace"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 128.0
+offset_top = 416.0
+offset_right = 1792.0
+offset_bottom = 552.0
+
+[node name="Q2" type="Label" parent="ForgotPassword/LoginSpace/Q_A2"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = -8.0
+offset_right = 328.0
+offset_bottom = 71.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "Question 2"
+autowrap_mode = 2
+justification_flags = 162
+metadata/_edit_lock_ = true
+
+[node name="input" type="LineEdit" parent="ForgotPassword/LoginSpace/Q_A2/Q2"]
+layout_mode = 0
+offset_left = 336.0
+offset_top = 16.0
+offset_right = 1648.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.745098, 0.380392, 0.666667, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 28
+text = "Question 2"
+placeholder_text = "80 characters maximum"
+max_length = 80
+editable = false
+clear_button_enabled = true
+
+[node name="A2" type="Label" parent="ForgotPassword/LoginSpace/Q_A2"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 64.0
+offset_right = 328.0
+offset_bottom = 143.0
+theme_override_colors/font_color = Color(0.972549, 0.862745, 0.964706, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "Answer 2
+"
+autowrap_mode = 2
+justification_flags = 162
+metadata/_edit_lock_ = true
+
+[node name="input" type="LineEdit" parent="ForgotPassword/LoginSpace/Q_A2/A2"]
+layout_mode = 0
+offset_left = 336.0
+offset_top = 16.0
+offset_right = 1648.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.988235, 0.784314, 0.623529, 1)
+theme_override_colors/font_placeholder_color = Color(0.580392, 0.419608, 0.27451, 0.788235)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 28
+placeholder_text = "80 characters maximum"
+max_length = 80
+clear_button_enabled = true
+secret = true
+
+[node name="Q_A3" type="Control" parent="ForgotPassword/LoginSpace"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 128.0
+offset_top = 608.0
+offset_right = 1792.0
+offset_bottom = 744.0
+
+[node name="Q3" type="Label" parent="ForgotPassword/LoginSpace/Q_A3"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = -8.0
+offset_right = 328.0
+offset_bottom = 71.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "Question 3"
+autowrap_mode = 2
+justification_flags = 162
+metadata/_edit_lock_ = true
+
+[node name="input" type="LineEdit" parent="ForgotPassword/LoginSpace/Q_A3/Q3"]
+layout_mode = 0
+offset_left = 336.0
+offset_top = 16.0
+offset_right = 1648.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.745098, 0.380392, 0.666667, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 28
+text = "Question 3"
+placeholder_text = "80 characters maximum"
+max_length = 80
+editable = false
+clear_button_enabled = true
+
+[node name="A3" type="Label" parent="ForgotPassword/LoginSpace/Q_A3"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 64.0
+offset_right = 328.0
+offset_bottom = 143.0
+theme_override_colors/font_color = Color(0.972549, 0.862745, 0.964706, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "Answer 3"
+autowrap_mode = 2
+justification_flags = 162
+metadata/_edit_lock_ = true
+
+[node name="input" type="LineEdit" parent="ForgotPassword/LoginSpace/Q_A3/A3"]
+layout_mode = 0
+offset_left = 336.0
+offset_top = 16.0
+offset_right = 1648.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.988235, 0.784314, 0.623529, 1)
+theme_override_colors/font_placeholder_color = Color(0.580392, 0.419608, 0.27451, 0.788235)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 28
+placeholder_text = "80 characters maximum"
+max_length = 80
+clear_button_enabled = true
+secret = true
+
+[node name="Submit" type="Button" parent="ForgotPassword/LoginSpace"]
+layout_mode = 0
+offset_left = 464.0
+offset_top = 776.0
+offset_right = 1456.0
+offset_bottom = 872.0
+focus_mode = 0
+theme_override_fonts/font = ExtResource("3_whexb")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxFlat_17vkx")
+theme_override_styles/hover = SubResource("StyleBoxFlat_2da8b")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_8fxm1")
+text = "Submit answers"
+
+[node name="Hold" type="Label" parent="ForgotPassword/LoginSpace"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 880.0
+offset_right = 1784.0
+offset_bottom = 916.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 30
+text = "Hold Ctrl to reveal all the answers"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Backup1" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+metadata/_edit_lock_ = true
+
+[node name="Top" type="ColorRect" parent="Backup1"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 152.0
+color = Color(0.133333, 0.0627451, 0.196078, 1)
+metadata/_edit_lock_ = true
+
+[node name="LoginText" type="Label" parent="Backup1/Top"]
+layout_mode = 0
+offset_left = 8.0
+offset_right = 1920.0
+offset_bottom = 82.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 4
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 70
+text = "Account backup"
+horizontal_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="LoginSubText" type="Label" parent="Backup1/Top/LoginText"]
+layout_mode = 0
+offset_top = 88.0
+offset_right = 1912.0
+offset_bottom = 146.0
+theme_override_colors/font_color = Color(0.572549, 0.509804, 0.678431, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 49
+text = "Only a few more steps and you will recover your account"
+horizontal_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="LoginSpace" type="ColorRect" parent="Backup1"]
+layout_mode = 0
+offset_top = 152.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.207843, 0.0627451, 0.196078, 1)
+metadata/_edit_lock_ = true
+
+[node name="Nickname" type="Label" parent="Backup1/LoginSpace"]
+layout_mode = 0
+offset_left = 512.0
+offset_top = 256.0
+offset_right = 1376.0
+offset_bottom = 335.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "Nickname"
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="desc" type="Label" parent="Backup1/LoginSpace/Nickname"]
+layout_mode = 0
+offset_top = 64.0
+offset_right = 864.0
+offset_bottom = 100.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 30
+text = "The name of your account"
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="input" type="LineEdit" parent="Backup1/LoginSpace/Nickname"]
+layout_mode = 0
+offset_left = 288.0
+offset_top = 16.0
+offset_right = 824.0
+offset_bottom = 64.0
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 28
+max_length = 25
+editable = false
+
+[node name="Password" type="Label" parent="Backup1/LoginSpace"]
+layout_mode = 0
+offset_left = 512.0
+offset_top = 496.0
+offset_right = 1376.0
+offset_bottom = 575.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("2_wqf0b")
+theme_override_font_sizes/font_size = 53
+text = "Password"
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="desc" type="Label" parent="Backup1/LoginSpace/Password"]
+layout_mode = 0
+offset_top = 64.0
+offset_right = 864.0
+offset_bottom = 100.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 30
+text = "Think about something you will easily remember this time. Hold Ctrl to reveal it."
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="input" type="LineEdit" parent="Backup1/LoginSpace/Password"]
+layout_mode = 0
+offset_left = 288.0
+offset_top = 16.0
+offset_right = 824.0
+offset_bottom = 64.0
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 28
+max_length = 25
+clear_button_enabled = true
+secret = true
+
+[node name="NextStep" type="Button" parent="Backup1/LoginSpace"]
+layout_mode = 0
+offset_left = 720.0
+offset_top = 752.0
+offset_right = 1184.0
+offset_bottom = 848.0
+focus_mode = 0
+theme_override_fonts/font = ExtResource("3_whexb")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxFlat_56t3o")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6htyw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_6jhnu")
+text = "Next"
+
+[node name="Beware" type="Label" parent="Backup1/LoginSpace"]
+offset_left = 64.0
+offset_top = 16.0
+offset_right = 1856.0
+offset_bottom = 68.0
+theme_override_colors/font_color = Color(0.572549, 0.509804, 0.678431, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 33
+text = "Niiice! You answered all the questions correctly. You now have the possibility to reconfigure your account information (except the nickname) into something you will hopefully remember.
+Keep in mind that if you force quit this reconfiguration, your account will be disabled and you will have to SIGN UP again with the same nickname in order to backup your account."
+horizontal_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="errorBG" type="ColorRect" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1081.0
+color = Color(0, 0, 0, 0.556863)
+metadata/_edit_lock_ = true
+
+[node name="error" type="Label" parent="errorBG"]
+layout_mode = 0
+offset_left = 184.0
+offset_top = 256.0
+offset_right = 1712.0
+offset_bottom = 704.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("1_hjx13")
+theme_override_font_sizes/font_size = 47
+text = "Error message"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="ok" type="Button" parent="errorBG"]
+layout_mode = 0
+offset_left = 432.0
+offset_top = 720.0
+offset_right = 1432.0
+offset_bottom = 832.0
+focus_mode = 0
+theme_override_fonts/font = ExtResource("3_whexb")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = ExtResource("4_medpl")
+theme_override_styles/hover = ExtResource("5_n358d")
+theme_override_styles/pressed = ExtResource("6_0bl0u")
+text = "OK"
+
+[node name="extra" type="Button" parent="errorBG"]
+visible = false
+layout_mode = 0
+offset_left = 416.0
+offset_top = 904.0
+offset_right = 1416.0
+offset_bottom = 1016.0
+focus_mode = 0
+theme_override_fonts/font = ExtResource("3_whexb")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = ExtResource("4_medpl")
+theme_override_styles/hover = ExtResource("5_n358d")
+theme_override_styles/pressed = ExtResource("6_0bl0u")
+text = "extra button"
+
+[connection signal="button_up" from="MainPage/LoginSpace/NextStep" to="." method="_on_login_button_up"]
+[connection signal="button_up" from="MainPage/SigninSpace/NextStep" to="." method="_on_sign_in_button_up"]
+[connection signal="button_up" from="LoginStep2/Top/Back" to="." method="_on_back_1st_step_button_up"]
+[connection signal="button_up" from="LoginStep2/LoginSpace/LoginButton" to="." method="_on_login_final_button_up"]
+[connection signal="button_up" from="SigninStep2/Top/Back" to="." method="_on_back_1st_step_button_up"]
+[connection signal="button_up" from="SigninStep2/LoginSpace/FinalStep" to="." method="_on_final_step_button_up"]
+[connection signal="button_up" from="SigninFinalStep/Top/Back" to="." method="_on_back_2nd_step_button_up"]
+[connection signal="button_up" from="SigninFinalStep/SigninSpace/SignIn" to="." method="actual_sign_in"]
+[connection signal="button_up" from="ForgotPassword/Top/Back" to="." method="_on_back_2nd_step_button_up"]
+[connection signal="button_up" from="ForgotPassword/LoginSpace/Submit" to="." method="_on_submit_answers_button_up"]
+[connection signal="button_up" from="Backup1/LoginSpace/NextStep" to="." method="_on_login_button_up"]
+[connection signal="button_up" from="errorBG/ok" to="." method="_on_ok_button_up"]
+[connection signal="button_up" from="errorBG/extra" to="." method="_on_extra_button_up"]

@@ -1,0 +1,160 @@
+[gd_scene load_steps=13 format=3 uid="uid://cmabvn765pof0"]
+
+[ext_resource type="Script" path="res://script/Autoloads/Leaderboard.gd" id="1_4rhn3"]
+[ext_resource type="FontFile" uid="uid://ca0io57pxr6v3" path="res://fonts/FingerPaint-Regular.ttf" id="2_6wnrm"]
+[ext_resource type="FontFile" uid="uid://dkfn0w3gwssod" path="res://fonts/ARLRDBD.TTF" id="3_lgt6h"]
+[ext_resource type="Texture2D" uid="uid://ctcwr1kg8qt2y" path="res://assets/back.png" id="4_c68fh"]
+[ext_resource type="Texture2D" uid="uid://cjl8i7c0to58h" path="res://assets/back_hover.png" id="5_ffc0a"]
+[ext_resource type="Texture2D" uid="uid://bu3htnj0gdfg" path="res://assets/arrow_left.png" id="6_ox2o7"]
+[ext_resource type="Texture2D" uid="uid://0gi26sxd5jv4" path="res://assets/arrow_left_click.png" id="7_wcye1"]
+[ext_resource type="Texture2D" uid="uid://w4ivdndd3bm0" path="res://assets/arrow_left_hover.png" id="8_kehiw"]
+[ext_resource type="Texture2D" uid="uid://e3iiw6cjoah" path="res://assets/arrow_right.png" id="9_62s47"]
+[ext_resource type="Texture2D" uid="uid://c686pl5hddhlf" path="res://assets/arrow_right_click.png" id="10_q5l1a"]
+[ext_resource type="Texture2D" uid="uid://baee3q676w8hl" path="res://assets/arrow_right_hover.png" id="11_v711u"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yrg0s"]
+bg_color = Color(0.121569, 0.054902, 0.176471, 0.823529)
+
+[node name="Leaderboard" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4rhn3")
+metadata/_edit_lock_ = true
+
+[node name="MenuText_PlaceHolder" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 128.0
+color = Color(0.133333, 0.0627451, 0.196078, 1)
+
+[node name="Title" type="Label" parent="MenuText_PlaceHolder"]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 8.0
+offset_right = 1736.0
+offset_bottom = 75.0
+theme_override_colors/font_color = Color(0.905882, 0.870588, 0.976471, 1)
+theme_override_fonts/font = ExtResource("2_6wnrm")
+theme_override_font_sizes/font_size = 51
+text = "LEADERBOARD"
+horizontal_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Info" type="Label" parent="MenuText_PlaceHolder"]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 80.0
+offset_right = 1736.0
+offset_bottom = 126.0
+theme_override_colors/font_color = Color(0.796078, 0.709804, 0.941176, 1)
+theme_override_fonts/font = ExtResource("3_lgt6h")
+theme_override_font_sizes/font_size = 39
+horizontal_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Back" type="TextureButton" parent="MenuText_PlaceHolder"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 16.0
+offset_right = 544.0
+offset_bottom = 528.0
+scale = Vector2(0.2, 0.2)
+focus_mode = 0
+button_mask = 3
+keep_pressed_outside = true
+texture_normal = ExtResource("4_c68fh")
+texture_hover = ExtResource("5_ffc0a")
+
+[node name="ScoresTree" type="Tree" parent="."]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 128.0
+offset_right = 1864.0
+offset_bottom = 896.0
+theme_override_fonts/title_button_font = ExtResource("2_6wnrm")
+theme_override_fonts/font = ExtResource("3_lgt6h")
+theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/title_button_font_size = 24
+theme_override_styles/panel = SubResource("StyleBoxFlat_yrg0s")
+columns = 6
+column_titles_visible = true
+allow_rmb_select = true
+select_mode = 1
+
+[node name="error" type="Label" parent="ScoresTree"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 256.0
+offset_right = 1728.0
+offset_bottom = 512.0
+theme_override_colors/font_color = Color(1, 0.756863, 0.929412, 1)
+theme_override_fonts/font = ExtResource("3_lgt6h")
+theme_override_font_sizes/font_size = 47
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="details" type="Label" parent="ScoresTree"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 576.0
+offset_right = 1728.0
+offset_bottom = 704.0
+theme_override_colors/font_color = Color(0.741176, 0.741176, 0.741176, 1)
+theme_override_fonts/font = ExtResource("3_lgt6h")
+theme_override_font_sizes/font_size = 36
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+justification_flags = 162
+
+[node name="Prev" type="TextureButton" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 200.0
+offset_top = 952.0
+offset_right = 712.0
+offset_bottom = 1464.0
+scale = Vector2(0.2, 0.2)
+focus_mode = 0
+button_mask = 3
+keep_pressed_outside = true
+texture_normal = ExtResource("6_ox2o7")
+texture_pressed = ExtResource("7_wcye1")
+texture_hover = ExtResource("8_kehiw")
+
+[node name="Next" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 1624.0
+offset_top = 952.0
+offset_right = 2136.0
+offset_bottom = 1464.0
+scale = Vector2(0.2, 0.2)
+focus_mode = 0
+button_mask = 3
+keep_pressed_outside = true
+texture_normal = ExtResource("9_62s47")
+texture_pressed = ExtResource("10_q5l1a")
+texture_hover = ExtResource("11_v711u")
+
+[node name="TestPhase" type="Label" parent="."]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 904.0
+offset_right = 1792.0
+offset_bottom = 952.0
+theme_override_colors/font_color = Color(0.831373, 0.0431373, 0.14902, 1)
+theme_override_fonts/font = ExtResource("3_lgt6h")
+theme_override_font_sizes/font_size = 36
+text = "Due to the game still being in a test phase, the leaderboard may be reset often."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+justification_flags = 162

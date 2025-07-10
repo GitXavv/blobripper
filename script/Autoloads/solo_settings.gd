@@ -1,9 +1,9 @@
 extends Node
 
-var init_timer: int = 10 # Time per round
-var rng_wait = 0.2 # Frequency of the bot actions. The shorter this value, the bigger the frequency.
+var init_timer: int = 30 # Time per round
+var rng_wait = 0.9 # Frequency of the bot actions. The shorter this value, the bigger the frequency.
 var init_lives: int = 3  # Player starts with this amount of lives
-var init_turn: int = 2 # Turns to complete to win the gmme
+var init_turn: int = 3 # Turns to complete to win the gmme
 
 var progressive: bool = false # If true, frequency increases progressively in game
 
